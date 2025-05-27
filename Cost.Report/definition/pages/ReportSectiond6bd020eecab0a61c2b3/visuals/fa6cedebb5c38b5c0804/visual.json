@@ -1,0 +1,5813 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "fa6cedebb5c38b5c0804",
+  "position": {
+    "x": 20.186542984911721,
+    "y": 107.20589624145629,
+    "z": 1000,
+    "height": 372.90715372907152,
+    "width": 812.8914636103583,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AmortizedCost"
+                    }
+                  },
+                  "Property": "ResourceGroup"
+                }
+              },
+              "queryRef": "AmortizedCost.ResourceGroup",
+              "active": true,
+              "displayName": "RESOURCE GROUP"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AmortizedCost"
+                    }
+                  },
+                  "Property": "ResourceName"
+                }
+              },
+              "queryRef": "AmortizedCost.ResourceName",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AmortizedCost"
+                    }
+                  },
+                  "Property": "MeterCategory"
+                }
+              },
+              "queryRef": "AmortizedCost.MeterCategory",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total ActualCost"
+                }
+              },
+              "queryRef": "_Measures.Total ActualCost",
+              "displayName": "COST"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "CostDifference(LastMonth) -Actual"
+                }
+              },
+              "queryRef": "_Measures.CostDifference(LastMonth) -Actual",
+              "displayName": "CHANGE"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "%Increase Amortized"
+                }
+              },
+              "queryRef": "_Measures.%Increase Amortized",
+              "displayName": "% CHANGE"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 6,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#414E61'"
+                    }
+                  }
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "75D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 6,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 0,
+                              "Left": {
+                                "Aggregation": {
+                                  "Expression": {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "kube-output_comments"
+                                        }
+                                      },
+                                      "Property": "grade"
+                                    }
+                                  },
+                                  "Function": 4
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "7D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#F0B800'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 0,
+                              "Left": {
+                                "Aggregation": {
+                                  "Expression": {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "kube-output_comments"
+                                        }
+                                      },
+                                      "Property": "grade"
+                                    }
+                                  },
+                                  "Function": 4
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "5D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#E66C37'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "And": {
+                              "Left": {
+                                "Comparison": {
+                                  "ComparisonKind": 2,
+                                  "Left": {
+                                    "Aggregation": {
+                                      "Expression": {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Entity": "kube-output_comments"
+                                            }
+                                          },
+                                          "Property": "grade"
+                                        }
+                                      },
+                                      "Function": 4
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "0D"
+                                    }
+                                  }
+                                }
+                              },
+                              "Right": {
+                                "Comparison": {
+                                  "ComparisonKind": 4,
+                                  "Left": {
+                                    "Aggregation": {
+                                      "Expression": {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Entity": "kube-output_comments"
+                                            }
+                                          },
+                                          "Property": "grade"
+                                        }
+                                      },
+                                      "Function": 4
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "1D"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#D64550'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "And": {
+                              "Left": {
+                                "Comparison": {
+                                  "ComparisonKind": 2,
+                                  "Left": {
+                                    "Aggregation": {
+                                      "Expression": {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Entity": "kube-output_comments"
+                                            }
+                                          },
+                                          "Property": "grade"
+                                        }
+                                      },
+                                      "Function": 4
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "0D"
+                                    }
+                                  }
+                                }
+                              },
+                              "Right": {
+                                "Comparison": {
+                                  "ComparisonKind": 3,
+                                  "Left": {
+                                    "Aggregation": {
+                                      "Expression": {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Entity": "kube-output_comments"
+                                            }
+                                          },
+                                          "Property": "grade"
+                                        }
+                                      },
+                                      "Function": 4
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "10D"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#e6e6e6'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "kube-output_comments.Grade Text"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "RecExtraInfoCount"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "CostRecommendations-Description.problem"
+          }
+        },
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#232E51'"
+                    }
+                  }
+                }
+              }
+            },
+            "urlIcon": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "icon": {
+              "kind": "Icon",
+              "layout": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'IconOnly'"
+                  }
+                }
+              },
+              "verticalAlignment": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Middle'"
+                  }
+                }
+              },
+              "value": {
+                "expr": {
+                  "Conditional": {
+                    "Cases": [
+                      {
+                        "Condition": {
+                          "And": {
+                            "Left": {
+                              "Comparison": {
+                                "ComparisonKind": 1,
+                                "Left": {
+                                  "Aggregation": {
+                                    "Expression": {
+                                      "Column": {
+                                        "Expression": {
+                                          "SourceRef": {
+                                            "Entity": "ActivityRuns"
+                                          }
+                                        },
+                                        "Property": "StatusID"
+                                      }
+                                    },
+                                    "Function": 4
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "1D"
+                                  }
+                                }
+                              }
+                            },
+                            "Right": {
+                              "Comparison": {
+                                "ComparisonKind": 3,
+                                "Left": {
+                                  "Aggregation": {
+                                    "Expression": {
+                                      "Column": {
+                                        "Expression": {
+                                          "SourceRef": {
+                                            "Entity": "ActivityRuns"
+                                          }
+                                        },
+                                        "Property": "StatusID"
+                                      }
+                                    },
+                                    "Function": 4
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "100D"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'Circle25'"
+                          }
+                        }
+                      },
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Aggregation": {
+                                "Expression": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Entity": "ActivityRuns"
+                                      }
+                                    },
+                                    "Property": "StatusID"
+                                  }
+                                },
+                                "Function": 4
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleSymbolHigh'"
+                          }
+                        }
+                      },
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Aggregation": {
+                                "Expression": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Entity": "ActivityRuns"
+                                      }
+                                    },
+                                    "Property": "StatusID"
+                                  }
+                                },
+                                "Function": 4
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleSymbolLow'"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "ActivityRuns.Status"
+          }
+        },
+        {
+          "properties": {
+            "icon": {
+              "kind": "Icon",
+              "layout": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'IconOnly'"
+                  }
+                }
+              },
+              "verticalAlignment": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Middle'"
+                  }
+                }
+              },
+              "value": {
+                "expr": {
+                  "Conditional": {
+                    "Cases": [
+                      {
+                        "Condition": {
+                          "And": {
+                            "Left": {
+                              "Comparison": {
+                                "ComparisonKind": 1,
+                                "Left": {
+                                  "Aggregation": {
+                                    "Expression": {
+                                      "Column": {
+                                        "Expression": {
+                                          "SourceRef": {
+                                            "Entity": "PipelineRuns"
+                                          }
+                                        },
+                                        "Property": "StatusID"
+                                      }
+                                    },
+                                    "Function": 4
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "1D"
+                                  }
+                                }
+                              }
+                            },
+                            "Right": {
+                              "Comparison": {
+                                "ComparisonKind": 4,
+                                "Left": {
+                                  "Aggregation": {
+                                    "Expression": {
+                                      "Column": {
+                                        "Expression": {
+                                          "SourceRef": {
+                                            "Entity": "PipelineRuns"
+                                          }
+                                        },
+                                        "Property": "StatusID"
+                                      }
+                                    },
+                                    "Function": 4
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "100D"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'Circle25'"
+                          }
+                        }
+                      },
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Aggregation": {
+                                "Expression": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Entity": "PipelineRuns"
+                                      }
+                                    },
+                                    "Property": "StatusID"
+                                  }
+                                },
+                                "Function": 4
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleSymbolHigh'"
+                          }
+                        }
+                      },
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Aggregation": {
+                                "Expression": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Entity": "PipelineRuns"
+                                      }
+                                    },
+                                    "Property": "StatusID"
+                                  }
+                                },
+                                "Function": 4
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleSymbolLow'"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "PipelineRuns.Status"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "And": {
+                              "Left": {
+                                "Comparison": {
+                                  "ComparisonKind": 1,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_Measures"
+                                        }
+                                      },
+                                      "Property": "%Increase Amortized"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "-1D"
+                                    }
+                                  }
+                                }
+                              },
+                              "Right": {
+                                "Comparison": {
+                                  "ComparisonKind": 3,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_Measures"
+                                        }
+                                      },
+                                      "Property": "%Increase Amortized"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "0D"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#52CA16'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "And": {
+                              "Left": {
+                                "Comparison": {
+                                  "ComparisonKind": 2,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_Measures"
+                                        }
+                                      },
+                                      "Property": "%Increase Amortized"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "0D"
+                                    }
+                                  }
+                                }
+                              },
+                              "Right": {
+                                "Comparison": {
+                                  "ComparisonKind": 3,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_Measures"
+                                        }
+                                      },
+                                      "Property": "%Increase Amortized"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "9999D"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#F04B4C'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#8EEA94'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(CostRecommendations-ExtendedProperties.annualSavingsAmount)"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#8EEA94'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "CostRecommendations-ExtendedProperties.savingsCurrency"
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "54D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.Status"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "163D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.Start"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "155D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.End"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "111D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.DurationPipeline"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "238D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DateTable.Date"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "172D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AzureInventory"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'salescockpit-p-data-factory'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "165D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AzureInventory"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'adf-cappa-p-tyredatabase'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "237D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.PipelineName"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "84D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.FailedCount"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "126D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.LastSuccessfulRun"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "228D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "PipelineRuns.ResourceName"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "157D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KubeEvents.ObjectKind"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "244D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KubeEvents.Name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "131D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KubeEvents.FirstSeen"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "190D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KubeEvents.Reason"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "443D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KubeEvents.Message"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "1047D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "KubeEvents._ResourceId"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "539D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ContainerRecommendations.problem"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "153D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Assessments_Subassessments.displayName"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "405D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Assessments_Subassessments.properties.metadata.displayName"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "112D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Assessments_Subassessments.properties.metadata.implementationEffort"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "72D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Assessments_Subassessments.properties.metadata.severity"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "261D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Assessments_Subassessments.name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "71D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Assessments_Subassessments.AzurePortalURL"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "140D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Alerts.Alerts.properties.TimeGeneratedUtc"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "608.4269854824936D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "kube-output_comments.comment"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "587.1394651739845D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "kube-output_comments.description"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "76D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "kube-output_comments.Grade Text"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "47D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "kube-output_comments.grade"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "431.2058070025619D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "kube-output_comments.summary"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "624D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ActualCost.MeterCategory"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "385.6363636363636D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "CostRecommendations.impacted_value"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "411D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "CostRecommendations-Description.problem"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "454D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "AmortizedCost.ResourceGroup"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "99.83333333333334D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0005cdf5cc6c4fdda5af6f8c0cbff8ad'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "170D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0005cdf5cc6c4fdda5af6f8c0cbff8ad-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "127D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00075021ef9b4369b02c0f26c31c0d49'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "181D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00075021ef9b4369b02c0f26c31c0d49-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "129D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0012be38655c408fa8e2aa77c66a3942'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "395D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0012be38655c408fa8e2aa77c66a3942_disk1_3ee79189095645c1a4fb507dda91543f'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "183D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0012be38655c408fa8e2aa77c66a3942-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "136D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0014165ae4e54bd5b93895e060d000be'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "190D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0014165ae4e54bd5b93895e060d000be-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "127D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'001d0c0ef555478b80d80725f26f0378'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "181D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'001d0c0ef555478b80d80725f26f0378-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "126D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'001e70c376a748e7a5d72cacaa354c15'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "180D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'001e70c376a748e7a5d72cacaa354c15-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "134D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00238990aed34cb980d4e301ac0616a2'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "188D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00238990aed34cb980d4e301ac0616a2-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "131D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0023b81fdd2246febe160b99ba6009ba'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "185D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0023b81fdd2246febe160b99ba6009ba-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "132D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00277647803046408f7c8a255dea9ce0'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "186D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00277647803046408f7c8a255dea9ce0-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "136D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0027a7ddb40c4975a7e97947c32b1bdb'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "190D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0027a7ddb40c4975a7e97947c32b1bdb-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "138D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0027cb6c575b468db2566005ded878a6'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "406D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0027cb6c575b468db2566005ded878a6_disk1_f36c09f8a4454a55b4c7259e07b2e13e'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "192D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0027cb6c575b468db2566005ded878a6-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "128D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'002a505fbac94784a049f15038e98a95'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "182D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'002a505fbac94784a049f15038e98a95-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "136D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'002b489fc7d44334b4e7920e6265754a'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "273D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'002b489fc7d44334b4e7920e6265754a-containerRootVolume'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "190D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'002b489fc7d44334b4e7920e6265754a-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "119D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'003771acffa14771ab0fc11808459d5d'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "173D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'003771acffa14771ab0fc11808459d5d-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "120D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00385f6b709a47b5af03a2b1ae9e246f'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "398D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00385f6b709a47b5af03a2b1ae9e246f_disk1_7794369fcfcd42b68d9733d9a24f7236'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "181D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00385f6b709a47b5af03a2b1ae9e246f-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "119D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'003f46ec499f449da9c07fd56fffa3fa'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "225D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'003f46ec499f449da9c07fd56fffa3fa-0-scratchVolume'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "256D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'003f46ec499f449da9c07fd56fffa3fa-containerRootVolume'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "173D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'003f46ec499f449da9c07fd56fffa3fa-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "127D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00402f14377d47969587ea3bf0fa0fad'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "181D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00402f14377d47969587ea3bf0fa0fad-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "127D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0041059a985740e8a1c44c19ef6557c8'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "181D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0041059a985740e8a1c44c19ef6557c8-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "133D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00456b15b82148638e8cc97d896090e7'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "187D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'00456b15b82148638e8cc97d896090e7-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "140D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'004630d8c54d48608b008b7831446b2b'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "407D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'004630d8c54d48608b008b7831446b2b_disk1_b410811d3a054c7884b4514bd0f31565'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "194D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'004630d8c54d48608b008b7831446b2b-publicIP'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "128D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'004af8f687474c53bab15e89422f0add'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "234D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "ResourceName"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'004af8f687474c53bab15e89422f0add-0-scratchVolume'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Advanced Data Security'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Advanced Threat Protection'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Application Gateway'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Automation'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure App Service'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Arc'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Bastion'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Cosmos DB'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Data Factory v2'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Database for MariaDB'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Database for MySQL'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Database for PostgreSQL'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Databricks'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Defender'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure DNS'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Firewall'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "82D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure IoT Security'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Kubernetes Service'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Monitor'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Azure Synapse Analytics'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Backup'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Bandwidth'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Cloud Services'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Container Instances'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Container Registry'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Data Lake Analytics'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Data Lake Store'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Event Grid'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Event Hubs'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Functions'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Insight and Analytics'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'IoT Hub'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Key Vault'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Load Balancer'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Log Analytics'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Logic Apps'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Network Watcher'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Redis Cache'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Security Center'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "82D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Service Bus'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'SQL Database'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'SQL Managed Instance'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Storage'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Virtual Machines'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Virtual Machines Licenses'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Virtual Network'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "AmortizedCost"
+                          }
+                        },
+                        "Property": "MeterCategory"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'VPN Gateway'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "total": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AmortizedCost"
+                        }
+                      },
+                      "Property": "MeterCategory"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Year Month"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Oct 2022'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "84D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "total": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Date"
+                        }
+                      },
+                      "Property": "Year Month"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Date"
+                          }
+                        },
+                        "Property": "Year Month"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Sep 2022'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "_Measures.%Increase Amortized"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "109D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Total ActualCost"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "131.58823529411762D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.CostDifference(LastMonth) -Actual"
+          }
+        }
+      ],
+      "sparklines": [
+        {
+          "properties": {
+            "chartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'line'"
+                }
+              }
+            },
+            "dataColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 6,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            },
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "SparklineData(Sum(ActualCost.Cost)_[Date.Calendar.Date])"
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Column"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Row"
+          }
+        },
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnTotal": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowTotal": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'wf_standard-font_light, helvetica, arial, sans-serif'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Default'"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ReportSection09dbce70e43fabb4712f'"
+                }
+              }
+            },
+            "titleFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D37B55'"
+                    }
+                  }
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2E44'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeaderTooltip": [
+        {
+          "properties": {
+            "titleFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D37B55'"
+                    }
+                  }
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2E44'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "5e3815d79c0eb009360e",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6c771f471220ddea7d9d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "AmortizedCost"
+              }
+            },
+            "Property": "ResourceGroup"
+          }
+        },
+        "type": "TopN",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "subquery",
+              "Expression": {
+                "Subquery": {
+                  "Query": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AmortizedCost",
+                        "Type": 0
+                      },
+                      {
+                        "Name": "_",
+                        "Entity": "_Measures",
+                        "Type": 0
+                      }
+                    ],
+                    "Select": [
+                      {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "a"
+                            }
+                          },
+                          "Property": "ResourceGroup"
+                        },
+                        "Name": "field"
+                      }
+                    ],
+                    "OrderBy": [
+                      {
+                        "Direction": 2,
+                        "Expression": {
+                          "Measure": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "_"
+                              }
+                            },
+                            "Property": "CostDifference(LastMonth)"
+                          }
+                        }
+                      }
+                    ],
+                    "Top": 10
+                  }
+                }
+              },
+              "Type": 2
+            },
+            {
+              "Name": "a",
+              "Entity": "AmortizedCost",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "a"
+                          }
+                        },
+                        "Property": "ResourceGroup"
+                      }
+                    }
+                  ],
+                  "Table": {
+                    "SourceRef": {
+                      "Source": "subquery"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

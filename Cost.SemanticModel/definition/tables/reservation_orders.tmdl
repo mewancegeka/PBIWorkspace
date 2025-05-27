@@ -1,0 +1,125 @@
+table reservation_orders
+	lineageTag: 50a2251f-496a-4538-be9f-315b4583b4b0
+
+	measure expiring_ri = CALCULATE(DISTINCTCOUNT(reservation_orders[_reservationOrderId]), reservation_orders[RemainingDays] < 30) + 0
+		formatString: 0
+		lineageTag: 39215e7b-a92d-46d7-97f4-56988d566f60
+
+	column reservationOrderId
+		dataType: string
+		lineageTag: 08e30896-49c2-49e6-885f-4a8b57e24d93
+		summarizeBy: none
+		sourceColumn: reservationOrderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column _reservationOrderId
+		dataType: string
+		lineageTag: e9f8ca18-814b-4dca-8b1c-09c87de8b4ac
+		summarizeBy: none
+		sourceColumn: _reservationOrderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column reservationId
+		dataType: string
+		lineageTag: 479ce346-82f6-4fec-ab17-50ea1f784a41
+		summarizeBy: none
+		sourceColumn: reservationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column term
+		dataType: double
+		lineageTag: 8970aee8-0f86-4104-b0ec-600922ac2154
+		summarizeBy: sum
+		sourceColumn: term
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column displayName
+		dataType: string
+		lineageTag: cb879528-051e-4c3e-bbbd-9904437077f0
+		summarizeBy: none
+		sourceColumn: displayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column createdDateTime
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: a1f35021-5b04-494f-9338-de7f3fd6a62a
+		summarizeBy: none
+		sourceColumn: createdDateTime
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column provisioningState
+		dataType: string
+		lineageTag: aaf248db-2ad5-43d8-9eba-e3e70716a7f2
+		summarizeBy: none
+		sourceColumn: provisioningState
+
+		annotation SummarizationSetBy = Automatic
+
+	column expiryDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 093d5c10-8694-43e7-924c-5267519f8afb
+		summarizeBy: none
+		sourceColumn: expiryDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column RemainingDays
+		dataType: int64
+		formatString: 0
+		lineageTag: c34e7b38-d970-43e7-885c-55722575e326
+		summarizeBy: sum
+		sourceColumn: RemainingDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column _reservationId
+		dataType: string
+		lineageTag: 21455adb-5b7c-4aa6-86f8-af5efed67a02
+		summarizeBy: none
+		sourceColumn: _reservationId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition reservation_orders = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = reservation_orders_base,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"id", "name", "reservations", "term", "displayName", "createdDateTime", "provisioningState", "expiryDate"}),
+				    #"Expanded reservations2" = Table.ExpandListColumn(#"Removed Other Columns", "reservations"),
+				    #"Expanded reservations3" = Table.ExpandRecordColumn(#"Expanded reservations2", "reservations", {"id"}, {"reservationId"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded reservations3",{{"id", "reservationOrderId"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"reservationOrderId", type text}, {"name", type text}, {"reservationId", type text}, {"term", type duration}, {"displayName", type text}, {"createdDateTime", type datetime}, {"provisioningState", type text}, {"expiryDate", type date}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"name", "_reservationOrderId"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns1", "RemainingDays", each Duration.Days([expiryDate] - Date.From(DateTimeZone.UtcNow()))),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"RemainingDays", Int64.Type}}),
+				    #"Inserted Text After Delimiter" = Table.AddColumn(#"Changed Type1", "_reservationId", each Text.AfterDelimiter([reservationId], "/", {0, RelativePosition.FromEnd}), type text),
+				    #"Removed Duplicates" = Table.Distinct(#"Inserted Text After Delimiter", {"_reservationOrderId"})
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

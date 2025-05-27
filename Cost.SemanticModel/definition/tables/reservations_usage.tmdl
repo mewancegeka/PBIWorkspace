@@ -1,0 +1,195 @@
+table reservations_usage
+	lineageTag: 229907c7-d99f-4a50-b819-ce745a7d4e55
+
+	measure under_utilized_ri = CALCULATE(DISTINCTCOUNT(reservations_usage[reservationOrderId]), reservations_usage[avgUtilizationPercentage] < 80) + 0
+		formatString: 0
+		lineageTag: 75a984b8-f1f2-47f9-a8ed-5f8f5f03c5c6
+
+	column name
+		dataType: string
+		lineageTag: 3f3c72b4-40cf-4565-b4e4-75660b0d0c82
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column reservationOrderId
+		dataType: string
+		lineageTag: fc6506d8-397b-4650-ae92-59e7793469c7
+		summarizeBy: none
+		sourceColumn: reservationOrderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column reservationId
+		dataType: string
+		lineageTag: 390142bc-0759-45a4-b10d-835ee7c67504
+		summarizeBy: none
+		sourceColumn: reservationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column skuName
+		dataType: string
+		lineageTag: 264c6482-07a5-41ed-9d9b-bc280c919d0f
+		summarizeBy: none
+		sourceColumn: skuName
+
+		annotation SummarizationSetBy = Automatic
+
+	column kind
+		dataType: string
+		lineageTag: 5ad367a3-5475-41e6-8776-b2f4a28240bd
+		summarizeBy: none
+		sourceColumn: kind
+
+		annotation SummarizationSetBy = Automatic
+
+	column reservedHours
+		dataType: int64
+		formatString: 0
+		lineageTag: df3f0d5d-4ea0-4df6-b272-dc5115f0884a
+		summarizeBy: sum
+		sourceColumn: reservedHours
+
+		annotation SummarizationSetBy = Automatic
+
+	column usageDate
+		dataType: dateTime
+		formatString: MMM-YYYY
+		lineageTag: 80992f74-72c4-40cb-8a13-ce1f6830d83c
+		summarizeBy: none
+		sourceColumn: usageDate
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column usedHours
+		dataType: double
+		lineageTag: 653ece98-f78b-406c-b64d-3a26ca4f6614
+		summarizeBy: sum
+		sourceColumn: usedHours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column minUtilizationPercentage
+		dataType: double
+		lineageTag: 591ba177-09f0-4c9c-84ce-67e1eb528515
+		summarizeBy: sum
+		sourceColumn: minUtilizationPercentage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avgUtilizationPercentage
+		dataType: double
+		lineageTag: 2a77e2e3-5f0d-4c9b-838b-715f46b45adf
+		summarizeBy: sum
+		sourceColumn: avgUtilizationPercentage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column maxUtilizationPercentage
+		dataType: double
+		lineageTag: ed45b848-22b2-4783-83b5-7cfddf111a68
+		summarizeBy: sum
+		sourceColumn: maxUtilizationPercentage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column purchasedQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 530e712b-9aad-4a6a-8034-faec75e845d0
+		summarizeBy: sum
+		sourceColumn: purchasedQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column remainingQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 39be2af5-e31b-4f65-b55f-e7dc8b7c3215
+		summarizeBy: sum
+		sourceColumn: remainingQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalReservedQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 04ab12ac-8d09-400f-899b-2ecd5fb3a439
+		summarizeBy: sum
+		sourceColumn: totalReservedQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column usedQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 349e53f2-e2c8-4626-aa55-e8c12729cedf
+		summarizeBy: sum
+		sourceColumn: usedQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column utilizedPercentage
+		dataType: double
+		lineageTag: b61b5af5-6583-467f-bffd-f0751d34314e
+		summarizeBy: sum
+		sourceColumn: utilizedPercentage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_utilization_percentage
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d3aa45e9-fdeb-450b-b86c-d56999a7b20d
+		summarizeBy: sum
+		sourceColumn: avg_utilization_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: af92abe4-2dc8-479d-9022-d5d44dde1512
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition reservations_usage = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = reservations_base,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"name", "properties"}),
+				    #"Expanded properties" = Table.ExpandRecordColumn(#"Removed Other Columns", "properties", {"reservationOrderId", "reservationId", "skuName", "kind", "reservedHours", "usageDate", "usedHours", "minUtilizationPercentage", "avgUtilizationPercentage", "maxUtilizationPercentage", "purchasedQuantity", "remainingQuantity", "totalReservedQuantity", "usedQuantity", "utilizedPercentage"}, {"reservationOrderId", "reservationId", "skuName", "kind", "reservedHours", "usageDate", "usedHours", "minUtilizationPercentage", "avgUtilizationPercentage", "maxUtilizationPercentage", "purchasedQuantity", "remainingQuantity", "totalReservedQuantity", "usedQuantity", "utilizedPercentage"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded properties",{{"usageDate", type datetime}, {"name", type text}, {"reservationOrderId", type text}, {"reservationId", type text}, {"skuName", type text}, {"kind", type text}, {"reservedHours", Int64.Type}, {"usedHours", type number}, {"minUtilizationPercentage", type number}, {"avgUtilizationPercentage", type number}, {"maxUtilizationPercentage", type number}, {"purchasedQuantity", Int64.Type}, {"remainingQuantity", Int64.Type}, {"totalReservedQuantity", Int64.Type}, {"usedQuantity", Int64.Type}, {"utilizedPercentage", type number}}),
+				    #"Inserted Division" = Table.AddColumn(#"Changed Type", "avg_utilization_percentage", each [avgUtilizationPercentage] / 100, type number),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Division",{{"avg_utilization_percentage", Percentage.Type}}),
+				    #"Inserted Month" = Table.AddColumn(#"Changed Type1", "Month", each Date.Month([usageDate]), Int64.Type),
+				    #"Removed Duplicates" = Table.Distinct(#"Inserted Month", {"reservationId", "usageDate"})
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

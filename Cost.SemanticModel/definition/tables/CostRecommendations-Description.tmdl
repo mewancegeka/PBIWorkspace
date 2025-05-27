@@ -1,0 +1,51 @@
+table CostRecommendations-Description
+	lineageTag: 0bd22896-2b7e-4c82-867b-b144cacd659e
+
+	column recommendationId
+		dataType: string
+		lineageTag: c3c96257-298e-4918-8257-64c11a2c00ec
+		summarizeBy: none
+		sourceColumn: recommendationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column problem
+		dataType: string
+		lineageTag: c799c619-a5e0-42ec-9b0d-1b32f471f15d
+		summarizeBy: none
+		sourceColumn: problem
+
+		annotation SummarizationSetBy = Automatic
+
+	column solution
+		dataType: string
+		lineageTag: de66281f-2f96-4a1d-bf71-c5159e74ab40
+		summarizeBy: none
+		sourceColumn: solution
+
+		annotation SummarizationSetBy = Automatic
+
+	column RecommendationType
+		dataType: string
+		lineageTag: 07158a56-3e47-4b1e-895b-7198826e0ea9
+		summarizeBy: none
+		sourceColumn: RecommendationType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CostRecommendations-Description-d42f27c0-7e30-4f29-bc2a-5eece3bb265a = m
+		mode: import
+		queryGroup: Recommendations
+		source =
+				let
+				    Source = CostRecommendations,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"recommendationId", "short_description"}),
+				    #"Expanded short_description" = Table.ExpandRecordColumn(#"Removed Other Columns", "short_description", {"problem", "solution"}, {"problem", "solution"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded short_description",{{"problem", type text}, {"solution", type text}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type", "RecommendationType", each if Text.Contains([problem], "reserved instance") then "Reservations" else if Text.Contains([problem], "Right-size") then "Right-size/Shutdown" else if Text.Contains([problem], "savings plan") then "Savings Plan" else if Text.Contains([problem], "You have disks that are not attached") then "Orphaned Resource" else "Other"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Conditional Column",{{"RecommendationType", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+

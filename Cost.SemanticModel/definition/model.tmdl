@@ -1,0 +1,141 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Params
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Base
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Cost Details'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup Inventory
+
+	annotation PBI_QueryGroupOrder = 5
+
+queryGroup Reservations
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup Recommendations
+
+	annotation PBI_QueryGroupOrder = 7
+
+queryGroup OrphanedResources
+
+	annotation PBI_QueryGroupOrder = 8
+
+queryGroup 'Helper stuff\Functions'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Helper stuff'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Helper stuff\Diagnostics'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'OrphanedResources\Transform File from base_budgets (3)'
+
+	annotation PBI_QueryGroupOrder = 0
+
+extendedProperty SQLBI_BRAVO_ManageDatesConfiguration =
+		{
+		  "templateUri": "file:///C:/Users/tomva/AppData/Local/Bravo/.temp/ManageDates/Templates/Config-01.template.json",
+		  "isCurrent": false,
+		  "name": "Config-01",
+		  "description": "Standard calendar",
+		  "autoScan": 1,
+		  "onlyTablesColumns": [
+		    "'ActualCost'[Date]",
+		    "'AmortizedCost'[Date]"
+		  ],
+		  "exceptTablesColumns": [],
+		  "isoCountry": "US",
+		  "autoNaming": 1,
+		  "targetMeasures": [],
+		  "defaults": {
+		    "firstFiscalMonth": 0,
+		    "firstDayOfWeek": 1
+		  },
+		  "dateAvailable": true,
+		  "dateEnabled": true,
+		  "dateTableName": "Date",
+		  "dateTableValidation": 1,
+		  "dateReferenceTableName": "DateAutoTemplate",
+		  "dateReferenceTableValidation": 1,
+		  "holidaysAvailable": true,
+		  "holidaysEnabled": false,
+		  "holidaysTableName": "Holidays",
+		  "holidaysTableValidation": 1,
+		  "holidaysDefinitionTableName": "HolidaysDefinition",
+		  "holidaysDefinitionTableValidation": 1,
+		  "timeIntelligenceAvailable": true,
+		  "timeIntelligenceEnabled": false
+		}
+
+annotation PBI_QueryOrder = ["base_data","Datalake","Environment","ActualCost_base","AmortizedCost_base","InventoryTags","Inventory","Parquet Loader","JSON Loader","ReservationRecommendations","CostRecommendations","CostRecommendations-Description","CostRecommendations-ExtendedProperties","CostRecommendations-Metadata","ActualCost","AmortizedCost","Subscriptions","ReservationRecommendations-Savings","SubscriptionList","CurrentMonth","LastestMonthly_actual","LastestMonthly_amortized","LastestMonthly_name","AmortizedCost_Monthly","ActualCost_Monthly","Reservation-Savings-schema","SlicerLogic","base_orphaned_resources","holidays","Version","SubscriptionDetails","HistorySize","Rename_modern","LegacyNames","LatestDaily_PreviousMonth_actual","LatestMonthlyText_actual","LatestMonthlyText_amortized","PreviousMonth","LatestMonthlyAvailable_actual","LatestDaily_PreviousMonth_amortized","LatestMonthlyAvailable_amortized","ActualCost_MonthlyDiag","AmortizedCostMonthlyDiag","base_orphaned_resource_all","base_current_inventory","current_inventory","reservations_base","reservations_list","reservations_usage","reservation_orders_base","reservation_orders","tenantid","subscriptionsBase","vms","base_budgets","Budgets","base_computeskus","computeskus","TagExclusions","tagExcluder","TagExclusions_list"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBIDesktopVersion = 2.142.928.0 (25.04)+de52df9f0bb74ad93a80d89c52d63fe6d07e0e1b
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table InventoryTags
+ref table Inventory
+ref table ReservationRecommendations
+ref table CostRecommendations
+ref table CostRecommendations-Description
+ref table CostRecommendations-ExtendedProperties
+ref table CostRecommendations-Metadata
+ref table _Measures
+ref table _Formatting
+ref table ActualCost
+ref table AmortizedCost
+ref table DateAutoTemplate
+ref table Date
+ref table ReservationRecommendations-Savings
+ref table '1Y/3Y RI Savings'
+ref table SubscriptionList
+ref table 'YearlySavings - RI'
+ref table 'Monthly/Yearly Savings'
+ref table CurrentMonth
+ref table SlicerLogic
+ref table LastestMonthly_actual
+ref table ORCount
+ref table TagSummary
+ref table TagValueSummary
+ref table holidays
+ref table SubscriptionDetails
+ref table LastestMonthly_amortized
+ref table ActualCost_MonthlyDiag
+ref table AmortizedCostMonthlyDiag
+ref table LatestMonthlyAvailable_actual
+ref table LatestMonthlyAvailable_amortized
+ref table base_orphaned_resource_all
+ref table current_inventory
+ref table reservations_list
+ref table reservations_usage
+ref table reservation_orders
+ref table tenantid
+ref table vms
+ref table Budgets
+ref table computeskus
+ref table 'AHUB License'
+
+ref cultureInfo en-US
+

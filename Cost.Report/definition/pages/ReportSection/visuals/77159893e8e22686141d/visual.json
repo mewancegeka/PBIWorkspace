@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "77159893e8e22686141d",
+  "position": {
+    "x": 0,
+    "y": 172,
+    "z": 7000,
+    "height": 1924.2839307205311,
+    "width": 1742.8813559322034,
+    "tabOrder": 7000
+  },
+  "visualGroup": {
+    "displayName": "ActualCost",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

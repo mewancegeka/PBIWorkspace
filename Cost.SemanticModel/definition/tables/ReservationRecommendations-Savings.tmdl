@@ -1,0 +1,55 @@
+table ReservationRecommendations-Savings
+	lineageTag: 4e13aa92-07c9-49d6-88a4-7df32407f44a
+
+	column meter_id
+		dataType: string
+		lineageTag: 84479500-e2d8-4abb-8c69-239567403962
+		summarizeBy: none
+		sourceColumn: meter_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Savings - 3Y'
+		dataType: double
+		lineageTag: 0eaa43b5-669b-4c03-8f39-6d8d1ca19caf
+		summarizeBy: none
+		sourceColumn: Savings - 3Y
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Savings - 1Y'
+		dataType: double
+		lineageTag: 654e722d-b0e6-49bd-a134-d83aad0eaf46
+		summarizeBy: none
+		sourceColumn: Savings - 1Y
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition ReservationRecommendations-Savings-3aef020f-1919-4e9c-97cf-6263b77350aa = m
+		mode: import
+		queryGroup: Reservations
+		source = ```
+				let
+				    Source = ReservationRecommendations,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"meter_id", "term", "net_savings"}),
+				    #"Pivoted Column" = Table.Pivot(#"Removed Other Columns", List.Distinct(#"Removed Other Columns"[term]), "term", "net_savings", List.Sum),
+				   
+				    #"Renamed Columns" = try  Table.RenameColumns(#"Pivoted Column",{{"P3Y", "Savings - 3Y"}, {"P1Y", "Savings - 1Y"}}) 
+				                        otherwise 
+				                            #"Reservation-Savings-schema"
+				
+				                        
+				in
+				    #"Renamed Columns"
+				```
+
+	annotation PBI_ResultType = Table
+

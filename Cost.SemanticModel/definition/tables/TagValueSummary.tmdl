@@ -1,0 +1,90 @@
+table TagValueSummary
+	lineageTag: ff465437-d4ec-4994-964a-b73690ea5bf3
+
+	column TagNameTagValue
+		lineageTag: b23d6e9d-d4da-4ce6-b7c2-83c2338ae699
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: InventoryTags[TagNameTagValue]
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalAmortized
+		lineageTag: 38472eaa-caf6-4a52-8e8e-78de7a0d0dd0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [TotalAmortized]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalActual
+		lineageTag: b8899a84-899e-498b-a568-86c103f0b5b3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [TotalActual]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AmortizedRank = ```
+			
+			VAR ThisGroup = TagValueSummary[TagName]
+			VAR RankTag = 
+			RANKX(
+			    FILTER(TagValueSummary, TagValueSummary[TagName] = ThisGroup), [Total AmortizedCost],, DESC,Dense)
+			return
+			IF(RankTag <= 5, TagValueSummary[TagValue], "others")
+			```
+		dataType: string
+		lineageTag: 2adf6c6e-b915-46c0-9b6e-e87b7a9316a0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TagName
+		lineageTag: f273b627-c0e5-460f-9436-516e785cbb83
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: InventoryTags[TagName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column TagValue
+		lineageTag: 690367a0-db36-4b8a-a1d5-e193bb25ae8f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: InventoryTags[TagValue]
+
+		annotation SummarizationSetBy = Automatic
+
+	column AmortizedRankValue = ```
+			
+			VAR ThisGroup = TagValueSummary[TagName]
+			VAR RankTag = 
+			RANKX(
+			    FILTER(TagValueSummary, TagValueSummary[TagName] = ThisGroup), [Total AmortizedCost],, DESC,Dense)
+			return
+			RankTag
+			```
+		formatString: 0
+		lineageTag: 063e4729-fd1c-4a04-8a5c-c5aa074f3130
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TagValueSummary-e0f1ef2f-00b2-4028-9434-f27c40d2959d = calculated
+		mode: import
+		source =
+				SUMMARIZECOLUMNS(
+				    InventoryTags[TagNameTagValue],
+				    InventoryTags[TagName],
+				    InventoryTags[TagValue],
+				    "TotalAmortized", [TotalAmortized],
+				    "TotalActual", [TotalActual]
+				)
+
+	annotation PBI_Id = 5a637a08dbc94b989d7b10d8b2a3ad7a
+

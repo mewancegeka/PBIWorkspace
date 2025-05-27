@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "0cafcb00a81b97cd92a0",
+  "position": {
+    "x": 4.95867768595045,
+    "y": 14.04958677685954,
+    "z": 1000,
+    "height": 119.09090909090908,
+    "width": 402.72727272727269,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Tags are ranked by usage cost to generate a top 10 ( 9 + others) of the tags with the highest cost usage.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "All tags not in the top 9 are grouped in the \"Others\" category.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "You can expand the \"Others\" category by clicking on the triangle next to \"Others\". Alternatively you can use the search box at the top to find the TagName you are looking for.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "8b784007c0db78601ee9"
+}

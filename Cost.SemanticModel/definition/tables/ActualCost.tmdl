@@ -1,0 +1,597 @@
+table ActualCost
+	lineageTag: 0ee39cad-8309-4789-a323-46858506c655
+
+	column SubscriptionId
+		dataType: string
+		lineageTag: 56fea56e-2914-4e0a-b405-b69e3dc25e97
+		summarizeBy: none
+		sourceColumn: SubscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionName
+		dataType: string
+		lineageTag: 37d43fe0-6f2a-49cd-8d93-835bb7f18cfd
+		summarizeBy: none
+		sourceColumn: SubscriptionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceGroup
+		dataType: string
+		lineageTag: 953cc4af-8720-4166-8eb4-1c1a070123ce
+		summarizeBy: none
+		sourceColumn: ResourceGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceLocation
+		dataType: string
+		lineageTag: dcb0046a-79e7-4aae-bb9c-c9d9ef32d308
+		summarizeBy: none
+		sourceColumn: ResourceLocation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f78d76a5-d10f-4a05-b0a0-e265cd0c2be5
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductName
+		dataType: string
+		lineageTag: 987eea95-4a8b-4054-b94b-6ebe0af448e2
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeterCategory
+		dataType: string
+		lineageTag: 13eb53ea-48ad-48ad-928f-b350d5398e98
+		summarizeBy: none
+		sourceColumn: MeterCategory
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"ActualCost","TableItemName":"ServiceGroup","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column MeterSubCategory
+		dataType: string
+		lineageTag: a6ec4fa7-a263-4c59-872c-ba63470cd5b8
+		summarizeBy: none
+		sourceColumn: MeterSubCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeterId
+		dataType: string
+		lineageTag: 43da8d67-cb16-4bef-a769-5999b16993b9
+		summarizeBy: none
+		sourceColumn: MeterId
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeterName
+		dataType: string
+		lineageTag: 9077d4f0-5bd6-44ba-b3a7-15e88f46e137
+		summarizeBy: none
+		sourceColumn: MeterName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeterRegion
+		dataType: string
+		lineageTag: 3508c825-7147-46e6-8eb1-81286f578de5
+		summarizeBy: none
+		sourceColumn: MeterRegion
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitOfMeasure
+		dataType: string
+		lineageTag: 628d52f3-5eb3-4353-967c-99472b458059
+		summarizeBy: none
+		sourceColumn: UnitOfMeasure
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: double
+		lineageTag: 52772ef5-045d-4537-9e7c-a8580046ce6c
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EffectivePrice
+		dataType: double
+		lineageTag: c0d79996-c80b-4985-8eb1-35b2a5686e79
+		summarizeBy: sum
+		sourceColumn: EffectivePrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Cost
+		dataType: double
+		lineageTag: cc9519f0-30e9-4fba-a426-026a702b8b11
+		summarizeBy: sum
+		sourceColumn: Cost
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CostCenter
+		dataType: string
+		lineageTag: 29411a8f-e2b0-439e-acfc-1d0cce7cf0f2
+		summarizeBy: none
+		sourceColumn: CostCenter
+
+		annotation SummarizationSetBy = Automatic
+
+	column ConsumedService
+		dataType: string
+		lineageTag: 3e7214bb-efca-497e-8e1e-1a56ed64bc64
+		summarizeBy: none
+		sourceColumn: ConsumedService
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceId
+		dataType: string
+		lineageTag: b0829760-c7e3-475e-ace3-9a87da882783
+		summarizeBy: none
+		sourceColumn: ResourceId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceInfo1
+		dataType: string
+		lineageTag: 56263ad1-9ed8-43d4-8df2-51d3fa902f88
+		summarizeBy: none
+		sourceColumn: ServiceInfo1
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceInfo2
+		dataType: string
+		lineageTag: e2ace746-ebb0-4bd4-894b-1cfc5d4b4919
+		summarizeBy: none
+		sourceColumn: ServiceInfo2
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceName
+		dataType: string
+		lineageTag: 16d6ce65-4e8f-4a06-b1ca-eccfc274c959
+		summarizeBy: none
+		sourceColumn: ResourceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReservationId
+		dataType: string
+		lineageTag: cd9c1f24-118c-4fc7-a36c-ba19204beee8
+		summarizeBy: none
+		sourceColumn: ReservationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReservationName
+		dataType: string
+		lineageTag: 4e40f2f9-c19a-4f11-aea3-24dc7ccdc8a9
+		summarizeBy: none
+		sourceColumn: ReservationName
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		lineageTag: b55b38e2-8cf5-48dc-9739-1aff7ba84675
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ProductOrderId
+		dataType: string
+		lineageTag: 9d9fef4e-e546-47f4-9d4d-6b00d2d288c4
+		summarizeBy: none
+		sourceColumn: ProductOrderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductOrderName
+		dataType: string
+		lineageTag: 1d0dd611-dc1f-476a-81a7-63449e86c763
+		summarizeBy: none
+		sourceColumn: ProductOrderName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Term
+		dataType: string
+		lineageTag: 8b323ed6-862b-4941-97c4-b827c4d5dd9b
+		summarizeBy: none
+		sourceColumn: Term
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PublisherType
+		dataType: string
+		lineageTag: 2a582dff-f873-40ab-bdc7-e1c08594a490
+		summarizeBy: none
+		sourceColumn: PublisherType
+
+		annotation SummarizationSetBy = Automatic
+
+	column PublisherName
+		dataType: string
+		lineageTag: 82533ecb-a500-4f57-adea-a26aa106859e
+		summarizeBy: none
+		sourceColumn: PublisherName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChargeType
+		dataType: string
+		lineageTag: 5957c3fd-818f-48cf-bc2d-f5442b3d8953
+		summarizeBy: none
+		sourceColumn: ChargeType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Frequency
+		dataType: string
+		lineageTag: 508bbfd1-f3da-4606-8dee-b3fb5cd1ac22
+		summarizeBy: none
+		sourceColumn: Frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column PricingModel
+		dataType: string
+		lineageTag: 401d9075-7dd1-4911-be5b-96e029d3c0a4
+		summarizeBy: none
+		sourceColumn: PricingModel
+
+		annotation SummarizationSetBy = Automatic
+
+	column BillingCurrencyCode
+		dataType: string
+		lineageTag: 92802c4a-3fd4-44a9-92a8-a5e32ff369a7
+		summarizeBy: none
+		sourceColumn: BillingCurrencyCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsAzureCreditEligible
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f295faf5-9b7b-4801-9630-f95d59d7407e
+		summarizeBy: none
+		sourceColumn: IsAzureCreditEligible
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayGPrice
+		dataType: double
+		formatString: 0
+		lineageTag: 20f2b803-698d-48db-aa65-f38d165045be
+		summarizeBy: sum
+		sourceColumn: PayGPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceFamily
+		dataType: string
+		lineageTag: 24676490-2236-4fa9-a609-fd6e2d2d368e
+		summarizeBy: none
+		sourceColumn: ServiceFamily
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostAllocationRuleName
+		dataType: string
+		lineageTag: a3ab0c9f-ea30-433d-a1e5-b063cc079c40
+		summarizeBy: none
+		sourceColumn: CostAllocationRuleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column benefitId
+		dataType: string
+		lineageTag: 5e1d7740-eb14-41c1-88bf-d8fda8a4d2be
+		summarizeBy: none
+		sourceColumn: benefitId
+
+		annotation SummarizationSetBy = Automatic
+
+	column benefitName
+		dataType: string
+		lineageTag: 7b1d52a6-7f72-4a61-b392-198b0d1bb9f6
+		summarizeBy: none
+		sourceColumn: benefitName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceGroup =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('ActualCost'[MeterCategory]),
+			  "(Blank)",
+			  'ActualCost'[MeterCategory] IN {"Azure Data Explorer",
+			    "Azure Data Factory v2",
+			    "Azure Databricks",
+			    "Azure Synapse Analytics",
+			    "Data Lake Analytics",
+			    "Event Hubs",
+			    "Insight and Analytics"},
+			  "ANALYTICS",
+			  'ActualCost'[MeterCategory] IN {"Azure App Service",
+			    "Azure Kubernetes Service",
+			    "Azure Stack HCI",
+			    "Cloud Services",
+			    "Container Instances",
+			    "Container Registry",
+			    "Functions",
+			    "Virtual Machines",
+			    "Virtual Machines Licenses"},
+			  "COMPUTE",
+			  'ActualCost'[MeterCategory] IN {"Azure Cosmos DB",
+			    "Azure Database for MariaDB",
+			    "Azure Database for MySQL",
+			    "Azure Database for PostgreSQL",
+			    "Redis Cache",
+			    "SQL Database",
+			    "SQL Managed Instance"},
+			  "DATABASES",
+			  'ActualCost'[MeterCategory] IN {"Event Grid",
+			    "Logic Apps",
+			    "Service Bus"},
+			  "INTEGRATION",
+			  'ActualCost'[MeterCategory] IN {"IoT Hub"},
+			  "IOT",
+			  'ActualCost'[MeterCategory] IN {"Automation",
+			    "Azure Arc",
+			    "Azure Monitor",
+			    "Backup",
+			    "Log Analytics"},
+			  "MGMT/GOVERNANCE",
+			  'ActualCost'[MeterCategory] IN {"Application Gateway",
+			    "Azure Bastion",
+			    "Azure DNS",
+			    "Azure Firewall",
+			    "Bandwidth",
+			    "Load Balancer",
+			    "Network Watcher",
+			    "Virtual Network",
+			    "VPN Gateway"},
+			  "NETWORKING",
+			  'ActualCost'[MeterCategory] IN {"Advanced Data Security",
+			    "Advanced Threat Protection",
+			    "Azure IoT Security",
+			    "Azure Defender",
+			    "Key Vault",
+			    "Security Center",
+			    "Sentinel"},
+			  "SECURITY",
+			  'ActualCost'[MeterCategory] IN {"Data Lake Store",
+			    "Storage"},
+			  "STORAGE",
+			  "Other"
+			)
+		lineageTag: 9e6c763e-bc99-4932-87ce-1dff86d636ad
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "ActualCost"
+				          }
+				        },
+				        "Property": "MeterCategory"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"a","Entity":"ActualCost"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"ANALYTICS","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Azure Data Explorer'"}}],[{"Literal":{"Value":"'Azure Data Factory v2'"}}],[{"Literal":{"Value":"'Azure Databricks'"}}],[{"Literal":{"Value":"'Azure Synapse Analytics'"}}],[{"Literal":{"Value":"'Data Lake Analytics'"}}],[{"Literal":{"Value":"'Event Hubs'"}}],[{"Literal":{"Value":"'Insight and Analytics'"}}]]}}},{"DisplayName":"COMPUTE","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Azure App Service'"}}],[{"Literal":{"Value":"'Azure Kubernetes Service'"}}],[{"Literal":{"Value":"'Azure Stack HCI'"}}],[{"Literal":{"Value":"'Cloud Services'"}}],[{"Literal":{"Value":"'Container Instances'"}}],[{"Literal":{"Value":"'Container Registry'"}}],[{"Literal":{"Value":"'Functions'"}}],[{"Literal":{"Value":"'Virtual Machines'"}}],[{"Literal":{"Value":"'Virtual Machines Licenses'"}}]]}}},{"DisplayName":"DATABASES","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Azure Cosmos DB'"}}],[{"Literal":{"Value":"'Azure Database for MariaDB'"}}],[{"Literal":{"Value":"'Azure Database for MySQL'"}}],[{"Literal":{"Value":"'Azure Database for PostgreSQL'"}}],[{"Literal":{"Value":"'Redis Cache'"}}],[{"Literal":{"Value":"'SQL Database'"}}],[{"Literal":{"Value":"'SQL Managed Instance'"}}]]}}},{"DisplayName":"INTEGRATION","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Event Grid'"}}],[{"Literal":{"Value":"'Logic Apps'"}}],[{"Literal":{"Value":"'Service Bus'"}}]]}}},{"DisplayName":"IOT","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'IoT Hub'"}}]]}}},{"DisplayName":"MGMT/GOVERNANCE","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Automation'"}}],[{"Literal":{"Value":"'Azure Arc'"}}],[{"Literal":{"Value":"'Azure Monitor'"}}],[{"Literal":{"Value":"'Backup'"}}],[{"Literal":{"Value":"'Log Analytics'"}}]]}}},{"DisplayName":"NETWORKING","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Application Gateway'"}}],[{"Literal":{"Value":"'Azure Bastion'"}}],[{"Literal":{"Value":"'Azure DNS'"}}],[{"Literal":{"Value":"'Azure Firewall'"}}],[{"Literal":{"Value":"'Bandwidth'"}}],[{"Literal":{"Value":"'Load Balancer'"}}],[{"Literal":{"Value":"'Network Watcher'"}}],[{"Literal":{"Value":"'Virtual Network'"}}],[{"Literal":{"Value":"'VPN Gateway'"}}]]}}},{"DisplayName":"SECURITY","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Advanced Data Security'"}}],[{"Literal":{"Value":"'Advanced Threat Protection'"}}],[{"Literal":{"Value":"'Azure IoT Security'"}}],[{"Literal":{"Value":"'Azure Defender'"}}],[{"Literal":{"Value":"'Key Vault'"}}],[{"Literal":{"Value":"'Security Center'"}}],[{"Literal":{"Value":"'Sentinel'"}}]]}}},{"DisplayName":"STORAGE","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"a"}},"Property":"MeterCategory"}}],"Values":[[{"Literal":{"Value":"'Data Lake Store'"}}],[{"Literal":{"Value":"'Storage'"}}]]}}},{"DisplayName":"Other"}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column providerName
+		dataType: string
+		lineageTag: bf7ede31-7656-4c80-8e1d-aab269329b6b
+		summarizeBy: none
+		sourceColumn: providerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceName_
+		dataType: string
+		lineageTag: 7e3bfd53-853a-42b2-9638-4f50b03ce5d3
+		summarizeBy: none
+		sourceColumn: ResourceName_
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tags
+		dataType: string
+		lineageTag: b122d9e2-02dc-47fb-b163-cd2db36e6ab2
+		summarizeBy: none
+		sourceColumn: Tags
+
+		annotation SummarizationSetBy = Automatic
+
+	column AdditionalInfo
+		dataType: string
+		lineageTag: a12c19fa-5c38-4573-a97f-3c37a9bdc8a5
+		summarizeBy: none
+		sourceColumn: AdditionalInfo
+
+		annotation SummarizationSetBy = Automatic
+
+	column BillingAccountId
+		dataType: string
+		lineageTag: f75d9378-0aa9-45de-a6d4-934b804c8b41
+		summarizeBy: none
+		sourceColumn: BillingAccountId
+
+		annotation SummarizationSetBy = Automatic
+
+	column BillingAccountName
+		dataType: string
+		lineageTag: 9e93dbbf-bbbf-4ae3-be60-3a2a3bdbb779
+		summarizeBy: none
+		sourceColumn: BillingAccountName
+
+		annotation SummarizationSetBy = Automatic
+
+	column BillingPeriodEndDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a602a1ba-d413-4e99-b640-f42f113d5557
+		summarizeBy: none
+		sourceColumn: BillingPeriodEndDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column BillingPeriodStartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8c68fb5f-ae25-4e62-83f6-b4e61b75b7ca
+		summarizeBy: none
+		sourceColumn: BillingPeriodStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column BillingProfileId
+		dataType: string
+		lineageTag: 81dcc99f-c1ac-4ce0-b328-11d212409e31
+		summarizeBy: none
+		sourceColumn: BillingProfileId
+
+		annotation SummarizationSetBy = Automatic
+
+	column BillingProfileName
+		dataType: string
+		lineageTag: cc81a649-0a41-44a5-b034-84850a4afd90
+		summarizeBy: none
+		sourceColumn: BillingProfileName
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceSectionId
+		dataType: string
+		lineageTag: 43f6e349-1824-4e36-a919-eb7b833e3ccb
+		summarizeBy: none
+		sourceColumn: InvoiceSectionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceSectionName
+		dataType: string
+		lineageTag: 530885f3-0719-40e5-9368-dbd83b5f270f
+		summarizeBy: none
+		sourceColumn: InvoiceSectionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountName
+		dataType: string
+		lineageTag: 181fc961-9114-4161-88e8-2698405d3bc7
+		summarizeBy: none
+		sourceColumn: AccountName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountOwnerId
+		dataType: string
+		lineageTag: 2d7d022f-c918-4809-b744-d45cc1bea66f
+		summarizeBy: none
+		sourceColumn: AccountOwnerId
+
+		annotation SummarizationSetBy = Automatic
+
+	column OfferId
+		dataType: string
+		lineageTag: 113f4c2d-6d0f-437e-aaf7-3dba280380ab
+		summarizeBy: none
+		sourceColumn: OfferId
+
+		annotation SummarizationSetBy = Automatic
+
+	column AvailabilityZone
+		dataType: string
+		lineageTag: ec8d1d66-3b8c-4cd2-a2bf-04bb6922816f
+		summarizeBy: none
+		sourceColumn: AvailabilityZone
+
+		annotation SummarizationSetBy = Automatic
+
+	column PartNumber
+		dataType: string
+		lineageTag: 54c5b279-6e89-402e-b0a6-bd77200b8e3e
+		summarizeBy: none
+		sourceColumn: PartNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlanName
+		dataType: string
+		lineageTag: 67f86e1a-b800-49e9-9e28-52fdd19cd357
+		summarizeBy: none
+		sourceColumn: PlanName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 7b9d2d85-f71f-41d6-ae34-fe832ec8ebbe
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ActualCost-b5e6e666-951f-4661-a33a-d4f19f49b5cb = m
+		mode: import
+		queryGroup: 'Cost Details'
+		source =
+				let
+				    Source = ActualCost_base,
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"CostInBillingCurrency", "Cost"}}),
+				    #"Inserted Text After Delimiter" = Table.AddColumn(#"Renamed Columns", "providerName", each Text.AfterDelimiter([ResourceId], "/providers/", {0, RelativePosition.FromEnd}), type text),
+				    #"Added Conditional Column" = Table.AddColumn(#"Inserted Text After Delimiter", "ResourceName_", each if [ReservationName] <> null then [ReservationName] else if [ResourceName] = null then [providerName] else [ResourceName]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Conditional Column",{{"ResourceName_", type text}, {"Date", type date}, {"InvoiceSectionName", type text}, {"AccountName", type text}, {"AccountOwnerId", type text}, {"SubscriptionId", type text}, {"SubscriptionName", type text}, {"ResourceGroup", type text}, {"ResourceLocation", type text}, {"ProductName", type text}, {"MeterCategory", type text}, {"MeterSubCategory", type text}, {"MeterId", type text}, {"MeterName", type text}, {"MeterRegion", type text}, {"UnitOfMeasure", type text}, {"Quantity", type number}, {"EffectivePrice", type number}, {"Cost", type number}, {"CostCenter", type any}, {"ConsumedService", type text}, {"ResourceId", type text}, {"Tags", type text}, {"OfferId", type text}, {"AdditionalInfo", type text}, {"ServiceInfo1", type any}, {"ServiceInfo2", type any}, {"ResourceName", type text}, {"ReservationId", type any}, {"ReservationName", type any}, {"UnitPrice", type number}, {"ProductOrderId", type any}, {"ProductOrderName", type any}, {"Term", type any}, {"PublisherType", type text}, {"PublisherName", type text}, {"ChargeType", type text}, {"Frequency", type text}, {"PricingModel", type text}, {"AvailabilityZone", type any}, {"BillingAccountId", type text}, {"BillingAccountName", type text}, {"BillingCurrencyCode", type text}, {"BillingPeriodStartDate", type date}, {"BillingPeriodEndDate", type date}, {"BillingProfileId", type text}, {"BillingProfileName", type text}, {"InvoiceSectionId", type any}, {"IsAzureCreditEligible", type logical}, {"PartNumber", type text}, {"PayGPrice", type number}, {"PlanName", type text}, {"ServiceFamily", type text}, {"CostAllocationRuleName", type any}, {"benefitId", type any}, {"benefitName", type any}, {"Type", type any}, {"providerName", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+

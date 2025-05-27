@@ -1,0 +1,25 @@
+table tenantid
+	lineageTag: 68f8c34a-9d8f-455b-bda0-7d391a62930e
+
+	column tenantId
+		dataType: string
+		lineageTag: 4407d75a-22a3-40ac-a58e-0214580e2039
+		summarizeBy: none
+		sourceColumn: tenantId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tenantid = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = subscriptionsBase,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"tenantId"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+				
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_ResultType = Table
+

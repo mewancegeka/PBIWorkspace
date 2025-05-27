@@ -1,0 +1,364 @@
+table CostRecommendations-ExtendedProperties
+	lineageTag: f42a7eae-c30b-464d-965c-9709c9b968d6
+
+	column recommendationId
+		dataType: string
+		lineageTag: 9b217d5d-a368-4470-9de4-2ecc3decf026
+		summarizeBy: none
+		sourceColumn: recommendationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column subId
+		dataType: string
+		lineageTag: 105c9239-c158-4ca8-969b-fca6020f860c
+		summarizeBy: none
+		sourceColumn: subId
+
+		annotation SummarizationSetBy = Automatic
+
+	column scope
+		dataType: string
+		lineageTag: 4ece77c1-372e-402f-b53b-1f7c618fca5e
+		summarizeBy: none
+		sourceColumn: scope
+
+		annotation SummarizationSetBy = Automatic
+
+	column sku
+		dataType: string
+		lineageTag: e83322d5-061f-4069-8ad4-c01be49626d1
+		summarizeBy: none
+		sourceColumn: sku
+
+		annotation SummarizationSetBy = Automatic
+
+	column term
+		dataType: string
+		lineageTag: 2b6726eb-5766-48af-b495-39bd1806bbf4
+		summarizeBy: none
+		sourceColumn: term
+
+		annotation SummarizationSetBy = Automatic
+
+	column annualSavingsAmount
+		dataType: double
+		lineageTag: 6095d89a-ef9c-441e-9b04-d9b88ff63ee7
+		summarizeBy: sum
+		sourceColumn: annualSavingsAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column savingsAmount
+		dataType: double
+		lineageTag: 5d0e4c23-a152-4560-a534-4ffc99ecd68c
+		summarizeBy: sum
+		sourceColumn: savingsAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qty
+		dataType: int64
+		formatString: 0
+		lineageTag: f603a181-9a04-4745-a77b-3acb98b0cec7
+		summarizeBy: sum
+		sourceColumn: qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column savingsCurrency
+		dataType: string
+		lineageTag: f101db82-17ce-4988-b275-dde0874b752f
+		summarizeBy: none
+		sourceColumn: savingsCurrency
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 66aa26a7-a4cc-4668-b617-ffc2fdc87d8f
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column lookbackPeriod
+		dataType: int64
+		formatString: 0
+		lineageTag: c48be0d4-7abb-44ee-ba78-c1aaf0cedaba
+		summarizeBy: sum
+		sourceColumn: lookbackPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column displayQty
+		dataType: int64
+		formatString: 0
+		lineageTag: d47d8a66-fd51-413c-a396-980f78f85952
+		summarizeBy: sum
+		sourceColumn: displayQty
+
+		annotation SummarizationSetBy = Automatic
+
+	column displaySKU
+		dataType: string
+		lineageTag: c13a7aaf-40ce-439e-8f29-3e3a616b927d
+		summarizeBy: none
+		sourceColumn: displaySKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxCpuP95
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b898beb-3129-4be2-92e6-e1d5a09f569c
+		summarizeBy: sum
+		sourceColumn: MaxCpuP95
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxTotalNetworkP95
+		dataType: int64
+		formatString: 0
+		lineageTag: 553bea7c-e363-4f93-bc87-e56e3de7ad98
+		summarizeBy: sum
+		sourceColumn: MaxTotalNetworkP95
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxMemoryP95
+		dataType: int64
+		formatString: 0
+		lineageTag: a1c1b554-8d2e-44fc-91b8-e46312e5335a
+		summarizeBy: sum
+		sourceColumn: MaxMemoryP95
+
+		annotation SummarizationSetBy = Automatic
+
+	column deploymentId
+		dataType: string
+		lineageTag: 0499b6a4-bd0b-4b7c-952b-fbf5aabff070
+		summarizeBy: none
+		sourceColumn: deploymentId
+
+		annotation SummarizationSetBy = Automatic
+
+	column roleName
+		dataType: string
+		lineageTag: 07b207ba-4366-459c-b9b6-f2f7299fb866
+		summarizeBy: none
+		sourceColumn: roleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column currentSku
+		dataType: string
+		lineageTag: fd63a30c-2119-429b-89ae-ac0e17b4525b
+		summarizeBy: none
+		sourceColumn: currentSku
+
+		annotation SummarizationSetBy = Automatic
+
+	column targetSku
+		dataType: string
+		lineageTag: da6db769-581a-4ef5-9d84-86822ddd6f25
+		summarizeBy: none
+		sourceColumn: targetSku
+
+		annotation SummarizationSetBy = Automatic
+
+	column recommendationType
+		dataType: string
+		lineageTag: c29bd792-f5d6-404b-9e2e-cf9e7b4fa053
+		summarizeBy: none
+		sourceColumn: recommendationType
+
+		annotation SummarizationSetBy = Automatic
+
+	column regionId
+		dataType: string
+		lineageTag: c7cf0eef-14f4-4ce5-902a-a0caa00f98c2
+		summarizeBy: none
+		sourceColumn: regionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column subscriptionId
+		dataType: string
+		lineageTag: 39997340-c113-4122-94d0-da7d2e14beda
+		summarizeBy: none
+		sourceColumn: subscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column location
+		dataType: string
+		lineageTag: a8753b4c-4f0a-4ca7-822f-489333c3cfbe
+		summarizeBy: none
+		sourceColumn: location
+
+		annotation SummarizationSetBy = Automatic
+
+	column vmSize
+		dataType: string
+		lineageTag: 27d42d80-7886-45af-8b48-f4f8ed717062
+		summarizeBy: none
+		sourceColumn: vmSize
+
+		annotation SummarizationSetBy = Automatic
+
+	column targetResourceCount
+		dataType: int64
+		formatString: 0
+		lineageTag: eda9eabc-3e0b-4eaa-9e20-00338d14378c
+		summarizeBy: sum
+		sourceColumn: targetResourceCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column databaseName
+		dataType: string
+		lineageTag: e77dd60c-4928-4c09-89ea-6595a58d438b
+		summarizeBy: none
+		sourceColumn: databaseName
+
+		annotation SummarizationSetBy = Automatic
+
+	column collectionName
+		dataType: string
+		lineageTag: a7ecb963-ed94-434e-ad70-946094aa997d
+		summarizeBy: none
+		sourceColumn: collectionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column autoscaleStartingMaxRU
+		dataType: int64
+		formatString: 0
+		lineageTag: 876b750d-1860-4b32-a500-0da848cbcdb3
+		summarizeBy: sum
+		sourceColumn: autoscaleStartingMaxRU
+
+		annotation SummarizationSetBy = Automatic
+
+	column autoscaleStartingLowerEndOfRange
+		dataType: int64
+		formatString: 0
+		lineageTag: b38aaf96-efaa-4c4f-bf7b-16fd6652683d
+		summarizeBy: sum
+		sourceColumn: autoscaleStartingLowerEndOfRange
+
+		annotation SummarizationSetBy = Automatic
+
+	column _billingIdToken
+		dataType: string
+		lineageTag: f3b1033a-baf6-43b5-817e-2bafcbfc4d55
+		summarizeBy: none
+		sourceColumn: _billingIdToken
+
+		annotation SummarizationSetBy = Automatic
+
+	column VaultName
+		dataType: string
+		lineageTag: d85d4d7d-ff53-4e10-b495-a1213e85043a
+		summarizeBy: none
+		sourceColumn: VaultName
+
+		annotation SummarizationSetBy = Automatic
+
+	column VaultId
+		dataType: int64
+		formatString: 0
+		lineageTag: 34f2715d-05dc-4d4a-9211-c1f0669f5fd8
+		summarizeBy: count
+		sourceColumn: VaultId
+
+		annotation SummarizationSetBy = Automatic
+
+	column DBCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 3530b6c0-17fe-4322-ae12-7dc582357ae4
+		summarizeBy: sum
+		sourceColumn: DBCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column %Savings
+		dataType: string
+		lineageTag: e850e5bf-f694-4d75-aea8-d2a0a532540f
+		summarizeBy: none
+		sourceColumn: %Savings
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 56cab803-d291-43b3-a829-f19210ecaae3
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'recommendationText.1'
+		dataType: string
+		lineageTag: 5ce3ee5a-a37f-4aa0-aed0-454a222c4d6d
+		summarizeBy: none
+		sourceColumn: recommendationText.1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Duration
+		dataType: string
+		lineageTag: 9c2e0baf-8235-4fd9-9e8a-660f7a2e1716
+		summarizeBy: none
+		sourceColumn: Duration
+
+		annotation SummarizationSetBy = Automatic
+
+	column PotentialMonthlyCarbonEmissions
+		dataType: string
+		lineageTag: a45bf766-c013-4841-85fa-eb188035a48f
+		summarizeBy: none
+		sourceColumn: PotentialMonthlyCarbonEmissions
+
+		annotation SummarizationSetBy = Automatic
+
+	column PotentialMonthlyCarbonSavings
+		dataType: string
+		lineageTag: 0b4e00f2-1571-4865-bfcc-cc813d7c6cbd
+		summarizeBy: none
+		sourceColumn: PotentialMonthlyCarbonSavings
+
+		annotation SummarizationSetBy = Automatic
+
+	column commitment
+		dataType: string
+		lineageTag: cea2e9b8-d755-43bf-a0a7-355783e32e0c
+		summarizeBy: none
+		sourceColumn: commitment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CostRecommendations-ExtendedProperties-abc9597f-ff4f-47ff-a681-667323997501 = m
+		mode: import
+		queryGroup: Recommendations
+		source =
+				let
+				    Source = CostRecommendations,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"recommendationId", "extended_properties"}),
+				    #"Expanded extended_properties" = Table.ExpandRecordColumn(#"Removed Other Columns", "extended_properties", {"reservedResourceType", "subId", "scope", "sku", "term", "annualSavingsAmount", "savingsAmount", "qty", "savingsCurrency", "region", "lookbackPeriod", "displayQty", "targetResourceCount", "location", "vmSize", "displaySKU", "MaxCpuP95", "MaxTotalNetworkP95", "MaxMemoryP95", "deploymentId", "roleName", "currentSku", "targetSku", "recommendationMessage", "recommendationType", "regionId", "subscriptionId", "Duration", "PotentialMonthlyCarbonEmissions", "PotentialMonthlyCarbonSavings", "commitment", "VaultName", "VaultId", "DBCount", "savingsPercentage", "reservationType", "databaseName", "collectionName", "percentSavings", "autoscaleStartingMaxRU", "autoscaleStartingLowerEndOfRange", "resourceType", "recommendationText", "_billingIdToken"}, {"reservedResourceType", "subId", "scope", "sku", "term", "annualSavingsAmount", "savingsAmount", "qty", "savingsCurrency", "region", "lookbackPeriod", "displayQty", "targetResourceCount", "location", "vmSize", "displaySKU", "MaxCpuP95", "MaxTotalNetworkP95", "MaxMemoryP95", "deploymentId", "roleName", "currentSku", "targetSku", "recommendationMessage", "recommendationType", "regionId", "subscriptionId", "Duration", "PotentialMonthlyCarbonEmissions", "PotentialMonthlyCarbonSavings", "commitment", "VaultName", "VaultId", "DBCount", "savingsPercentage", "reservationType", "databaseName", "collectionName", "percentSavings", "autoscaleStartingMaxRU", "autoscaleStartingLowerEndOfRange", "resourceType", "recommendationText", "_billingIdToken"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded extended_properties",{{"recommendationId", type text}, {"reservedResourceType", type text}, {"subId", type text}, {"scope", type text}, {"sku", type text}, {"term", type text}, {"annualSavingsAmount", type number}, {"savingsAmount", type number}, {"qty", Int64.Type}, {"savingsCurrency", type text}, {"region", type text}, {"lookbackPeriod", Int64.Type}, {"displayQty", Int64.Type}, {"displaySKU", type text}, {"MaxCpuP95", Int64.Type}, {"MaxTotalNetworkP95", Int64.Type}, {"MaxMemoryP95", Int64.Type}, {"deploymentId", type text}, {"roleName", type text}, {"currentSku", type text}, {"targetSku", type text}, {"recommendationMessage", type text}, {"recommendationType", type text}, {"regionId", type text}, {"subscriptionId", type text}, {"location", type text}, {"vmSize", type text}, {"targetResourceCount", Int64.Type}, {"savingsPercentage", type number}, {"reservationType", type text}, {"databaseName", type text}, {"collectionName", type text}, {"percentSavings", type number}, {"autoscaleStartingMaxRU", Int64.Type}, {"autoscaleStartingLowerEndOfRange", Int64.Type}, {"resourceType", type text}, {"recommendationText", type text}, {"_billingIdToken", type text}, {"VaultName", type text}, {"VaultId", Int64.Type}, {"DBCount", Int64.Type}}),
+				    #"Merged Columns" = Table.CombineColumns(#"Changed Type",{"recommendationMessage", "recommendationText"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"recommendationText.1"),
+				    #"Merged Columns1" = Table.CombineColumns(Table.TransformColumnTypes(#"Merged Columns", {{"savingsPercentage", type text}, {"percentSavings", type text}}, "en-GB"),{"savingsPercentage", "percentSavings"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"%Savings"),
+				    #"Merged Columns2" = Table.CombineColumns(#"Merged Columns1",{"reservedResourceType", "reservationType", "resourceType"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Type"),
+				    #"Replaced Value" = Table.ReplaceValue(#"Merged Columns2","",null,Replacer.ReplaceValue,{"recommendationText.1"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+

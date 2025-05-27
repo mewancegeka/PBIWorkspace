@@ -1,0 +1,62 @@
+table reservations_list
+	lineageTag: 3e6b34e5-5075-4d49-9042-c1ec5316c849
+
+	column reservationOrderId
+		dataType: string
+		lineageTag: 21818692-db00-4755-b27d-44f29608ede8
+		summarizeBy: none
+		sourceColumn: reservationOrderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column reservationId
+		dataType: string
+		lineageTag: 5ea4cae4-4911-4970-adf7-e1a25ea19e1b
+		summarizeBy: none
+		sourceColumn: reservationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column skuName
+		dataType: string
+		lineageTag: 009cbf0d-be93-4e39-8299-5e2f6dc0f931
+		summarizeBy: none
+		sourceColumn: skuName
+
+		annotation SummarizationSetBy = Automatic
+
+	column kind
+		dataType: string
+		lineageTag: be0eac66-dee9-470f-a90a-80aa3a032fa2
+		summarizeBy: none
+		sourceColumn: kind
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: c5011891-1086-4af1-97aa-c4c06a147a9d
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition reservations_list = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = reservations_base,
+				    #"Expanded properties" = Table.ExpandRecordColumn(Source, "properties", {"reservationOrderId", "reservationId", "skuName", "kind", "reservedHours", "usageDate", "usedHours", "minUtilizationPercentage", "avgUtilizationPercentage", "maxUtilizationPercentage", "purchasedQuantity", "remainingQuantity", "totalReservedQuantity", "usedQuantity", "utilizedPercentage"}, {"reservationOrderId", "reservationId", "skuName", "kind", "reservedHours", "usageDate", "usedHours", "minUtilizationPercentage", "avgUtilizationPercentage", "maxUtilizationPercentage", "purchasedQuantity", "remainingQuantity", "totalReservedQuantity", "usedQuantity", "utilizedPercentage"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded properties",{"reservationOrderId", "reservationId", "skuName", "kind", "name"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"reservationOrderId", "reservationId"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each [reservationOrderId] <> null and [reservationOrderId] <> ""),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows",{{"reservationOrderId", type text}, {"reservationId", type text}, {"skuName", type text}, {"kind", type text}, {"name", type text}}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Changed Type", {"reservationOrderId"})
+				in
+				    #"Removed Duplicates1"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,330 @@
+table DateAutoTemplate
+	lineageTag: 98209fab-04fd-4933-a99e-6511917154d9
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: M/d/yyyy
+		lineageTag: d19f2fc2-c943-422e-a1af-55bfe05803f2
+		dataCategory: PaddedDateTableDates
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		changedProperty = IsHidden
+
+		annotation SQLBI_AttributeTypes = Date, FiscalDate
+
+	column Year
+		formatString: 0
+		lineageTag: d124501f-521f-46f8-bd3b-ede230115022
+		dataCategory: Years
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter Number'
+		formatString: 0
+		lineageTag: d12861bd-4c58-450c-a638-f0ee4108b862
+		dataCategory: Quarters
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year Quarter Number]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter'
+		lineageTag: daa8c016-9ad5-4a1a-8981-35aaf661fc9a
+		dataCategory: Quarters
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Quarter]
+		sortByColumn: 'Year Quarter Number'
+
+		changedProperty = IsHidden
+
+	column Quarter
+		lineageTag: 07e63b55-bbbd-41d1-a837-c9f28ff0f84c
+		dataCategory: QuarterOfYear
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		changedProperty = IsHidden
+
+	column 'Year Month'
+		lineageTag: 12c97397-8a66-4991-b658-3e6c07966db4
+		dataCategory: Months
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month]
+		sortByColumn: 'Year Month Number'
+
+		changedProperty = IsHidden
+
+	column 'Year Month Number'
+		formatString: 0
+		lineageTag: c7c4ef93-c0a7-4734-b1ee-bbdcabedceb0
+		dataCategory: Months
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year Month Number]
+
+		changedProperty = IsHidden
+
+		annotation SQLBI_AttributeTypes = FiscalMonths
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: 6f8768e1-780f-40d8-ae7e-9904aa921ab5
+		dataCategory: MonthOfYear
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month Number'
+
+		changedProperty = IsHidden
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: 374da435-9b00-4644-b863-9a4b932d1258
+		dataCategory: MonthOfYear
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Number'
+		formatString: 0
+		lineageTag: f8ee5d33-03d1-4eb2-b45e-57d55b410a79
+		dataCategory: DayOfWeek
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Week Number]
+
+		changedProperty = IsHidden
+
+		annotation SQLBI_AttributeTypes = DayOfWeek
+
+		annotation SQLBI_FilterSafe = True
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		lineageTag: bed49ada-c835-45b5-8a08-c6f61b2298dc
+		dataCategory: DayOfWeek
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week]
+		sortByColumn: 'Day of Week Number'
+
+		changedProperty = IsHidden
+
+		annotation SQLBI_FilterSafe = True
+
+	column 'Fiscal Year'
+		lineageTag: 986781ac-77bf-426a-860e-373a4d9803dd
+		dataCategory: Years
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Fiscal Year]
+		sortByColumn: 'Fiscal Year Number'
+
+		changedProperty = IsHidden
+
+	column 'Fiscal Year Number'
+		formatString: 0
+		lineageTag: 993a62f0-bd5d-4294-af17-1cffd56faddd
+		dataCategory: Years
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Fiscal Year Number]
+
+		changedProperty = IsHidden
+
+		annotation SQLBI_AttributeTypes = FiscalYears
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Year Quarter'
+		lineageTag: 5b7dc25b-3cb7-4380-8135-6c5bc1c5e4c8
+		dataCategory: Quarters
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Fiscal Year Quarter]
+		sortByColumn: 'Fiscal Year Quarter Number'
+
+		changedProperty = IsHidden
+
+	column 'Fiscal Year Quarter Number'
+		formatString: 0
+		lineageTag: b9b63bfe-9047-4c52-9a0b-5cd4b0128735
+		dataCategory: Quarters
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Fiscal Year Quarter Number]
+
+		changedProperty = IsHidden
+
+		annotation SQLBI_AttributeTypes = FiscalQuarters
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Quarter'
+		lineageTag: a95d45f1-510d-4150-8445-5b7cb881b70e
+		dataCategory: QuarterOfYear
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Fiscal Quarter]
+
+		changedProperty = IsHidden
+
+	column DateWithTransactions
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9587bf1e-faf6-4f8b-9652-6d895969d434
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DateWithTransactions]
+
+		changedProperty = IsHidden
+
+		annotation SQLBI_AttributeTypes = DateDuration
+
+	column Date2
+		formatString: General Date
+		lineageTag: 280acef5-00ba-418c-8608-d8da27ab1e37
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date2]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date'
+		lineageTag: ad1367fb-eeb9-4d02-b8c2-4d85891d8fa1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Formatted Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Calendar
+		lineageTag: 3f074a3b-163b-4553-8a13-69f1a6c080c9
+
+		level Year
+			lineageTag: eeded3ba-049a-455a-99cc-c17ae60b1cde
+			column: Year
+
+		level Month
+			lineageTag: 72b8f88e-8051-4c03-959d-ddd7a8b156af
+			column: 'Year Month'
+
+		level Date
+			lineageTag: 1da13ece-5598-49a2-86cd-33409e01d65c
+			column: Date
+
+		changedProperty = IsHidden
+
+	hierarchy Fiscal
+		lineageTag: 8d82be7c-1a00-44c7-b691-89cf13d917d4
+
+		level Year
+			lineageTag: 8665339f-9d7c-499d-af13-a6d91dffebe6
+			column: 'Fiscal Year'
+
+		level Month
+			lineageTag: 2a9f0f31-829a-46cf-9f82-c4e174b64dd9
+			column: 'Year Month'
+
+		level Date
+			lineageTag: 2c066647-b93e-4cd1-beef-75934afd4516
+			column: Date
+
+		changedProperty = IsHidden
+
+	partition DateAutoTemplate = calculated
+		mode: import
+		source = ```
+				
+				--  
+				--     Configuration
+				--  
+				VAR __FirstDayOfWeek = 1
+				VAR __FirstFiscalMonth = 0
+				----------------------------------------
+				VAR __WeekDayCalculationType = IF ( __FirstDayOfWeek = 0, 7, __FirstDayOfWeek ) + 10
+				VAR __Calendar = 
+				    VAR __FirstYear = YEAR ( TODAY() ) -3
+				    VAR __LastYear = YEAR ( TODAY() )
+				    RETURN CALENDAR (
+				        DATE ( __FirstYear, 1, 1 ),
+				        DATE ( __LastYear, 12, 31 )
+				    )
+				VAR __Step3 = 
+				    GENERATE (
+				        __Calendar,
+				        VAR __LastTransactionDate = TODAY()
+				        VAR __Date2 = [Date]
+				        VAR __Date = [Date]
+				        VAR __YearNumber = YEAR ( __Date )
+				        VAR __QuarterNumber = QUARTER ( __Date )
+				        VAR __YearQuarterNumber = CONVERT ( __YearNumber * 4 + __QuarterNumber - 1, INTEGER )
+				        VAR __MonthNumber = MONTH ( __Date )
+				        VAR __WeekDayNumber = WEEKDAY ( __Date, __WeekDayCalculationType )
+				        VAR __WeekDay = FORMAT ( __Date, "ddd" )
+				        VAR __FiscalYearNumber = __YearNumber + 1 * ( __FirstFiscalMonth > 1 && __MonthNumber >= __FirstFiscalMonth )
+				        VAR __FiscalMonthNumber = __MonthNumber - __FirstFiscalMonth + 1 + 12 * (__MonthNumber < __FirstFiscalMonth)
+				        VAR __FiscalQuarterNumber = ROUNDUP ( __FiscalMonthNumber / 3, 0 )
+				        VAR __FiscalYearQuarterNumber = CONVERT ( __FiscalYearNumber * 4 + __FiscalQuarterNumber - 1, INTEGER )
+				        VAR __FormattedDate = 
+				            IF (
+				                YEAR(__Date) = YEAR(TODAY()) && MONTH(__Date) = MONTH(TODAY()),
+				                "This month - " & FORMAT(__Date, "yyyy-MM"),
+				                IF (
+				                    YEAR(__Date) = YEAR(TODAY()) && MONTH(__Date) = MONTH(TODAY()) - 1,
+				                    "Previous month",
+				                    FORMAT(__Date, "yyyy-MM")
+				                ))
+				        RETURN ROW ( 
+				            "Date2", __Date2,
+				            "Year", __YearNumber,
+				            "Year Quarter Number", __YearQuarterNumber,
+				            "Year Quarter", FORMAT ( __QuarterNumber, "\Q0" ) & "-" & FORMAT ( __YearNumber, "0000" ),
+				            "Quarter", FORMAT( __QuarterNumber, "\Q0" ),
+				            "Year Month", FORMAT ( __Date, "mmm yyyy" ),
+				            "Year Month Number", __YearNumber * 12 + __MonthNumber - 1,
+				            "Month", FORMAT ( __Date, "mmm" ),
+				            "Month Number", __MonthNumber,
+				            "Day of Week Number", __WeekDayNumber,
+				            "Day of Week", __WeekDay,
+				            "Fiscal Year", FORMAT ( __FiscalYearNumber, "\F\Y 0000" ),
+				            "Fiscal Year Number", __FiscalYearNumber,
+				            "Fiscal Year Quarter", FORMAT ( __FiscalQuarterNumber, "\F\Q0" ) & "-" & FORMAT ( __FiscalYearNumber, "0000" ),
+				            "Fiscal Year Quarter Number", __FiscalYearQuarterNumber,
+				            "Fiscal Quarter", FORMAT( __FiscalQuarterNumber, "\F\Q0" ),
+				            "DateWithTransactions", __Date <= __LastTransactionDate,
+				            "Formatted Date", __FormattedDate
+				        )
+				    )
+				RETURN
+				    __Step3
+				
+				```
+
+	changedProperty = IsHidden
+
+	annotation SQLBI_Template = Dates
+
+	annotation SQLBI_TemplateTable = DateAutoTemplate
+
+	annotation SQLBI_CalendarType = Calendar
+

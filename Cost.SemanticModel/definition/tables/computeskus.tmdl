@@ -1,0 +1,93 @@
+table computeskus
+	lineageTag: fc5aa375-c897-4a48-9dd4-6df62ae7bba7
+
+	column _vmsize
+		dataType: string
+		lineageTag: 20027f04-c179-4db6-8dcf-0cce607ded33
+		summarizeBy: none
+		sourceColumn: _vmsize
+
+		annotation SummarizationSetBy = Automatic
+
+	column tier
+		dataType: string
+		lineageTag: 52af6e05-a1c0-4be0-ba84-9f974dd10e0b
+		summarizeBy: none
+		sourceColumn: tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: 58baf17d-79cc-4ed1-bfac-4935f982fe2d
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column family
+		dataType: string
+		lineageTag: a10e5985-4dbd-4ca2-bdda-21e725e97ccd
+		summarizeBy: none
+		sourceColumn: family
+
+		annotation SummarizationSetBy = Automatic
+
+	column vCPUsPerCore
+		dataType: int64
+		formatString: 0
+		lineageTag: 45f9d882-4985-4234-88e3-b27559438849
+		summarizeBy: none
+		sourceColumn: vCPUsPerCore
+
+		annotation SummarizationSetBy = Automatic
+
+	column vCPUsAvailable
+		dataType: int64
+		formatString: 0
+		lineageTag: ab68537f-d035-44f0-bc12-242c9e9fbc77
+		summarizeBy: none
+		sourceColumn: vCPUsAvailable
+
+		annotation SummarizationSetBy = Automatic
+
+	column MemoryGB
+		dataType: double
+		lineageTag: 40eb28db-b842-4994-9067-4a6f19605455
+		summarizeBy: none
+		sourceColumn: MemoryGB
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vCPUs
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f1fbcf4-ef5f-41f4-becf-0e6f78de19aa
+		summarizeBy: none
+		sourceColumn: vCPUs
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACUs
+		dataType: int64
+		formatString: 0
+		lineageTag: b0b1e8e0-63d6-4648-aa6f-6d3ffa883f38
+		summarizeBy: none
+		sourceColumn: ACUs
+
+		annotation SummarizationSetBy = Automatic
+
+	partition computeskus = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = base_computeskus,
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"name", "_vmsize"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Exception
+

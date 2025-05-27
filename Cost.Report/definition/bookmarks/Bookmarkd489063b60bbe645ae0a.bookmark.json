@@ -1,0 +1,466 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.2.0/schema.json",
+  "displayName": "ShowRITooltip",
+  "name": "Bookmarkd489063b60bbe645ae0a",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "5c0a83ef00051eb89da6",
+      "ecc93430070a2b0e4b71",
+      "57ddc149798918462290",
+      "892a8d8050800e8db2cc",
+      "c24aaf20b1c9c7a9d982"
+    ],
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "ReportSection527eed53427791ad390e",
+    "sections": {
+      "ReportSection527eed53427791ad390e": {
+        "visualContainers": {
+          "bfd4e68b353d2e22da3f": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "9d1e0363fdf2282e37ec": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "dc7d17b07818cd41f893": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "c73c869741f8733b24d4": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "b01d44f10875505f2d79": {
+            "singleVisual": {
+              "visualType": "advanceCardE03760C5AB684758B56AA29F9E6C257B",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "AmortizedCost"
+                            }
+                          },
+                          "Property": "Cost"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "f534736fa555b8b098ae": {
+            "singleVisual": {
+              "visualType": "advanceCardE03760C5AB684758B56AA29F9E6C257B",
+              "objects": {}
+            }
+          },
+          "5a0d1e606e208f73d4a5": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "ab1fc5c8e95712daf041": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f34146725c1d3c43bf20",
+                  "type": "RelativeDate",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "Date",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Column": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "d"
+                                  }
+                                },
+                                "Property": "Date"
+                              }
+                            },
+                            "Right": {
+                              "DateSpan": {
+                                "Expression": {
+                                  "Now": {}
+                                },
+                                "TimeUnit": 3
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Date"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "areaChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Date"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Date"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "21e2f3cd0f515d9e744f": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "16b68cd5cd27da7aa7d5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Split_May"
+                        }
+                      },
+                      "Property": "difference"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "c5109c9f283601df346b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "UsageDetails_Final"
+                        }
+                      },
+                      "Property": "AllCost_CC"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "treemap",
+              "objects": {},
+              "activeProjections": {
+                "Group": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AmortizedCost"
+                        }
+                      },
+                      "Property": "MeterCategory"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "c2c3ef11cd96f11e67f2": {
+            "singleVisual": {
+              "visualType": "ChicletSlicer1448559807354",
+              "objects": {}
+            }
+          },
+          "692c2972440eecbaefd9": {
+            "singleVisual": {
+              "visualType": "columnChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Date"
+                        }
+                      },
+                      "Property": "Year Month"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "af603165ddb053a7b041": {
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "AmortizedCost"
+                            }
+                          },
+                          "Property": "Cost"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ActualCost"
+                        }
+                      },
+                      "Property": "SubscriptionName"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ab8f8388c6e1eddd317a": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e432054f59bc51d1ca0e": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "01e279014e655e8bf69a": {
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "AmortizedCost"
+                            }
+                          },
+                          "Property": "Cost"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AmortizedCost"
+                        }
+                      },
+                      "Property": "MeterCategory"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "cbbce56f531d381b297f": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "7ce66185e65f296202a8": {
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "YEARLY SAVINGS - 3Y"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ReservationRecommendations"
+                        }
+                      },
+                      "Property": "reserved_instance_type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "0081b31242f217099c31": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "62c59fd117dca1df6bb3": {
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "YEARLY SAVINGS - 3Y"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "f829cd0c0e88e7ce2744": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "ba1356593c9276fe7cd2": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "61a24102a1dc9ae187b8": {
+            "isHidden": true
+          },
+          "5c0a83ef00051eb89da6": {
+            "isHidden": false
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "true"
+                  }
+                }
+              },
+              "visible": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

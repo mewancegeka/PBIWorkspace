@@ -1,0 +1,35 @@
+table CostRecommendations-Metadata
+	lineageTag: f6d81215-f245-4be3-8824-1730c22f53d2
+
+	column recommendationId
+		dataType: string
+		lineageTag: cbe5537f-d917-4df6-876d-04c24cd83dd6
+		summarizeBy: none
+		sourceColumn: recommendationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column resource_id
+		dataType: string
+		lineageTag: c3efbae2-03c9-4e92-9234-f1b49cceae87
+		summarizeBy: none
+		sourceColumn: resource_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CostRecommendations-Metadata-c0f71d87-69fd-4010-8477-d29233281065 = m
+		mode: import
+		queryGroup: Recommendations
+		source =
+				let
+				    Source = CostRecommendations,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"resource_metadata", "recommendationId"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Removed Other Columns",{"recommendationId", "resource_metadata"}),
+				    #"Expanded resource_metadata" = Table.ExpandRecordColumn(#"Reordered Columns", "resource_metadata", {"resource_id"}, {"resource_id"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded resource_metadata",{{"resource_id", type text}}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Changed Type",{{"resource_id", Text.Lower, type text}})
+				in
+				    #"Lowercased Text"
+
+	annotation PBI_ResultType = Exception
+

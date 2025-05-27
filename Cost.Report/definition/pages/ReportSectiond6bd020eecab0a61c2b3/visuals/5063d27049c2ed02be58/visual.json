@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "5063d27049c2ed02be58",
+  "position": {
+    "x": 4.95867768595045,
+    "y": 14.04958677685954,
+    "z": 1000,
+    "height": 119.09090909090908,
+    "width": 402.72727272727269,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Days highlighted in red are days where the daily cost exceeded the average daily cost for the selected period by 10%.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "4f443f1d044563987854"
+}

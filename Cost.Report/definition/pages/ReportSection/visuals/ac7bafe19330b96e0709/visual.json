@@ -1,0 +1,105 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "ac7bafe19330b96e0709",
+  "position": {
+    "x": 4.95867768595045,
+    "y": 14.04958677685954,
+    "z": 1000,
+    "height": 119.09090909090908,
+    "width": 402.72727272727269,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Hover over the visual an select the ⬇ arrow to activate drill down mode",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  },
+                  {
+                    "value": ".",
+                    "textStyle": {
+                      "fontFamily": "inherit",
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "By selecting a datapoint you can go down a level in the hierarchy.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Example: Subscription -> Resource Group -> Category - Resource.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Use the ⬆ arrow to go back up in the hierarchy.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "If you want the visual to revert to the default filter behaviour, deactivate the drilldown mode.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "f013eaf3108a63591d00"
+}

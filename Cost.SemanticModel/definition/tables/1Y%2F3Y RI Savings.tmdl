@@ -1,0 +1,48 @@
+table '1Y/3Y RI Savings'
+	lineageTag: bc2125c8-a582-4030-b72e-87cc4cc41a6c
+
+	column '1Y/3Y RI Savings'
+		lineageTag: 7c104dd5-a83a-45a0-9969-d28662d21b61
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: '1Y/3Y RI Savings Order'
+
+		relatedColumnDetails
+			groupByColumn: '1Y/3Y RI Savings Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '1Y/3Y RI Savings Fields'
+		isHidden
+		lineageTag: bdc430c5-3cf3-4bff-9ef0-1923a330eabb
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: '1Y/3Y RI Savings Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column '1Y/3Y RI Savings Order'
+		isHidden
+		formatString: 0
+		lineageTag: 5f39fd81-9b5a-428b-bed4-7b981b23feb6
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '1Y/3Y RI Savings-33c67804-36e8-4c5d-90c2-fde4ce66b032' = calculated
+		mode: import
+		source =
+				{
+				    ("MONTHLY SAVINGS - 1Y", NAMEOF('ReservationRecommendations-Savings'[Savings - 1Y]), 0),
+				    ("MONTHLY SAVINGS - 3Y", NAMEOF('ReservationRecommendations-Savings'[Savings - 3Y]), 1)
+				}
+
+	annotation PBI_Id = 8da22f2a8da24e358f53cbd3c2385e7e
+

@@ -1,0 +1,31 @@
+table CurrentMonth
+	isHidden
+	lineageTag: 589ce83b-944e-4f63-a026-2c904efc1d0e
+
+	column CurrentMonth
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 457d5e1e-bbc2-40f2-ab71-ad2ee3aa6488
+		summarizeBy: none
+		sourceColumn: CurrentMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition CurrentMonth-5176f04f-17ca-40e1-83af-e7f34acc9604 = m
+		mode: import
+		queryGroup: 'Helper stuff'
+		source =
+				let
+				    Source = Date.From(DateTimeZone.UtcNow())
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Date
+

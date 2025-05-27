@@ -1,0 +1,35 @@
+table LastestMonthly_actual
+	isHidden
+	lineageTag: 7f390a6f-d9b8-4a9d-be39-7d374086a08b
+
+	column LastestMonthly_actual
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 39da9326-032e-48e8-9fb0-8baa75531a28
+		summarizeBy: none
+		sourceColumn: LastestMonthly_actual
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition LastestMonthly_actual-222656eb-2512-4feb-80b6-2f01df5a904b = m
+		mode: import
+		queryGroup: 'Helper stuff'
+		source =
+				let
+				    Source = ActualCost_Monthly,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", let latest = List.Max(#"Removed Duplicates"[Date]) in each [Date] = latest),
+				    #"31/10/2022" = #"Filtered Rows"{0}[Date]
+				in
+				    #"31/10/2022"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Date
+

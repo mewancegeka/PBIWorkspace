@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "8b784007c0db78601ee9",
+  "position": {
+    "x": 309.23076923076923,
+    "y": 10.769230769230768,
+    "z": 17000,
+    "height": 166.15384615384616,
+    "width": 407.69230769230768,
+    "tabOrder": 23000
+  },
+  "visualGroup": {
+    "displayName": "Tooltip2 - slicer",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

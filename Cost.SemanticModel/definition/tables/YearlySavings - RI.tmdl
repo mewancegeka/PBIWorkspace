@@ -1,0 +1,48 @@
+table 'YearlySavings - RI'
+	lineageTag: c53e37d9-4026-43ba-b4a7-ffeff99612bb
+
+	column 'YearlySavings - RI'
+		lineageTag: 6a40b333-fc68-45b1-8bd6-ad29be02e93d
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'YearlySavings - RI Order'
+
+		relatedColumnDetails
+			groupByColumn: 'YearlySavings - RI Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YearlySavings - RI Fields'
+		isHidden
+		lineageTag: 5f97622c-9499-42e9-8044-c5e57572dd36
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'YearlySavings - RI Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YearlySavings - RI Order'
+		isHidden
+		formatString: 0
+		lineageTag: 9c2c4340-e95c-4618-8d9a-3cfc4958b77a
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'YearlySavings - RI-7be4af19-e4b3-4b2c-a2e4-0d5d8f3b21e0' = calculated
+		mode: import
+		source =
+				{
+				    ("RI-YearlySavings 1y", NAMEOF('_Measures'[YEARLY SAVINGS - 1Y]), 0),
+				    ("RI-YearlySavings 3y", NAMEOF('_Measures'[YEARLY SAVINGS - 3Y]), 1)
+				}
+
+	annotation PBI_Id = 3b56c4fafab24a79ad12e25427bfcf0f
+

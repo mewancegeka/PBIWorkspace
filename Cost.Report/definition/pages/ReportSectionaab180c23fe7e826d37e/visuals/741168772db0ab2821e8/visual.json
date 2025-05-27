@@ -1,0 +1,64 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "741168772db0ab2821e8",
+  "position": {
+    "x": 4.9628550800378095,
+    "y": 11.146591162327145,
+    "z": 1000,
+    "height": 93.854072237419729,
+    "width": 403.06654675040107,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Recommendations marked in yellow have extra information.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Select 1 of the recommendations to view the extra information in the information pane below.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#e6e6e6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "0349f81f2411529bb690"
+}

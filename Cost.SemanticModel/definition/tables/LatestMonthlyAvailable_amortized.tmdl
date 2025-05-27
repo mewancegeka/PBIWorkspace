@@ -1,0 +1,29 @@
+table LatestMonthlyAvailable_amortized
+	isHidden
+	lineageTag: 6a17753e-c783-467c-9ca6-edf53120a7c2
+
+	column LatestMonthlyAvailable_amortized
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cfacbefe-752e-4ced-b534-b6d811d3a8e6
+		summarizeBy: none
+		sourceColumn: LatestMonthlyAvailable_amortized
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition LatestMonthlyAvailable_amortized = m
+		mode: import
+		queryGroup: 'Helper stuff'
+		source =
+				let
+				    Source = if LatestMonthlyText_amortized = PreviousMonth then true else false
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+

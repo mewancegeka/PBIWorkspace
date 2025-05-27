@@ -1,0 +1,41 @@
+table SubscriptionList
+	lineageTag: 4805c756-3aa9-4456-9ea3-c4dccd7cb1f8
+
+	column SubscriptionId
+		dataType: string
+		lineageTag: ee56bd26-c98d-4fe9-8f0b-09f0c6f74a5b
+		summarizeBy: none
+		sourceColumn: SubscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionName
+		dataType: string
+		lineageTag: 06b567b6-c326-46ff-a317-4b4cd25245ae
+		summarizeBy: none
+		sourceColumn: SubscriptionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column subID
+		dataType: string
+		lineageTag: e66bfff0-4247-436a-aa4b-3ae4cadc3aee
+		summarizeBy: none
+		sourceColumn: subID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SubscriptionList-d2ab9ca8-d3c1-41dc-8777-954eee8da6e6 = m
+		mode: import
+		queryGroup: Inventory
+		source =
+				let
+				    Source = Subscriptions,
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ResourceId", "SubscriptionId"}, {"ResourceName", "SubscriptionName"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each [SubscriptionId] <> null and [SubscriptionId] <> ""),
+				    #"Inserted Text After Delimiter" = Table.AddColumn(#"Filtered Rows", "subID", each Text.AfterDelimiter([SubscriptionId], "/subscriptions/"), type text)
+				in
+				    #"Inserted Text After Delimiter"
+
+	annotation PBI_ResultType = Table
+

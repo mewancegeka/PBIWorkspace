@@ -1,0 +1,1626 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "serviceteam_measures.total_single_day_tickets": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ServiceTeam Measures",
+			          "ConceptualProperty": "Total Single Day Tickets"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "usagedetails_final.security": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "UsageDetails_Final",
+			          "ConceptualProperty": "Security"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "actualcost.subscriptionname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "SubscriptionName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "SUBSCRIPTION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "inventorytags.tagname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "InventoryTags",
+			          "ConceptualProperty": "TagName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "TAG NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "inventorytags.tagvalue": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "InventoryTags",
+			          "ConceptualProperty": "TagValue"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "date.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Year"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "kubeoutput_comments.grade": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "kube-output_comments",
+			          "ConceptualProperty": "grade"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "date.year_month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Year Month"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "MONTH": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "costrecommendations.impacted_field": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "CostRecommendations",
+			          "ConceptualProperty": "impacted_field"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "TYPE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "costrecommendations.impacted_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "CostRecommendations",
+			          "ConceptualProperty": "impacted_value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "costrecommendationsdescription.problem": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "CostRecommendations-Description",
+			          "ConceptualProperty": "problem"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RECOMMENDATION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "costrecommendationsextendedproperties.savingsamount": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "CostRecommendations-ExtendedProperties",
+			          "ConceptualProperty": "savingsAmount"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "costrecommendationsextendedproperties.savingscurrency": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "CostRecommendations-ExtendedProperties",
+			          "ConceptualProperty": "savingsCurrency"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "CURRENCY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "reservationrecommendations.reserved_instance_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ReservationRecommendations",
+			          "ConceptualProperty": "reserved_instance_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "TYPE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "reservationrecommendations.normalized_size": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ReservationRecommendations",
+			          "ConceptualProperty": "normalized_size"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "NORMALIZED SIZE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "reservationrecommendations.location": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ReservationRecommendations",
+			          "ConceptualProperty": "location"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "LOCATION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.riyearlysavings_1y": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "YEARLY SAVINGS - 1Y"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "1Y TERM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.riyearlysavings_3y": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "YEARLY SAVINGS - 3Y"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "POTENTIAL YEARLY SAVINGS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "3Y TERM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "costrecommendationsextendedproperties.recommendationtext_1": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "CostRecommendations-ExtendedProperties",
+			          "ConceptualProperty": "recommendationText.1"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "actualcost.resourcelocation": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "ResourceLocation"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "LOCATION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actualcost.resourcegroup": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "ResourceGroup"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE GROUP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actualcost.resourcename_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "ResourceName_"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actualcost.chargetype": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "ChargeType"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "CHARGE TYPE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.subscriptionname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "SubscriptionName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "SUBSCRIPTION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.resourcegroup": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "ResourceGroup"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE GROUP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.resourcelocation": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "ResourceLocation"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "LOCATION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.resourcename_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "ResourceName_"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.chargetype": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "ChargeType"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "CHARGE TYPE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.ri_savings": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "RI Savings"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "COST SAVED": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "RI SAVINGS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "SAVINGS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.resourcename": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "ResourceName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.increase_amortized": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "%Increase Amortized"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% CHANGE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.costdifferencelastmonth": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "CostDifference(LastMonth)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "CHANGE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.avg_cost_amortized": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "Avg Cost Amortized"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "table_measures.isfilteredrecommendation": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "IsFilteredRecommendation"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "EXTRA INFO": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.costrecommendations_anualsavings": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "CostRecommendations AnualSavings"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "POTENTIAL YEARLY SAVINGS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.reservationname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "ReservationName"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "actualcost.reservationname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "ReservationName"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "actualcost.productname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "ProductName"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "actualcost.frequency": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "Frequency"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "actualcost.term": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "Term"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "date.date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Date"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "inventory.resourcename": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Inventory",
+			          "ConceptualProperty": "ResourceName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "subscriptionlist.subscriptionname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "SubscriptionList",
+			          "ConceptualProperty": "SubscriptionName"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "table_measures.monthlysavings_nonblank_3y_term": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "monthlysavings nonblank 3y term"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "3Y TERM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.monthlysavings_nonblank": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "monthlysavings nonblank"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "1Y TERM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "inventory.resourcegroup": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Inventory",
+			          "ConceptualProperty": "ResourceGroup"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE GROUP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "inventory.subscriptionname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Inventory",
+			          "ConceptualProperty": "SubscriptionName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "SUBSCRIPTION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.totalamortized": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "TotalAmortized"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "COST": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "USAGE COST": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.total_amortizedcost": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "Total AmortizedCost"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.total_actualcost": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "Total ActualCost"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.costdifferencelastmonth_actual": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "CostDifference(LastMonth) -Actual"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "CHANGE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_measures.totalamortized_blanks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "TotalAmortized_blanks"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "table_measures.vm_monthlyusage": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measures",
+			          "ConceptualProperty": "VM_monthlyUsage"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "%": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "inventorytags.tagnametagvalue": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "InventoryTags",
+			          "ConceptualProperty": "TagNameTagValue"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "TAG VALUE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.meterregion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "MeterRegion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "REGION": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.metercategory": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "MeterCategory"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "METER CATEGORY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "CATEGORY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.metersubcategory": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "MeterSubCategory"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "METER SUBCATEGORY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.metername": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "MeterName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "METER NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "METERNAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "amortizedcost.tags": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "AmortizedCost",
+			          "ConceptualProperty": "Tags"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE TAGS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actualcost.metercategory": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "MeterCategory"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "METER CATEGORY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actualcost.metersubcategory": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "MeterSubCategory"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "METER SUBCATEGORY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actualcost.metername": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "MeterName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "METER NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "METERNAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actualcost.resourcename": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ActualCost",
+			          "ConceptualProperty": "ResourceName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "date.date2": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Date2"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "reservation_orders.displayname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "reservation_orders",
+			          "ConceptualProperty": "displayName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "NAME": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "reservations_usage.skuname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "reservations_usage",
+			          "ConceptualProperty": "skuName"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "reservation_orders.expirydate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "reservation_orders",
+			          "ConceptualProperty": "expiryDate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "EXPIRY DATE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "base_orphaned_resource_all.column_category": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "base_orphaned_resource_all",
+			          "ConceptualProperty": "_category"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Category": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "current_inventory.name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "current_inventory",
+			          "ConceptualProperty": "name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Resource": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "costrecommendationsextendedproperties.vmsize": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "CostRecommendations-ExtendedProperties",
+			          "ConceptualProperty": "vmSize"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "reservation_orders.expiring_ri": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "reservation_orders",
+			          "ConceptualProperty": "expiring_ri"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Expiring Reservations (30d)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "reservations_usage.under_utilized_ri": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "reservations_usage",
+			          "ConceptualProperty": "under_utilized_ri"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Under Utilized Reservations (30d)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "budgets.name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Budgets",
+			          "ConceptualProperty": "name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Budget Name": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "budgets.startdate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Budgets",
+			          "ConceptualProperty": "startDate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Start Date": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "budgets.enddate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Budgets",
+			          "ConceptualProperty": "endDate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "End Date": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "computeskus.vcpusavailable": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "computeskus",
+			          "ConceptualProperty": "vCPUsAvailable"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "vCPUs": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vms.name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vms",
+			          "ConceptualProperty": "name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "VM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vms.resourcegroup": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vms",
+			          "ConceptualProperty": "resourceGroup"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESOURCE GROUP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "computeskus.column_vmsize": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "computeskus",
+			          "ConceptualProperty": "_vmsize"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "SKU": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vms.osname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vms",
+			          "ConceptualProperty": "osName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "OS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vms.licensetype": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vms",
+			          "ConceptualProperty": "licenseType"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "vms.svg_ahub_priority": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vms",
+			          "ConceptualProperty": "svg_ahub_priority"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AHUB PRIORITY": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vms.svg_ahub_enabled": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vms",
+			          "ConceptualProperty": "svg_ahub_enabled"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AHUB ENABLED?": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vms.svg_ahub_compatible": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vms",
+			          "ConceptualProperty": "svg_ahub_compatible"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AHUB COMPATIBLE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "reservations_list.skuname": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "reservations_list",
+			          "ConceptualProperty": "skuName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "SKU": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

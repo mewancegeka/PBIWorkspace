@@ -1,0 +1,67 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json",
+  "items": [
+    {
+      "name": "Bookmark141d590484c1de5a21e1",
+      "displayName": "Cost Selector",
+      "children": [
+        "Bookmark2cdd1604d797b139b73b",
+        "Bookmark7ea5ef67b9c3cd8283a7"
+      ]
+    },
+    {
+      "name": "Bookmarkbc0ffae620e6340143c7",
+      "displayName": "Tooltip",
+      "children": [
+        "Bookmarkbc5c97166109940c701c",
+        "Bookmark8b5ed1a0c2a21b603735",
+        "Bookmark727c9451d57c02064226",
+        "Bookmark212da4c957120504703b",
+        "Bookmark8e9947b27e41823c5604",
+        "Bookmarkbf925f7dd3e97a880900",
+        "Bookmark7013acb1809a05097043",
+        "Bookmarkdbdb869c0a405002d18e",
+        "Bookmark4cb53ccc718dd8765cdc",
+        "Bookmarkf84d12d507478393c866",
+        "Bookmarkd489063b60bbe645ae0a",
+        "Bookmark54b93a9b6c89647561d0"
+      ]
+    },
+    {
+      "name": "Bookmarkf520c52707d767e95da0",
+      "displayName": "ACTUAL/AMORTIZED",
+      "children": [
+        "Bookmark945da330129644671e34",
+        "Bookmark6ce334779323564b18e2"
+      ]
+    },
+    {
+      "name": "Bookmark78f7a276d80b2a9e993a"
+    },
+    {
+      "name": "Bookmark9c8f8759a3be61a16a1b"
+    },
+    {
+      "name": "Bookmarkd61d9e94d0774e6406cd"
+    },
+    {
+      "name": "Bookmarkbdf4b6b030962ca11e91"
+    },
+    {
+      "name": "Bookmark3bc9b3336dd00e9fc896"
+    },
+    {
+      "name": "c1b3d51a2188c45be423",
+      "displayName": "nav_top",
+      "children": [
+        "0948bb72780c44fead18",
+        "bd068491032a9836f7d8",
+        "795c6f2431a1d26079af",
+        "b4c96d88e24c140f6368"
+      ]
+    },
+    {
+      "name": "7889b6bdd49399fcda59"
+    }
+  ]
+}
