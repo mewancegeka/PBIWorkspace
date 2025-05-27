@@ -1,0 +1,96 @@
+table successful_educations
+	lineageTag: 46847719-3b0b-413d-ab78-bc0a8396acc4
+
+	column Name
+		dataType: string
+		lineageTag: be5f8f89-af95-47d9-946d-b549e09397a4
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Profession
+		dataType: string
+		lineageTag: dd645207-a469-4e32-8daa-50efc39dacc9
+		summarizeBy: none
+		sourceColumn: Profession
+
+		annotation SummarizationSetBy = Automatic
+
+	column Degree
+		dataType: string
+		lineageTag: 6b55223c-79fc-4d5a-8fb9-6344a85b1298
+		summarizeBy: none
+		sourceColumn: Degree
+
+		annotation SummarizationSetBy = Automatic
+
+	column Field
+		dataType: string
+		lineageTag: 7f82425a-d5bd-4bae-bb4c-e4cc83fdeca0
+		summarizeBy: none
+		sourceColumn: Field
+
+		annotation SummarizationSetBy = Automatic
+
+	column Institution
+		dataType: string
+		lineageTag: 3ac6d8fc-6d95-4d72-8590-989ffd1226df
+		summarizeBy: none
+		sourceColumn: Institution
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Graduation Year'
+		dataType: string
+		lineageTag: 114b84f5-6f18-4f42-aa65-77109d46eaba
+		summarizeBy: none
+		sourceColumn: Graduation Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 2039a3cc-0308-49d8-b4a7-b00f8ddc093e
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'University Global Ranking'
+		dataType: string
+		lineageTag: b43a2375-a87a-495c-9809-5c5014af0956
+		summarizeBy: none
+		sourceColumn: University Global Ranking
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'GPA (or Equivalent)'
+		dataType: string
+		lineageTag: ac55473b-01ff-4194-9988-b6d0ea077ef9
+		summarizeBy: none
+		sourceColumn: GPA (or Equivalent)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Scholarship/Award
+		dataType: string
+		lineageTag: 27e9c576-5b1a-4bbe-b059-6f561f0cd584
+		summarizeBy: none
+		sourceColumn: Scholarship/Award
+
+		annotation SummarizationSetBy = Automatic
+
+	partition successful_educations = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\mewana\OneDrive - Cegeka\Documents\Power BI Projects\PBIGitLab\data\successful_educations.csv"),[Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

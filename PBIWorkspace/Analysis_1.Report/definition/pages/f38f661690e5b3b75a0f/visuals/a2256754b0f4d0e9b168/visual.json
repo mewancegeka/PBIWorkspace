@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "a2256754b0f4d0e9b168",
+  "position": {
+    "x": 683,
+    "y": 0,
+    "z": 1,
+    "height": 623,
+    "width": 597,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "successful_educations"
+                    }
+                  },
+                  "Property": "Field"
+                }
+              },
+              "queryRef": "successful_educations.Field",
+              "nativeQueryRef": "Field"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "successful_educations"
+                        }
+                      },
+                      "Property": "Degree"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "successful_educations.Degree",
+              "nativeQueryRef": "Count of Degree1"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
