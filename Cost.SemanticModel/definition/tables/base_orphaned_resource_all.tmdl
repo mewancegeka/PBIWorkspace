@@ -1,0 +1,89 @@
+table base_orphaned_resource_all
+	lineageTag: d19f9c9a-e728-460b-9182-b1dfd6a16936
+
+	column _subscriptionId
+		dataType: string
+		lineageTag: bf6ab678-20e0-4493-b54a-0a3a0f515e96
+		summarizeBy: none
+		sourceColumn: _subscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column _resourceId
+		dataType: string
+		lineageTag: 7bf44200-7d92-4b73-a145-7cfd259965a7
+		summarizeBy: none
+		sourceColumn: _resourceId
+
+		annotation SummarizationSetBy = Automatic
+
+	column _category
+		dataType: string
+		lineageTag: 0abd9127-dd4e-4fe1-955c-fa72334b1670
+		summarizeBy: none
+		sourceColumn: _category
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionName
+		dataType: string
+		lineageTag: 195cfbaf-c1ca-4349-8f97-8cb00856185f
+		summarizeBy: none
+		sourceColumn: SubscriptionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceGroup
+		dataType: string
+		lineageTag: cd9c8c7c-d6e7-4c8a-b2b3-08a2abfa7fce
+		summarizeBy: none
+		sourceColumn: ResourceGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceName
+		dataType: string
+		lineageTag: 2848ee5b-9096-48e2-9cd7-168774772746
+		summarizeBy: none
+		sourceColumn: ResourceName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition base_orphaned_resource_all = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = base_orphaned_resources,
+				    #"Inserted Text Between Delimiters" = Table.AddColumn(Source, "orphaned_type", each Text.BetweenDelimiters([Name], "/orphaned_resources/", "/"), type text),
+				    #"Sorted Rows" = Table.Sort(#"Inserted Text Between Delimiters",{{"Date modified", Order.Descending}}),
+				    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([Date modified]), type date),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Date", let latest = List.Max(#"Inserted Date"[Date]) in each [Date] = latest),
+				    #"Removed Duplicates" = Table.Distinct(#"Filtered Rows", {"orphaned_type"}),
+				    #"Invoked Custom Function" = Table.AddColumn(#"Removed Duplicates", "JSON Loader", each #"JSON Loader"([Content])),
+				    #"Expanded JSON Loader" = Table.ExpandListColumn(#"Invoked Custom Function", "JSON Loader"),
+				    #"Filtered Rows1" = Table.SelectRows(#"Expanded JSON Loader", each ([orphaned_type] <> "availability_sets" and [orphaned_type] <> "front_door_waf_policies" and [orphaned_type] <> "network_interfaces" and [orphaned_type] <> "network_security_groups" and [orphaned_type] <> "resource_groups" and [orphaned_type] <> "route_tables" and [orphaned_type] <> "traffic_manager_profiles")),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows1",{"JSON Loader"}),
+				    #"Expanded JSON Loader1" = Table.ExpandRecordColumn(#"Removed Other Columns", "JSON Loader", {"_subscriptionId", "_resourceId", "_category", "_extra_info"}, {"_subscriptionId", "_resourceId", "_category", "_extra_info"}),
+				    #"Filtered Rows2" = Table.SelectRows(#"Expanded JSON Loader1", each [_resourceId] <> null and [_resourceId] <> ""),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Filtered Rows2",{"_subscriptionId", "_resourceId", "_category"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns1",{{"_subscriptionId", type text}, {"_resourceId", type text}, {"_category", type text}}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Changed Type",{{"_resourceId", Text.Lower, type text}}),
+				    IsEmptySource = Table.IsEmpty(#"Lowercased Text"),
+				    Result = if IsEmptySource then
+				                #table(
+				                    {"_subscriptionId", "_resourceId", "_category", "SubscriptionName", "ResourceGroup", "ResourceName"},
+				                    {}
+				                )
+				             else
+				                let
+				                    #"Merged Queries" = Table.NestedJoin(#"Lowercased Text", {"_resourceId"}, Inventory, {"ResourceId"}, "Inventory", JoinKind.LeftOuter),
+				                    #"Expanded Inventory" = Table.ExpandTableColumn(#"Merged Queries", "Inventory", {"SubscriptionName", "ResourceGroup", "ResourceName"}, {"SubscriptionName", "ResourceGroup", "ResourceName"}),
+				                    #"Filtered Rows3" = Table.SelectRows(#"Expanded Inventory", each [ResourceName] <> null and [ResourceName] <> "")
+				                in
+				                    #"Filtered Rows3"
+				in
+				    Result
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,26 @@
+table 'AHUB License'
+	lineageTag: 8c91e0ef-53eb-4112-88d7-a8b3f440278b
+
+	measure 'AHUB License Value' = SELECTEDVALUE('AHUB License'[AHUB License], 2)
+		formatString: 0
+		lineageTag: 814e14ac-9344-455e-9898-1d72079ca575
+
+	column 'AHUB License'
+		formatString: 0
+		lineageTag: d63225f2-d2f9-412b-aa07-b0512af148de
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'AHUB License' = calculated
+		mode: import
+		source = GENERATESERIES(8,10000,2)
+
+	annotation PBI_Id = 5f89c549b0904a79aca4e3ee8025ad43
+

@@ -1,0 +1,159 @@
+table _Formatting
+	lineageTag: 0b119710-0a13-4132-8915-35f7c93f6ae7
+
+	measure Transparent = "RGBA(0,0,0,0)"
+		lineageTag: 2bb1f02b-8b1d-4ec5-a0c1-4e8a28cae451
+
+	measure HolidayIcon = ```
+			
+			 var holiday_empty = COUNTROWS(holidays) + 0
+			 return 
+			 SWITCH(
+			    TRUE(),
+			holiday_empty = 0, [DefaultIcon], MAX(holidays[themeLogo])
+			)
+			```
+		lineageTag: 3457ead3-7fc9-4692-b384-654a4832ffbb
+
+	measure DefaultIcon = ```
+			
+			VAR svg =
+			    "<svg xmlns=""http://www.w3.org/2000/svg"" version=""1.1"" viewBox=""0 0 1920 750"">" &
+			    "<defs>" &
+			      "<style>" &
+			        ".st0, .st1 { isolation: isolate; } " &
+			        ".st2, .st1 { fill: #fff; } " &
+			        ".st1 { opacity: .5; }" &
+			      "</style>" &
+			    "</defs>" &
+			    "<g id=""Layer_11"" data-name=""Layer_1"">" &
+			      "<g>" &
+			        "<path class=""st1"" d=""M653.8,173.9c.2,4.1.3,7.9.3,12.1-.4,133.8-118.9,274.7-264.8,314.8-95.2,26.1-178.4,2.9-224.8-53.6,6.8,126,121.9,196.1,263.2,157.3,145.9-40,264.5-181,264.8-314.8,0-46.5-14.1-85.7-38.7-115.8h0Z""/>" &
+			        "<path class=""st2"" d=""M692.6,287v5.3c-.4,33.4-8.2,67.2-22.1,99.6,7.1-18.9,11-38.8,11-58.3s-2.1-27.7-6-39.8c-5.7-18.5-16-34.1-29.5-46.6-21.7-19.9-51.6-30.9-86.8-30.9s-32,2.1-49.1,6.8c-73.3,20.3-135.9,79.3-160.8,145.1-1.4,2.8-4.3,4.6-6.8,4.6s-3.2-1.1-3.6-2.8c-1.4-7.5-1.8-15.3-1.8-23.1,0-87.9,80.4-181.8,176.1-205.9,16-4.3,31.3-6,45.5-6h.4c39.1,0,72.9,14.2,94.6,39.1,2.8,3.2,5.7,6.8,7.8,10.3.4.4.7,1.1.7,1.1l.4.4c18.9,27.7,29.5,61.9,29.9,101.4v-.3Z""/>" &
+			        "<path class=""st2"" d=""M491.3,580.1c-12.8,6.8-26.3,12.1-40.2,17.1-7.8,2.8-15.3,5.3-23.5,7.5-26.3,7.1-51.6,10.7-75.8,10.7-101.4,0-176.8-61.5-186.4-158.3-.4-3.2-.7-6.4-.7-9.6-5-92.5,49.8-192.1,134.8-258.6,2.8-2.5,5.7-3.6,8.2-3.6,7.1,0,11,7.5,4.6,15.3-53.7,63.7-83.9,141.6-76.8,214.1,3.6,37,16.4,68.3,36.3,93.2,5.3,6.4,11,12.8,17.1,18.1,36.3,37.3,87.5,59.8,147.6,59.8s35.9-1.8,54.8-5.7h0Z""/>" &
+			        "<g> … all the inner `<g>` elements … </g>" &
+			      "</g>" &
+			    "</g>" &
+			    "</svg>"
+			RETURN
+			    svg
+			
+			```
+		lineageTag: 525f14ae-a306-4d86-9059-6d5ab2d3cd5b
+		dataCategory: ImageUrl
+
+	measure svg_ahub_impact =
+			"data:image/svg+xml;utf8," & "<?xml version=""1.0"" encoding=""utf-8""?>
+			<svg viewBox=""34.8 198.4 430.4 103.2"" xmlns=""http://www.w3.org/2000/svg"">
+			  <rect style=""fill: "&[formatting_priority_bg]&"; stroke: rgb(0, 0, 0,0);"" x=""34.8"" y=""198.4"" width=""430.4"" height=""103.2"" rx=""20"" ry=""20""/>
+			  <text style=""fill: "&[formatting_priority_font]&"; font-family: Verdana, sans-serif; font-size: 65px ;text-anchor: middle;white-space: pre;"" x=""238"" y=""277.4"">"&[ahub_priority]&"</text>
+			</svg>"
+		lineageTag: d3ee2cf7-9f2d-4173-814e-4be80ec652f9
+		dataCategory: ImageUrl
+
+	measure orange_bg = "rgba(238, 133, 72, 0.15)"
+		lineageTag: 6b6651a1-9f0e-4183-a17d-f015ada66812
+
+	measure orange_font = "#ee8548"
+		lineageTag: b5abd91d-d262-4d82-b36b-6f7578675695
+
+	measure green_bg = "#2DFE9C50"
+		lineageTag: 6232ee63-b29c-4236-8aeb-50385ed6c377
+
+	measure red_font = "#e52929"
+		lineageTag: dc36cdd3-cd6c-48e7-9b85-9728237e04cc
+
+	measure yellow_bg = "rgba(254, 242, 192,0.15)"
+		lineageTag: 2ea4fa1f-1633-4a95-a9e2-51eb18afee0d
+
+	measure yellow_font = "rgba(255, 206, 0,0.90)"
+		lineageTag: bb42bbc1-f34a-49db-bc4a-8b1fdef35d44
+
+	measure formatting_priority_bg =
+			SWITCH(true(),
+			[ahub_priority] = "High Priority", [orange_bg],
+			[ahub_priority] = "Medium", [orange_bg],
+			[ahub_priority] = "Low Priority", [yellow_bg],
+			"#e6e6e6")
+		lineageTag: 6538fb48-a185-4def-98d2-f996d6faf2ca
+
+	measure formatting_priority_font =
+			SWITCH(true(),
+			[ahub_priority] = "High Priority", [orange_font],
+			[ahub_priority] = "Medium",[orange_font],
+			[ahub_priority] = "Low Priority", [yellow_font],
+			"#e6e6e6")
+		lineageTag: 606d78e5-fe98-4418-a3de-3f87c8e9f908
+
+	measure ahub_priority = lower(max('vms'[AHUB priority]))
+		lineageTag: b2605445-6aef-476e-9095-aa896cb33d00
+
+	measure ahub_enabled = SUBSTITUTE(lower(max('vms'[AHUB])),"ahub","")
+		lineageTag: 6a270c90-4c41-4230-87be-241a65c122a8
+
+	measure formatting_enabled_bg =
+			SWITCH(true(),
+			[ahub_enabled] = " enabled", [green_bg],
+			[ahub_enabled] = " not enabled", [grey_bg],
+			"#e6e6e6")
+		lineageTag: 582a7255-2e64-478f-81c4-604efd7f9a5c
+
+	measure formatting_enabled_font =
+			SWITCH(true(),
+			[ahub_enabled] = " enabled", [green_font],
+			[ahub_enabled] = " not enabled", [grey_font],
+			"#e6e6e6")
+		lineageTag: fd41f3c7-b4b8-4c4d-9310-12109bf38a0b
+
+	measure red_bg = "#fceaea"
+		lineageTag: e7818286-e85c-49ce-bbb5-5bcc4b06641c
+
+	measure green_font = "#2DFE9C"
+		lineageTag: 1953844d-c4ed-4130-b048-dda422bec09c
+
+	measure grey_bg = "#BFD4F250"
+		lineageTag: 45231569-88ed-4512-973f-89fbe98099d1
+
+	measure grey_font = "#BFD4F2"
+		lineageTag: f7aac8ae-0fcc-44bc-a77a-4bad3dd4aff3
+
+	measure ahub_compatible = SUBSTITUTE(lower(max('vms'[AHUB Compatible])),"ahub","")
+		lineageTag: ace3faf9-a946-4dbc-abe5-f52e5a3ca604
+
+	measure formatting_compatible_font =
+			SWITCH(true(),
+			[ahub_compatible] = " compatible", [green_font],
+			[ahub_compatible] = " not available", [grey_font],
+			"#e6e6e6")
+		lineageTag: fb1e6ca4-0c3a-4d3f-aaef-338f7f486b39
+
+	measure formatting_compatible_bg =
+			SWITCH(true(),
+			[ahub_compatible] = " compatible", [green_bg],
+			[ahub_compatible] = " not available", [grey_bg],
+			"#e6e6e6")
+		lineageTag: ccc9e72d-e2a7-4b59-9503-db6493562a72
+
+	measure tenantid = max(tenantid[tenantId])
+		lineageTag: 98169012-cdc2-4bdd-a117-fe20f50d0436
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: d12c3d3a-3b13-4620-b6e8-918d3f775834
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Formatting-c0950695-38d8-45cf-9c2f-333e316523b0 = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 41a00a73908f419b84c683d7bdcff677
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

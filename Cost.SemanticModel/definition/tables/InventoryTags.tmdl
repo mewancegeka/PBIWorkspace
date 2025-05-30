@@ -1,0 +1,97 @@
+table InventoryTags
+	lineageTag: 323337cc-bda8-4a31-ab01-b9f1c97b0d7a
+
+	column ResourceId
+		dataType: string
+		lineageTag: 67a32fbc-8a35-40d7-b445-349b13b71da2
+		summarizeBy: none
+		sourceColumn: ResourceId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TagName
+		dataType: string
+		lineageTag: 589905b6-e27d-461a-a78f-8149365a5ab5
+		summarizeBy: none
+		sourceColumn: TagName
+
+		annotation SummarizationSetBy = Automatic
+
+	column TagValue
+		dataType: string
+		lineageTag: 3b80064e-f825-40fc-82d5-fd1c22abb0fe
+		summarizeBy: none
+		sourceColumn: TagValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column TagNameTagValue
+		dataType: string
+		lineageTag: d436e593-e125-4452-ad3b-b55ba21b185b
+		summarizeBy: none
+		sourceColumn: TagNameTagValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column AmortizedCostRank = ```
+			
+			VAR RankTagCost = RANKX(ALL(InventoryTags[TagName]), [Total AmortizedCost],,DESC)
+			RETURN 
+			RankTagCost
+			```
+		formatString: 0
+		lineageTag: 923eb1ff-3145-4913-a622-7fcbd94831c4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstDateSeen = FIRSTDATE('AmortizedCost'[Date])
+		formatString: General Date
+		lineageTag: 3625f346-fb2f-48c1-82f8-e78fbbcd7d73
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsNewThisMonth = InventoryTags[FirstDateSeen] >=TODAY()-31
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 15835e94-8342-42bd-937e-d44356d9a415
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition InventoryTags-745d79d1-8d70-40de-85ea-e00c1775ae50 = m
+		mode: import
+		queryGroup: Inventory
+		source =
+				let
+				    Source = ActualCost_base,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ResourceId", "Tags"}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Removed Other Columns", {"ResourceId"}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Removed Duplicates1",{{"Tags", Text.Lower, type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Lowercased Text",null,"{""Untagged Resources"":""Untagged Resources""}",Replacer.ReplaceValue,{"Tags"}),
+				    #"Invoked Custom Function" = Table.AddColumn(#"Replaced Value", "Tags_", each tagExcluder([Tags], TagExclusions_list )),
+				    #"Removed Columns" = Table.RemoveColumns(#"Invoked Custom Function",{"Tags"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns",{{"Tags_", "Tags"}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns1",{{"Tags", type text}}),
+				
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type2", each [Tags] <> null and [Tags] <> ""),
+				    #"Parsed JSON" = Table.TransformColumns(#"Filtered Rows",{{"Tags", Json.Document}}),
+				    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Parsed JSON", {"Tags"}),
+				    #"Added Custom" = Table.AddColumn(#"Removed Errors", "TagTable", each Record.ToTable([Tags])),
+				    #"Expanded TagTable" = Table.ExpandTableColumn(#"Added Custom", "TagTable", {"Name", "Value"}, {"Name", "Value"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Expanded TagTable",{"ResourceId", "Name", "Value"}),
+				    #"Removed Errors1" = Table.RemoveRowsWithErrors(#"Removed Other Columns1"),
+				    #"Filtered Rows1" = Table.SelectRows(#"Removed Errors1", each [Value] <> null and [Value] <> ""),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Filtered Rows1",{{"Name", type text}, {"Value", type text}}),
+				    #"Removed Errors2" = Table.RemoveRowsWithErrors(#"Changed Type1", {"Value"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Errors2",{{"Name", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Name", "TagName"}, {"Value", "TagValue"}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Renamed Columns"),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Removed Duplicates", "TagNameTagValue", each Text.Combine({[TagName], [TagValue]}, " : "), type text)
+				in
+				    #"Inserted Merged Column"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

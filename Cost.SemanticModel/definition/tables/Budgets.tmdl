@@ -1,0 +1,138 @@
+table Budgets
+	lineageTag: 54fa2052-25fb-477f-b6c4-729d7a2b483b
+
+	measure label_currentspend = format(max(Budgets[currentSpend.amount]),"#.##") & " " & max(Budgets[currentSpend.unit])
+		lineageTag: 7f17e539-711e-4fb4-975e-c7406ef763af
+
+	column id
+		dataType: string
+		lineageTag: 056f7cd5-38e1-4a6d-a390-a7b07adbe816
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 144d0db2-432d-49b1-934a-03de8bda5899
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: e4ba5774-1cf9-42f9-98ec-bed26bceb2f0
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column eTag
+		dataType: string
+		lineageTag: 8878321c-82a4-44da-b76f-7ca1c795695f
+		summarizeBy: none
+		sourceColumn: eTag
+
+		annotation SummarizationSetBy = Automatic
+
+	column startDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: e5e9faf6-051d-447f-9991-632ecb206c23
+		summarizeBy: none
+		sourceColumn: startDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column endDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 1df753a6-049f-4b1d-9c49-0b2b8fc8d6ad
+		summarizeBy: none
+		sourceColumn: endDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column timeGrain
+		dataType: string
+		lineageTag: 383bc24f-833e-41c5-abef-8678eb4a3008
+		summarizeBy: none
+		sourceColumn: timeGrain
+
+		annotation SummarizationSetBy = Automatic
+
+	column amount
+		dataType: int64
+		formatString: 0
+		lineageTag: 376bbb32-765a-4f42-a655-b565958539ab
+		summarizeBy: sum
+		sourceColumn: amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'currentSpend.amount'
+		dataType: double
+		formatString: 0.00
+		lineageTag: 800e877a-0b18-4bee-be3e-9b2ca6ff388d
+		summarizeBy: sum
+		sourceColumn: currentSpend.amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'currentSpend.unit'
+		dataType: string
+		lineageTag: d10d6a99-9331-43e0-a0f8-9d631a09b744
+		summarizeBy: none
+		sourceColumn: currentSpend.unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: da0ed4c1-5f6a-4fa2-975b-b9f9a40b3bb4
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column percentageUsed
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1141adee-c39b-4e4b-951c-e51490823ec0
+		summarizeBy: sum
+		sourceColumn: percentageUsed
+
+		annotation SummarizationSetBy = Automatic
+
+	column subscriptionid
+		dataType: string
+		lineageTag: 6ba1e0cc-7ab6-4ef2-8725-650cd2d9df7f
+		summarizeBy: none
+		sourceColumn: subscriptionid
+
+		annotation SummarizationSetBy = Automatic
+
+	column azurePortal_url = "https://portal.azure.com/#@" &max(tenantid[tenantId])& "/resource" & Budgets[id]
+		lineageTag: e7110178-82fd-4c1b-ba88-74f188896dbe
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Budgets = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = base_budgets,
+				    #"Inserted Text Between Delimiters" = Table.AddColumn(Source, "subscriptionid
+				", each Text.BetweenDelimiters([id], "subscriptions/", "/"), type text)
+				in
+				    #"Inserted Text Between Delimiters"
+
+	annotation PBI_ResultType = Table
+

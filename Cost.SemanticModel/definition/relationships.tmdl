@@ -1,0 +1,111 @@
+relationship cd3f46f1-3fcc-4f85-9774-2fc821957b0b
+	crossFilteringBehavior: bothDirections
+	fromColumn: InventoryTags.ResourceId
+	toColumn: Inventory.ResourceId
+
+relationship 5ee1593b-f676-4c78-aab2-a578c9ead4e3
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: CostRecommendations.recommendationId
+	toColumn: CostRecommendations-ExtendedProperties.recommendationId
+
+relationship 9f8ae45e-44a7-4ce0-9c85-cac98518121b
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: CostRecommendations.recommendationId
+	toColumn: CostRecommendations-Description.recommendationId
+
+relationship 7000114d-9079-4723-b1cd-80b2a63e72ba
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: CostRecommendations.recommendationId
+	toColumn: CostRecommendations-Metadata.recommendationId
+
+relationship d698ae33-82e8-4f29-8a31-52106930875a
+	crossFilteringBehavior: bothDirections
+	fromColumn: ReservationRecommendations.meter_id
+	toColumn: ReservationRecommendations-Savings.meter_id
+
+relationship b848e84e-efcb-4fa3-9b2f-d6086e726c06
+	crossFilteringBehavior: bothDirections
+	fromColumn: CostRecommendations-Metadata.resource_id
+	toColumn: Inventory.ResourceId
+
+relationship 34fa82e9-bc8e-43b3-9ec8-5b2e6a4136c6
+	fromColumn: ActualCost.ResourceId
+	toColumn: Inventory.ResourceId
+
+relationship 2d780576-ef84-4b97-97d0-585d2b3b34ff
+	fromColumn: AmortizedCost.ResourceId
+	toColumn: Inventory.ResourceId
+
+relationship b0ca9a96-0e7d-4089-8d15-53d3d5ec732e
+	crossFilteringBehavior: bothDirections
+	fromColumn: ActualCost.SubscriptionId
+	toColumn: SubscriptionList.SubscriptionId
+
+relationship 12a0fab2-9734-4aa8-b441-801f078297e9
+	fromColumn: AmortizedCost.SubscriptionId
+	toColumn: SubscriptionList.SubscriptionId
+
+relationship aa488dc2-d08f-406e-b2e9-2703983231a2
+	fromColumn: InventoryTags.TagName
+	toColumn: TagSummary.TagName
+
+relationship 3ef26059-ef2d-47af-8020-95f836f4458c
+	fromColumn: InventoryTags.TagNameTagValue
+	toColumn: TagValueSummary.TagNameTagValue
+
+relationship 9417c3d7-7134-82d9-e8fd-de1322617e05
+	fromColumn: reservations_usage.reservationOrderId
+	toColumn: reservation_orders._reservationOrderId
+
+relationship adff2875-2b59-d76c-ef53-1521986da3b1
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: reservations_list.reservationOrderId
+	toColumn: reservation_orders._reservationOrderId
+
+relationship a4ab8b76-fa80-4655-7201-2b3b389b0366
+	fromColumn: ActualCost.ReservationId
+	toColumn: reservation_orders._reservationOrderId
+
+relationship 39fb3956-fe7a-7aef-ebc1-c2cd9ad21bb4
+	fromColumn: AmortizedCost.ReservationId
+	toColumn: reservation_orders._reservationId
+
+relationship 177e9cbf-0ab3-3c6b-dabe-be8ea4c771bd
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: base_orphaned_resource_all._resourceId
+	toColumn: current_inventory.id
+
+relationship 0a0086ac-6dfd-bb8b-c5ba-0cd8a09ae1a0
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: current_inventory.id
+	toColumn: Inventory.ResourceId
+
+relationship 8511bf06-84ce-20db-a6d1-ca1f78c19129
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: current_inventory.id
+	toColumn: vms.id
+
+relationship 077b7546-73cc-23a4-e746-11170e1f8aca
+	crossFilteringBehavior: bothDirections
+	fromColumn: vms._vmsize
+	toColumn: computeskus._vmsize
+
+relationship 21e12a09-82c5-497e-0184-b960cfb0c846
+	fromColumn: Budgets.subscriptionid
+	toColumn: SubscriptionDetails.subID
+
+relationship a4c7baaa-d095-4703-a5bf-2e4504308c71
+	fromColumn: ActualCost.Date
+	toColumn: Date.Date
+
+relationship 0cdda2ff-3e4b-40ac-9ae1-5abb22eaac64
+	fromColumn: AmortizedCost.Date
+	toColumn: Date.Date
+

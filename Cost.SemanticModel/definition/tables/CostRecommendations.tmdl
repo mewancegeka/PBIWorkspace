@@ -1,0 +1,156 @@
+table CostRecommendations
+	lineageTag: ecc48a18-4ff4-4496-be4f-be5ba1df62e4
+
+	column recommendationId
+		dataType: string
+		lineageTag: a1d38ef5-fe41-4441-9564-38518605068f
+		summarizeBy: none
+		sourceColumn: recommendationId
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 12c133e6-60d4-45f0-9296-e64da8a43332
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 903caa5a-67f0-48eb-84b1-f1ae72e75e2d
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: f7650e59-8aa8-42b6-b7d4-452bbc5e6132
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column impact
+		dataType: string
+		lineageTag: c26e979e-c141-45bb-90ff-d4741ed9896e
+		summarizeBy: none
+		sourceColumn: impact
+
+		annotation SummarizationSetBy = Automatic
+
+	column impacted_field
+		dataType: string
+		lineageTag: a120d463-0689-4040-afbf-b80ad9546463
+		summarizeBy: none
+		sourceColumn: impacted_field
+
+		annotation SummarizationSetBy = Automatic
+
+	column impacted_value
+		dataType: string
+		lineageTag: afcdfe17-9cd7-40f8-9d79-8da3d751cd90
+		summarizeBy: none
+		sourceColumn: impacted_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_updated
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 63a092e4-1453-4ba4-bc0a-419fff07a759
+		summarizeBy: none
+		sourceColumn: last_updated
+
+		annotation SummarizationSetBy = Automatic
+
+	column recommendation_type_id
+		dataType: string
+		lineageTag: b2288b76-c149-4907-8fb0-cdf795cbb533
+		summarizeBy: none
+		sourceColumn: recommendation_type_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column short_description
+		dataType: string
+		lineageTag: 5c3b79e2-4611-46b4-9d66-e44b0ee65c80
+		summarizeBy: none
+		sourceColumn: short_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column extended_properties
+		dataType: string
+		lineageTag: 841ee10c-8a2a-4c8f-aed3-fda204ccb4ed
+		summarizeBy: none
+		sourceColumn: extended_properties
+
+		annotation SummarizationSetBy = Automatic
+
+	column resource_metadata
+		dataType: string
+		lineageTag: c2ef3616-de4b-451e-bf8b-dfdf6e487ec7
+		summarizeBy: none
+		sourceColumn: resource_metadata
+
+		annotation SummarizationSetBy = Automatic
+
+	column typeid_resourceKey
+		dataType: string
+		lineageTag: 378a28de-ec8b-46e7-8810-d0019cd2d30f
+		summarizeBy: none
+		sourceColumn: typeid_resourceKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionId
+		dataType: string
+		lineageTag: 1021e86b-ca77-4d5d-885a-0a3395199fbe
+		summarizeBy: none
+		sourceColumn: SubscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionName
+		dataType: string
+		lineageTag: 96b7c2b8-c9d3-43e5-8f27-840e82ddb4d0
+		summarizeBy: none
+		sourceColumn: SubscriptionName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CostRecommendations-22b73c4d-3346-4e33-83e9-06055e1efcb7 = m
+		mode: import
+		queryGroup: Recommendations
+		source =
+				let
+				    Source = base_data,
+				    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/cost_recommendations/")),
+				    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Filtered Rows", "id", each Text.BetweenDelimiters([Name], "_", "_", {1, RelativePosition.FromEnd}, 0), type text),
+				    #"Sorted Rows" = Table.Sort(#"Inserted Text Between Delimiters1",{{"Date modified", Order.Descending}}),
+				    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([Date modified]), type date),
+				    #"Filtered Rows3" = Table.SelectRows(#"Inserted Date", let latest = List.Max(#"Inserted Date"[Date]) in each [Date] = latest),
+				    #"Removed Duplicates1" = Table.Distinct(#"Filtered Rows3", {"Date", "id"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Removed Duplicates1",{"Content"}),
+				    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "Data", each #"JSON Loader"([Content])),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"Data"}),
+				    #"Expanded Data" = Table.ExpandListColumn(#"Removed Other Columns1", "Data"),
+				    #"Expanded Data1" = Table.ExpandRecordColumn(#"Expanded Data", "Data", {"id", "name", "type", "category", "impact", "impacted_field", "impacted_value", "last_updated", "recommendation_type_id", "short_description", "extended_properties", "resource_metadata"}, {"id", "name", "type", "category", "impact", "impacted_field", "impacted_value", "last_updated", "recommendation_type_id", "short_description", "extended_properties", "resource_metadata"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Data1",{{"id", type text}, {"name", type text}, {"type", type text}, {"category", type text}, {"impact", type text}, {"impacted_field", type text}, {"impacted_value", type text}, {"last_updated", type datetime}, {"recommendation_type_id", type text}, {"short_description", type any}, {"extended_properties", type any}, {"resource_metadata", type any}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"id", "recommendationId"}}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Renamed Columns",{{"impacted_field", Text.Lower, type text}}),
+				    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Lowercased Text", {{"impacted_field", each Text.AfterDelimiter(_, "microsoft."), type text}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Extracted Text After Delimiter", "typeid_resourceKey", each Text.Combine({[impacted_value], [recommendation_type_id]}, ""), type text),
+				    #"Removed Duplicates" = Table.Distinct(#"Inserted Merged Column", {"typeid_resourceKey"}),
+				    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Removed Duplicates", "SubscriptionId", each Text.BetweenDelimiters([recommendationId], "/subscriptions/", "/"), type text),
+				    #"Filtered Rows2" = Table.SelectRows(#"Inserted Text Between Delimiters", each [recommendationId] <> null and [recommendationId] <> ""),
+				    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows2", {"SubscriptionId"}, subscriptionsBase, {"subscriptionId"}, "SubscriptionList", JoinKind.LeftOuter),
+				    #"Expanded SubscriptionList" = Table.ExpandTableColumn(#"Merged Queries", "SubscriptionList", {"name"}, {"SubscriptionName"})
+				in
+				    #"Expanded SubscriptionList"
+
+	annotation PBI_ResultType = Exception
+

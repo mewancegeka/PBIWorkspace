@@ -1,0 +1,292 @@
+table _Measures
+	lineageTag: 8ddaa5e4-0bf7-4491-9645-63047c330113
+
+	measure ReservationRecommendations = DISTINCTCOUNT('ReservationRecommendations-Savings'[meter_id]) + 0
+		formatString: 0
+		lineageTag: 35a5d092-7c8f-4f2e-9923-e9505ffb24cf
+
+	measure CostRecommendations = DISTINCTCOUNT('CostRecommendations-Description'[recommendationId]) + 0
+		formatString: 0
+		lineageTag: b23a8373-fcb6-40f7-a50d-a920a5701327
+
+	measure 'CostRecommendations AnualSavings' = CALCULATE(SUM ('CostRecommendations-ExtendedProperties'[annualSavingsAmount]) + 0, CostRecommendations[impacted_field] <>  "reservedinstances/reservedinstances")
+		lineageTag: 785a01a6-b71e-40a2-b07d-a4ebe90a0502
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'YEARLY SAVINGS - 1Y' = IF(ISBLANK(max('ReservationRecommendations-Savings'[Savings - 1Y])), 0,[yearly savings 1y nonblank])
+		lineageTag: 7fb79194-18b0-4472-b0b6-f8e43ea1c091
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'YEARLY SAVINGS - 3Y' = IF(ISBLANK(max('ReservationRecommendations-Savings'[Savings - 3Y])), 0,[yearly savings 3y nonblank])
+		lineageTag: 01245753-7281-430f-9b27-143e04c254ff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'RI Savings' =
+			
+			VAR CostWithoutReservation =
+			    CALCULATE(SUM ( AmortizedCost[CostWithoutRI] ), FILTER (AmortizedCost, AmortizedCost[ReservationId] <> ""))
+			VAR AmortizedCost_ =
+			    CALCULATE (SUM ( AmortizedCost[Cost] ), FILTER (AmortizedCost, AmortizedCost[ReservationId] <> ""))
+			VAR UnusedReservationCost =
+			    CALCULATE (
+			        SUM ( AmortizedCost[Cost] ),
+			        FILTER (
+			            AmortizedCost,
+			            AmortizedCost[ChargeType] = "UnusedReservation"
+			        )
+			    )
+			RETURN
+			IF( CALCULATE ( CostWithoutReservation - AmortizedCost_ - UnusedReservationCost ) + 0 < 0, 1,CALCULATE ( CostWithoutReservation - AmortizedCost_ - UnusedReservationCost )+0)
+		lineageTag: 446ff04d-a97d-4a2c-a435-7f0b8761d73c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure RecExtraInfoCount =
+			
+			var infocount = CALCULATE(COUNT('CostRecommendations-ExtendedProperties'[recommendationText.1]), NOT(ISBLANK('CostRecommendations-ExtendedProperties'[recommendationText.1])))
+			return
+			
+			SWITCH(true(),infocount > 0 ,
+			"#F2C811", "#FFFFFF")
+		lineageTag: 4b070a89-e31c-4236-b583-25c7bef2f5f6
+
+	measure TotalAmortized = sum(AmortizedCost[Cost])
+		lineageTag: c9e27768-204d-4d96-b6d3-04fadbb6868f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TotalActual = sum(ActualCost[Cost])
+		lineageTag: 4db9d94c-6b0c-465b-a612-2bbd3a09d105
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Cost Amortized' = AVERAGEX(ALLSELECTED('Date'[Date]), [TotalAmortized])
+		lineageTag: bcd8d284-2546-46e8-9776-c79d2bdf91af
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Above Avg' =
+			
+			VAR Cost = [Total AmortizedCost]
+			VAR AvgCost = [Avg Cost Amortized]
+			
+			VAR Result =
+			SWITCH(
+			    TRUE(),
+			    Cost>=AvgCost*1.15, "#FF6B56",
+			    IF(max('Date'[Day of Week Number]) > 5, "#89c0d0","#4C9FCE")
+			)
+			return
+			Result
+		lineageTag: c278cae1-a9b8-45af-8d19-0096c5ef02b2
+
+	measure SelectedMonth = SELECTEDVALUE('Date'[Month]) & " " &  SELECTEDVALUE('Date'[Year])& " "
+		lineageTag: c6481c85-f29b-425d-8886-0c4fcd3031ae
+
+	measure 'LastMonth Cost - Amortized' = CALCULATE([Total AmortizedCost], PREVIOUSMONTH('Date'[Date]))
+		lineageTag: f8721df5-3deb-4c7b-aebd-ec7bc5623559
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'LastMonth Cost - Amortized (noblank)' = IF(ISBLANK([LastMonth Cost - Amortized]), "No data available", [LastMonth Cost - Amortized])
+		lineageTag: 531de211-e7d5-43e7-aa13-5e772e587e69
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Increase Amortized' = IFERROR([CostDifference(LastMonth)]/[LastMonth Cost - Amortized (noblank)],1)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bc2bbde1-8c0a-4920-a65e-c8b565385b19
+
+		changedProperty = FormatString
+
+	measure CostDifference(LastMonth) =
+			var current_month_cost = [Total AmortizedCost]
+			var last_month_cost = [LastMonth Cost - Amortized]
+			var cost_difference = current_month_cost - last_month_cost
+			return
+			cost_difference
+		lineageTag: d6354473-2f08-428a-8dd9-548e65e50436
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Cost ActualCost' = AVERAGEX(ALLSELECTED('Date'[Date]), [Total ActualCost])
+		lineageTag: 609828fe-a2c0-4565-a6a6-216d9c13282d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure IsFilteredRecommendation = ```
+			
+			IF
+			    (ISFILTERED(CostRecommendations),
+			        IF(ISBLANK(MAX('CostRecommendations-ExtendedProperties'[recommendationText.1])),"No extra info available.", MAX('CostRecommendations-ExtendedProperties'[recommendationText.1])),
+			        "Select a recommendation."
+			    )
+			
+			
+			
+			
+			
+			
+			```
+		lineageTag: 9f3895f1-031c-40bc-9082-94c8010240cb
+
+	measure 'monthly savings 1y' = sum('ReservationRecommendations-Savings'[Savings - 1Y])
+		lineageTag: 7006b339-1b02-41d5-9c21-c2dc894d8958
+
+	measure 'monthly savings 3y' = sum('ReservationRecommendations-Savings'[Savings - 3Y])
+		formatString: 0
+		lineageTag: 320e128a-b9c2-46c2-9dce-3a8e8aee5221
+
+	measure 'monthlysavings nonblank' = IF(ISBLANK(max('ReservationRecommendations-Savings'[Savings - 1Y])),0, [monthly savings 1y])
+		lineageTag: fd845213-6c07-4cd5-9d43-e21ec5cc7d6c
+
+	measure 'monthlysavings nonblank 3y term' = IF(ISBLANK(max('ReservationRecommendations-Savings'[Savings - 3Y])),0, [monthly savings 3y])
+		lineageTag: 4eca9873-83d9-49da-bf54-1df1cf070012
+
+	measure 'yearly savings 1y nonblank' = Sum('ReservationRecommendations-Savings'[Savings - 1Y]) * 12
+		formatString: 0
+		lineageTag: 018eb27e-2b1a-4705-a9f3-e665588dfcbf
+
+	measure 'yearly savings 3y nonblank' = Sum('ReservationRecommendations-Savings'[Savings - 3Y]) * 12
+		formatString: 0
+		lineageTag: d0e12c0b-ecaa-468e-9740-254c9592cd23
+
+	measure 'PBISlicer Check' =
+			
+			IF([NumOfSelectedTags] = 0, 1,
+			 IF(DISTINCTCOUNT(InventoryTags[TagNameTagValue]) = [NumOfSelectedTags], 1, 0))
+		formatString: 0
+		lineageTag: 51a8d7f3-74f8-4373-92e3-311c25fce3b3
+
+	measure NumOfSelectedTags = ```
+			
+			    IF(ISFILTERED(InventoryTags[TagNameTagValue]), COUNTROWS(ALLSELECTED(InventoryTags[TagNameTagValue])), 0)
+			```
+		formatString: 0
+		lineageTag: 3f62636f-193c-4765-a312-02b9df13c4cd
+
+	measure 'Total AmortizedCost' = ```
+			
+			//check the value of our slicer mode (AND/OR) and return either the normal behaviour (OR) cost, or use the logic of determining which resources have the combination of the selected tags to return the cost of only the resources that have those tags.
+			var or_cost = sum(AmortizedCost[Cost]) 
+			var and_cost = CALCULATE(sum(AmortizedCost[Cost]), FILTER(AmortizedCost, [PBISlicer Check] = 1))
+			var slicer_logic = max(SlicerLogic[Logic]) 
+			
+			return
+			IF(slicer_logic = "OR", or_cost,and_cost)
+			
+			```
+		lineageTag: 29b038d4-6d76-4e95-8df1-b8d07af29263
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total ActualCost' = ```
+			
+			//check the value of our slicer mode (AND/OR) and return either the normal behaviour (OR) cost, or use the logic of determining which resources have the combination of the selected tags to return the cost of only the resources that have those tags.
+			var or_cost = sum(ActualCost[Cost]) 
+			var and_cost = CALCULATE(sum(ActualCost[Cost]), FILTER(ActualCost, [PBISlicer Check] = 1))
+			var slicer_logic = max(SlicerLogic[Logic]) 
+			
+			return
+			IF(slicer_logic = "OR", or_cost,and_cost)
+			
+			```
+		lineageTag: 5af3c05d-d83d-42f8-aed9-171bccaa0b5e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Above Avg_Actual' =
+			
+			VAR Cost = [Total ActualCost]
+			VAR AvgCost = [Avg Cost ActualCost]
+			
+			VAR Result =
+			SWITCH(
+			    TRUE(),
+			    Cost>=AvgCost*1.15, "#FF6B56",
+			    IF(max('Date'[Day of Week Number]) > 5, "#89c0d0","#4C9FCE")
+			)
+			return
+			Result
+		lineageTag: 45ce2187-ab3b-48ce-aac2-cfc14c67d936
+
+	measure 'LastMonth Cost - Actual' = CALCULATE([Total ActualCost], PREVIOUSMONTH('Date'[Date]))
+		lineageTag: 94bec7d3-6b41-4572-a4ea-ad25978a0694
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'LastMonth Cost - Actual (noblank)' = IF(ISBLANK([LastMonth Cost - Actual]), "No data available", [LastMonth Cost - Actual])
+		lineageTag: f8863f1d-d92a-4cb4-8ec5-cc8c424b76a0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CostDifference(LastMonth) -Actual' =
+			var current_month_cost = [Total ActualCost]
+			var last_month_cost = [LastMonth Cost - Actual]
+			var cost_difference = current_month_cost - last_month_cost
+			return
+			cost_difference
+		lineageTag: 76e3deef-a28e-40dc-ac49-9bfe90dd035d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Increase Actual' = IFERROR([CostDifference(LastMonth) -Actual]/[LastMonth Cost - Actual],1)
+		lineageTag: 10301f89-06db-49bd-b81c-4b059734f3ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TotalAmortized_blanks = CALCULATE(IF(ISBLANK([Total AmortizedCost]), 0, [Total AmortizedCost]))
+		formatString: "€"\ #,0.00;-"€"\ #,0.00;"€"\ #,0.00
+		lineageTag: e0ea8111-bfc0-439f-a52c-5ac5c0f96df3
+
+	measure daysinselectedmonth = COUNTROWS(ALLSELECTED('Date'))
+		formatString: 0
+		lineageTag: 8ccbe345-2fd8-4fe6-8955-096ab577acb4
+
+	measure hoursinmonth = 24*[daysinselectedmonth]
+		formatString: 0
+		lineageTag: 850cc878-e32a-4310-a812-c01ee361d1b9
+
+	measure hoursinmonth_offset = [hoursinmonth] * 0.9
+		lineageTag: eb4c4d05-7ad7-49a4-a493-580f24446c78
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 27/7VM? =
+			
+			var total_qty = sum(AmortizedCost[Quantity])
+			var offset = [hoursinmonth_offset]
+			return
+			IF(total_qty >= [hoursinmonth_offset],"True","False")
+		lineageTag: 762d773f-d5d7-4f05-98a2-f3cc4338c64e
+
+	measure VM_monthlyUsage = ```
+			
+			var total_qty = sum(AmortizedCost[Quantity])
+			var total_possible = [hoursinmonth]
+			return
+			 total_qty / total_possible 
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a132775a-4d4a-4893-ba5b-eb654859e7fb
+
+	column Column
+		formatString: 0
+		lineageTag: cd549a99-679e-40fb-88d6-53df2607bdaa
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures-ce543b69-2518-4991-8320-b30f96e55413 = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 5f8025dac7b64650953c9325b08fdfa0
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

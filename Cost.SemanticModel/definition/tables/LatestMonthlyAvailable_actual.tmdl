@@ -1,0 +1,29 @@
+table LatestMonthlyAvailable_actual
+	isHidden
+	lineageTag: 8a155583-7471-46b5-ac30-9b382737510d
+
+	column LatestMonthlyAvailable_actual
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8defe2c4-c5b2-4eb1-a294-c3daa3cb1160
+		summarizeBy: none
+		sourceColumn: LatestMonthlyAvailable_actual
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition LatestMonthlyAvailable_actual = m
+		mode: import
+		queryGroup: 'Helper stuff'
+		source =
+				let
+				    Source = if LatestMonthlyText_actual = PreviousMonth then true else false
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Logical
+

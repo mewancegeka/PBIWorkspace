@@ -1,0 +1,35 @@
+table LastestMonthly_amortized
+	isHidden
+	lineageTag: fe4edc0b-4a10-4b6f-9daf-d1e03360ccc2
+
+	column LastestMonthly_amortized
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: de6f6f65-01d3-4be4-9835-88869efcd269
+		summarizeBy: none
+		sourceColumn: LastestMonthly_amortized
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition LastestMonthly_amortized = m
+		mode: import
+		queryGroup: 'Helper stuff'
+		source =
+				let
+				    Source = AmortizedCost_Monthly,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", let latest = List.Max(#"Removed Duplicates"[Date]) in each [Date] = latest),
+				    #"31/10/2022" = #"Filtered Rows"{0}[Date]
+				in
+				    #"31/10/2022"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+

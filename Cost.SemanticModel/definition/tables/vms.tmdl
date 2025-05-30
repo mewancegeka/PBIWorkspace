@@ -1,0 +1,271 @@
+table vms
+	lineageTag: 50f72636-386b-46db-b607-cdb03a254a6b
+
+	measure required_licenses = CALCULATE(sum(vms[consumedLicenseCores]), vms[AHUB] = "AHUB Enabled")
+		formatString: 0
+		lineageTag: 57007f48-0114-4e34-8c87-0940d954d5b2
+
+	measure suggested_purchase_high_prio = CALCULATE(sum(vms[consumedLicenseCores]), vms[AHUB] = "AHUB Not Enabled" && vms[AHUB Compatible] = "AHUB Compatible" && vms[AHUB priority] = "High Priority")
+		formatString: 0
+		lineageTag: 86a534fc-cae8-41c7-b9be-e8bd5f72a090
+
+	measure suggested_purchase_low_prio = CALCULATE(sum(vms[consumedLicenseCores]), vms[AHUB] = "AHUB Not Enabled" && vms[AHUB Compatible] = "AHUB Compatible" && vms[AHUB priority] = "Low Priority")
+		formatString: 0
+		lineageTag: ffe7b017-9363-451d-b209-569a67636745
+
+	measure ahub_link_ =
+			
+			var tenant = max(tenantid[tenantId])
+			var user_email = USERPRINCIPALNAME()
+			var vm = CALCULATE(max(vms[id]))
+			var baseurl = "https://portal.azure.com/#@"
+			var suffix = "/operatingSystem"
+			var lighthouse_tenant = "dexmach.com"
+			var link = baseurl & tenant & vm & suffix
+			var lighthouse_link = baseurl & lighthouse_tenant & vm & suffix
+			return
+			
+			Switch(true(), CONTAINSSTRING(user_email,"dexmach.com"),
+			lighthouse_link,
+			link)
+		lineageTag: f77866bb-53d1-4e75-a170-dc6f196c8d00
+
+	column id
+		dataType: string
+		lineageTag: 9bb7aedf-793e-427f-98c2-d51730bfb4dd
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 36152f20-8e79-4943-967a-f87b4acdd5f3
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 528b7b7b-8ff6-45a7-9bb3-e9c7e4aefeb2
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column location
+		dataType: string
+		lineageTag: 88ecacad-cf94-493e-938f-80fb2815ba84
+		summarizeBy: none
+		sourceColumn: location
+
+		annotation SummarizationSetBy = Automatic
+
+	column resourceGroup
+		dataType: string
+		lineageTag: ef3da6cb-6714-4f15-b0f8-874ef32564a3
+		summarizeBy: none
+		sourceColumn: resourceGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column subscriptionId
+		dataType: string
+		lineageTag: cfcfce34-9cfb-4557-b4c6-7c7611eed31c
+		summarizeBy: none
+		sourceColumn: subscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column provisioningState
+		dataType: string
+		lineageTag: 25dc6f3c-c40e-4370-998a-7d926666a419
+		summarizeBy: none
+		sourceColumn: provisioningState
+
+		annotation SummarizationSetBy = Automatic
+
+	column timeCreated
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5f0bcda3-be9d-406b-8663-09648d690c47
+		summarizeBy: none
+		sourceColumn: timeCreated
+
+		annotation SummarizationSetBy = Automatic
+
+	column _vmsize
+		dataType: string
+		lineageTag: c986de0d-d785-4710-8748-796f539469eb
+		summarizeBy: none
+		sourceColumn: _vmsize
+
+		annotation SummarizationSetBy = Automatic
+
+	column osVersion
+		dataType: string
+		lineageTag: 7c2db5d1-83e4-4a4a-8dc4-6c5d229160d1
+		summarizeBy: none
+		sourceColumn: osVersion
+
+		annotation SummarizationSetBy = Automatic
+
+	column osName
+		dataType: string
+		lineageTag: 747dbdc6-5f43-41a1-b470-e8c4f14bc366
+		summarizeBy: none
+		sourceColumn: osName
+
+		annotation SummarizationSetBy = Automatic
+
+	column displayStatus
+		dataType: string
+		lineageTag: 1e344cbb-2b92-408f-8844-23e6289c5f95
+		summarizeBy: none
+		sourceColumn: displayStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column licenseType
+		dataType: string
+		lineageTag: c1ebdd62-63ba-42a4-9df7-fe0c7b7439fd
+		summarizeBy: none
+		sourceColumn: licenseType
+
+		annotation SummarizationSetBy = Automatic
+
+	column AHUB
+		dataType: string
+		lineageTag: c2c07b16-b0c5-4f4d-a04e-86a0ab02080b
+		summarizeBy: none
+		sourceColumn: AHUB
+
+		annotation SummarizationSetBy = Automatic
+
+	column vCPUs
+		dataType: int64
+		formatString: 0
+		lineageTag: d5a436c7-ad85-498c-aac1-f0c6932583a0
+		summarizeBy: sum
+		sourceColumn: vCPUs
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'AHUB priority'
+		dataType: string
+		lineageTag: 3e874fb8-1be6-4175-994a-f67d475b13ea
+		summarizeBy: none
+		sourceColumn: AHUB priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'AHUB Compatible'
+		dataType: string
+		lineageTag: 4cf12dc5-34a4-4525-9352-5aeed983d6b7
+		summarizeBy: none
+		sourceColumn: AHUB Compatible
+
+		annotation SummarizationSetBy = Automatic
+
+	column consumedLicenseCores
+		dataType: int64
+		formatString: 0
+		lineageTag: 1aa9cd98-1601-4c0d-85c3-1c8bc32e548c
+		summarizeBy: sum
+		sourceColumn: consumedLicenseCores
+
+		annotation SummarizationSetBy = Automatic
+
+	column _ahub_link_
+		type: calculated
+		lineageTag: 68c75d4e-8bad-4a4c-9d5d-3aaf8e70d565
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":"\nvar tenant = [tenantid]\nvar user_email = USERPRINCIPALNAME()\nvar vm = CALCULATE(max(vms[id]))\nvar lighthouse_tenant = \"dexmach.com\"\nvar link = tenant & vm\nreturn\n\ntenant"}
+
+		annotation 277cc1b9-af89-4597-8e15-cacc25c0886b = ```
+				CUSTOMDATA, USERNAME, USERCULTURE and USERPRINCIPALNAME functions are not supported in calculated tables/columns. These functions may only be used in Measures or in the AllowedRowsExpression.
+				
+				```
+
+	column svg_ahub_priority = ```
+			"data:image/svg+xml;utf8," & "<?xml version=""1.0"" encoding=""utf-8""?>
+			<svg viewBox=""0 0 400 150"" xmlns=""http://www.w3.org/2000/svg"">
+			  <rect style=""fill: "&[formatting_priority_bg]&"; stroke: "&[formatting_priority_font]&"; stroke-width: 3;"" x=""10"" y=""10"" width=""380"" height=""130"" rx=""45"" ry=""45""/>
+			  <text style=""fill: "&[formatting_priority_font]&"; font-family: 'Segoe UI', sans-serif; font-size: 50px; text-anchor: middle; alignment-baseline: central; font-weight: bold;"" x=""200"" y=""75""> "&[ahub_priority]&" </text>
+			</svg>"
+			
+			```
+		lineageTag: d7523f71-ccc5-482a-9d31-8cb013701937
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column svg_ahub_enabled = ```
+			"data:image/svg+xml;utf8," & "<?xml version=""1.0"" encoding=""utf-8""?>
+			<svg viewBox=""0 0 400 150"" xmlns=""http://www.w3.org/2000/svg"">
+			  <rect style=""fill: "&[formatting_enabled_bg]&"; stroke: "&[formatting_enabled_font]&"; stroke-width: 3;"" x=""10"" y=""10"" width=""380"" height=""130"" rx=""45"" ry=""45""/>
+			  <text style=""fill: "&[formatting_enabled_font]&"; font-family: 'Segoe UI', sans-serif; font-size: 50px; text-anchor: middle; alignment-baseline: central; font-weight: bold;"" x=""200"" y=""75""> "&[ahub_enabled]&" </text>
+			</svg>"
+			
+			```
+		lineageTag: c5d47c1d-8c6a-4c78-8052-0b0ebc0cf109
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column svg_ahub_compatible = ```
+			"data:image/svg+xml;utf8," & "<?xml version=""1.0"" encoding=""utf-8""?>
+			<svg viewBox=""0 0 400 150"" xmlns=""http://www.w3.org/2000/svg"">
+			  <rect style=""fill: "&[formatting_compatible_bg]&"; stroke: "&[formatting_compatible_font]&"; stroke-width: 3;"" x=""10"" y=""10"" width=""380"" height=""130"" rx=""45"" ry=""45""/>
+			  <text style=""fill: "&[formatting_compatible_font]&"; font-family: 'Segoe UI', sans-serif; font-size: 50px; text-anchor: middle; alignment-baseline: central; font-weight: bold;"" x=""200"" y=""75""> "&[ahub_compatible]&" </text>
+			</svg>"
+			
+			```
+		lineageTag: e9de3447-7c15-436f-9869-298357ba0351
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vms = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = base_current_inventory,
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([type] = "microsoft.compute/virtualmachines")),
+				    #"Expanded properties" = Table.ExpandRecordColumn(#"Filtered Rows", "properties", {"provisioningState", "timeCreated", "hardwareProfile", "extended", "licenseType"}, {"provisioningState", "timeCreated", "hardwareProfile", "extended", "licenseType"}),
+				    #"Expanded extended" = Table.ExpandRecordColumn(#"Expanded properties", "extended", {"instanceView"}, {"instanceView"}),
+				    #"Expanded instanceView" = Table.ExpandRecordColumn(#"Expanded extended", "instanceView", {"osVersion", "osName", "powerState"}, {"osVersion", "osName", "powerState"}),
+				    #"Expanded powerState" = Table.ExpandRecordColumn(#"Expanded instanceView", "powerState", {"displayStatus"}, {"displayStatus"}),
+				    #"Expanded hardwareProfile" = Table.ExpandRecordColumn(#"Expanded powerState", "hardwareProfile", {"vmSize"}, {"vmSize"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded hardwareProfile",{"tags"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns",{{"id", type text}, {"name", type text}, {"type", type text}, {"location", type text}, {"resourceGroup", type text}, {"subscriptionId", type text}, {"provisioningState", type text}, {"timeCreated", type datetime}, {"vmSize", type text}, {"licenseType", type text}}),
+				    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Changed Type", {"id", "name", "type", "location", "resourceGroup", "subscriptionId", "provisioningState", "timeCreated", "vmSize", "licenseType"}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Removed Errors",{{"id", Text.Lower, type text}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Lowercased Text", {"id"}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Removed Duplicates", each ([provisioningState] = "Succeeded")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows1",{{"vmSize", "_vmsize"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"osVersion", type text}, {"osName", type text}, {"displayStatus", type text}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type1", "AHUB", each if [licenseType] = null then "AHUB Not Enabled" else if [licenseType] = "None" then "AHUB Not Enabled" else if [licenseType] <> null then "AHUB Enabled" else "N/A"),
+				    #"Lowercased Text1" = Table.TransformColumns(#"Added Conditional Column",{{"osName", Text.Lower, type text}}),
+				    #"Added Conditional Column2" = Table.AddColumn(#"Lowercased Text1", "AHUB Compatible", each if Text.Contains([osName], "ubuntu") then "AHUB Not Available" else if Text.Contains([osName], "debian") then "AHUB Not Available" else if Text.Contains([osName], "centos") then "AHUB Not Available" else if [osName] = null then "AHUB Not Available" else if Text.Contains([osName], "windows") then "AHUB Compatible" else if Text.Contains([osName], "rhel") then "AHUB Compatible" else if Text.Contains([osName], "sles") then "AHUB Compatible" else if Text.Contains([osName], "red hat") then "AHUB Compatible" else if Text.Contains([osName], "suse") then "AHUB Compatible" else "AHUB Not Available"),
+				    #"Replaced Errors" = Table.ReplaceErrorValues(#"Added Conditional Column2", {{"AHUB Compatible", "N/A"}}),
+				    #"Filtered Rows3" = Table.SelectRows(#"Replaced Errors", each ([displayStatus] = "VM running")),
+				    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows3", {"_vmsize"}, computeskus, {"_vmsize"}, "computeskus", JoinKind.LeftOuter),
+				    #"Expanded computeskus" = Table.ExpandTableColumn(#"Merged Queries", "computeskus", {"vCPUs"}, {"vCPUs"}),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Expanded computeskus", "AHUB priority", each if [vCPUs] >= 8 then "High Priority" else if [vCPUs] < 8 then "Low Priority" else "N/A"),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Conditional Column1", each ([vCPUs] <> null)),
+				    #"Added Conditional Column3" = Table.AddColumn(#"Filtered Rows2", "consumedLicenseCores", each if [vCPUs] < 8 then 8 else [vCPUs]),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Conditional Column3",{{"consumedLicenseCores", Int64.Type}})
+				in
+				    #"Changed Type2"
+
+	annotation PBI_ResultType = Exception
+

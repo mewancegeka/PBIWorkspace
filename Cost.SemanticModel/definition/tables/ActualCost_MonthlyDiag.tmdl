@@ -1,0 +1,91 @@
+table ActualCost_MonthlyDiag
+	isHidden
+	lineageTag: 16a0bfef-593a-4667-9363-e1218000cc0b
+
+	column Name
+		dataType: string
+		isHidden
+		lineageTag: 9a6c007e-5cb8-4bf7-8051-0cc3a6af7f90
+		summarizeBy: none
+		sourceColumn: Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date modified'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 74372c57-1ae7-4a00-bee6-8310e9aab621
+		summarizeBy: none
+		sourceColumn: Date modified
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size
+		dataType: string
+		isHidden
+		lineageTag: 35a612cc-b1c5-471c-8c9f-00707dfc0f5c
+		summarizeBy: none
+		sourceColumn: Size
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		isHidden
+		lineageTag: 0ccd556b-a525-4a00-a8a9-0c05d081e00e
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Mmm
+		lineageTag: 67e334ec-b23b-46b0-9e51-a7f0818b5c87
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column subId
+		dataType: string
+		isHidden
+		lineageTag: 07b87bc8-bf8e-4a40-a97e-0815ad224698
+		summarizeBy: none
+		sourceColumn: subId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ActualCost_MonthlyDiag = m
+		mode: import
+		queryGroup: 'Helper stuff\Diagnostics'
+		source =
+				let
+				    Source = Value.Metadata(AmortizedCost_Monthly)[ReferenceStepIntermediate],
+				    #"Expanded Attributes" = Table.ExpandRecordColumn(Source, "Attributes", {"Size"}, {"Size"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded Attributes",{"Name", "Date modified", "Size", "Month Name", "Date", "subId"})
+				in
+				    #"Removed Other Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

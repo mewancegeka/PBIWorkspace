@@ -1,0 +1,811 @@
+expression base_data =
+		let
+		    Source = AzureStorage.Blobs(Datalake),
+		    ingest = Source{[Name="ingest"]}[Data],
+		    #"Filtered Rows" = Table.SelectRows(ingest, each ([Extension] = ".json" or [Extension] = ".parquet"))
+		in
+		    #"Filtered Rows"
+	lineageTag: 783f6488-d2ac-465c-8473-01f35840fe98
+	queryGroup: Base
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Environment = "gensio-01" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: b8ef1969-19d7-42c4-974a-61675c169fe2
+	queryGroup: Params
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Parquet Loader' =
+		let
+		    Source = (Content) => let
+		        Source = Parquet.Document(Content)
+		    in
+		        Source
+		in
+		    Source
+	lineageTag: 1ce37165-f17d-4580-b3a2-730a83244406
+	queryGroup: 'Helper stuff\Functions'
+
+	annotation PBI_ResultType = Function
+
+expression 'JSON Loader' =
+		let
+		    Source = (Content) => let
+		        Source = Json.Document(Content)
+		    in
+		        Source
+		in
+		    Source
+	lineageTag: 9414e058-a26d-46ae-8807-4c737f0e1712
+	queryGroup: 'Helper stuff\Functions'
+
+	annotation PBI_ResultType = Function
+
+expression ActualCost_base = ```
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/cost_details_actual/")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "CostPeriod", each Text.BetweenDelimiters([Name], "/cost_details_actual/", "/"), type text),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Text Between Delimiters",{{"CostPeriod", type datetime}}),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type1", "Monthly?", each if Text.EndsWith([Name], "_monthly.parquet") then "monthly" else "daily"),
+		    #"Inserted Month Name" = Table.AddColumn(#"Added Conditional Column1", "Month Name", each Date.MonthName([CostPeriod]), type text),
+		    #"Sorted Rows" = Table.Sort(#"Inserted Month Name",{{"CostPeriod", Order.Descending}}),
+		    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([CostPeriod]), type date),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Date",{{"Date", type text}}),
+		    #"Added Conditional Column" = Table.AddColumn(#"Changed Type2", "backload?", each if Text.Contains([Date], "/3/") then "backload" else null),
+		    #"Inserted Merged Column" = Table.AddColumn(#"Added Conditional Column", "backload?.1", each Text.Combine({[Month Name], [#"backload?"]}, ""), type text),
+		    #"Filtered Rows1" = Table.SelectRows(#"Inserted Merged Column", each ([#"Monthly?"] = "daily")),
+		    #"Filtered Rows2" = Table.SelectRows(#"Filtered Rows1", each Date.Month([CostPeriod]) = Date.Month(CurrentMonth)),
+		    #"Filtered Rows3" = Table.SelectRows(#"Filtered Rows2", let latest = List.Max(#"Filtered Rows2"[CostPeriod]) in each [CostPeriod] = latest),
+		    #"Inserted Date1" = Table.AddColumn(#"Filtered Rows3", "Date.1", each DateTime.Date([Date modified]), type date),
+		    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Inserted Date1", "runID", each Text.BetweenDelimiters([Name], "_", "_", {2, RelativePosition.FromEnd}, 0), type text),
+		    #"Sorted Rows1" = Table.Sort(#"Inserted Text Between Delimiters1",{{"Date.1", Order.Descending}}),
+		    #"Filtered Rows5" = Table.SelectRows(#"Sorted Rows1", let latest = List.Max(#"Sorted Rows1"[Date.1]) in each [Date.1] = latest),
+		    #"Inserted Time" = Table.AddColumn(#"Filtered Rows5", "Time", each DateTime.Time([Date modified]), type time),
+		    #"Sorted Rows2" = Table.Sort(#"Inserted Time",{{"Time", Order.Descending}}),
+		    #"Inserted Hour" = Table.AddColumn(#"Sorted Rows2", "Hour", each Time.Hour([Time]), Int64.Type),
+		    #"Inserted Text Between Delimiters2" = Table.AddColumn(#"Inserted Hour", "Text Between Delimiters", each Text.BetweenDelimiters([Name], "_", "_", {1, RelativePosition.FromEnd}, 0), type text),
+		    #"Removed Duplicates" = Table.Distinct(#"Inserted Text Between Delimiters2", {"Text Between Delimiters"}),
+		    #"cleanup to start phase 1" = Table.SelectColumns(#"Removed Duplicates",{"Content"}),
+		    #"load parquet files as table" = Table.AddColumn(#"cleanup to start phase 1", "Data", each #"Parquet Loader"([Content])),
+		    #"check table rowcount" = Table.AddColumn(#"load parquet files as table", "RowCount", each Table.RowCount([Data] as table) as number),
+		    #"remove empty tables" = Table.SelectRows(#"check table rowcount", each [RowCount] <> 0),
+		    #"extract columnnames for check" = Table.AddColumn(#"remove empty tables", "ColumnNames", each Table.ColumnNames([Data] as table) as list),
+		    #"check modern/legacy based on columnname" = Table.AddColumn(#"extract columnnames for check", "ModernCheck", each List.Contains([ColumnNames],"billingCurrency")),
+		    #"optional: check columncount" = Table.AddColumn(#"check modern/legacy based on columnname", "ListCount", each List.Count([ColumnNames])),
+		    #"define subscriptionType based on earlier check" = Table.AddColumn(#"optional: check columncount", "subscriptionType", each if [ModernCheck] = false then "legacy" else if [ModernCheck] = true then "modern" else "legacy"),
+		    #"cleanup to start phase 2" = Table.SelectColumns(#"define subscriptionType based on earlier check",{"Data", "subscriptionType"}),
+		    #"rename columns based on type" = Table.AddColumn(#"cleanup to start phase 2", "Test", each if [subscriptionType] = "legacy" then Table.RenameColumns([Data],{}) else if [subscriptionType] = "modern" then Table.RenameColumns([Data], List.Zip({Rename_modern[OldName], Rename_modern[NewName]}), MissingField.Ignore)
+		 else null),
+		    #"lowercase resource id" = Table.AddColumn(#"rename columns based on type", "Custom", each Table.TransformColumns([Test],{{"ResourceId", Text.Lower, type text}})),
+		    #"add resourcename to modern type tables and fix tags in legacy" = Table.AddColumn(#"lowercase resource id", "Custom2", each if [subscriptionType] = "modern" then Table.AddColumn([Custom], "ResourceName", each Text.AfterDelimiter([ResourceId], "/", {0, RelativePosition.FromEnd}), type text) else Table.TransformColumns ([Custom],{{"Tags", each "{" & _ & "}", type text}})),
+		    #"cleanup to start phase 3" = Table.SelectColumns(#"add resourcename to modern type tables and fix tags in legacy",{"Custom2"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"cleanup to start phase 3",{{"Custom2", "Data"}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Renamed Columns", "Data", LegacyNames,LegacyNames),
+		    // This steps checks that based on the "LatestMonthlyAvailable" status, loads the latest available daily file from the previous month (this is being loaded in the "LatestDaily_PreviousMonth_actual" query.
+		    // If the latest monthly is available, it will load nothing extra, and we proceed to the next step where we are loading the monthly files.
+		    #"add_lastdailyFromPreviousMonth check" = if LatestMonthlyAvailable_actual = true
+		            then
+		                let
+		                    output = #"Expanded Data"
+		                
+		                in 
+		                    output
+		
+		            else
+		                let
+		                    output = Table.Combine({#"Expanded Data", LatestDaily_PreviousMonth_actual})
+		                    
+		                in
+		                    output,
+		    #"Appended Query" = Table.Combine({#"add_lastdailyFromPreviousMonth check", ActualCost_Monthly})
+		
+		in
+		    #"Appended Query"
+		```
+	lineageTag: 8c3cac78-f988-47b9-8b2b-20c5e86b270c
+	queryGroup: 'Cost Details'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression AmortizedCost_base = ```
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/cost_details_amortized/")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "CostPeriod", each Text.BetweenDelimiters([Name], "/cost_details_amortized/", "/"), type text),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Text Between Delimiters",{{"CostPeriod", type datetime}}),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type1", "Monthly?", each if Text.EndsWith([Name], "_monthly.parquet") then "monthly" else "daily"),
+		    #"Inserted Month Name" = Table.AddColumn(#"Added Conditional Column1", "Month Name", each Date.MonthName([CostPeriod]), type text),
+		    #"Sorted Rows" = Table.Sort(#"Inserted Month Name",{{"CostPeriod", Order.Descending}}),
+		    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([CostPeriod]), type date),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Date",{{"Date", type text}}),
+		    #"Added Conditional Column" = Table.AddColumn(#"Changed Type2", "backload?", each if Text.Contains([Date], "/3/") then "backload" else null),
+		    #"Inserted Merged Column" = Table.AddColumn(#"Added Conditional Column", "backload?.1", each Text.Combine({[Month Name], [#"backload?"]}, ""), type text),
+		    #"Filtered Rows1" = Table.SelectRows(#"Inserted Merged Column", each ([#"Monthly?"] = "daily")),
+		    #"Filtered Rows2" = Table.SelectRows(#"Filtered Rows1", each Date.Month([CostPeriod]) = Date.Month(CurrentMonth)),
+		    #"Filtered Rows3" = Table.SelectRows(#"Filtered Rows2", let latest = List.Max(#"Filtered Rows2"[CostPeriod]) in each [CostPeriod] = latest),
+		    #"Inserted Date1" = Table.AddColumn(#"Filtered Rows3", "Date.1", each DateTime.Date([Date modified]), type date),
+		    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Inserted Date1", "runID", each Text.BetweenDelimiters([Name], "_", "_", {2, RelativePosition.FromEnd}, 0), type text),
+		    #"Sorted Rows1" = Table.Sort(#"Inserted Text Between Delimiters1",{{"Date.1", Order.Descending}}),
+		    #"Filtered Rows5" = Table.SelectRows(#"Sorted Rows1", let latest = List.Max(#"Sorted Rows1"[Date.1]) in each [Date.1] = latest),
+		    #"Inserted Time" = Table.AddColumn(#"Filtered Rows5", "Time", each DateTime.Time([Date modified]), type time),
+		    #"Sorted Rows2" = Table.Sort(#"Inserted Time",{{"Time", Order.Descending}}),
+		    #"Inserted Hour" = Table.AddColumn(#"Sorted Rows2", "Hour", each Time.Hour([Time]), Int64.Type),
+		    #"Inserted Text Between Delimiters2" = Table.AddColumn(#"Inserted Hour", "Text Between Delimiters", each Text.BetweenDelimiters([Name], "_", "_", {1, RelativePosition.FromEnd}, 0), type text),
+		    #"Removed Duplicates" = Table.Distinct(#"Inserted Text Between Delimiters2", {"Text Between Delimiters"}),
+		    #"cleanup to start phase 1" = Table.SelectColumns(#"Removed Duplicates",{"Content"}),
+		    #"load parquet files as table" = Table.AddColumn(#"cleanup to start phase 1", "Data", each #"Parquet Loader"([Content])),
+		    #"check table rowcount" = Table.AddColumn(#"load parquet files as table", "RowCount", each Table.RowCount([Data] as table) as number),
+		    #"remove empty tables" = Table.SelectRows(#"check table rowcount", each [RowCount] <> 0),
+		    #"extract columnnames for check" = Table.AddColumn(#"remove empty tables", "ColumnNames", each Table.ColumnNames([Data] as table) as list),
+		    #"check modern/legacy based on columnname" = Table.AddColumn(#"extract columnnames for check", "ModernCheck", each List.Contains([ColumnNames],"billingCurrency")),
+		    #"optional: check columncount" = Table.AddColumn(#"check modern/legacy based on columnname", "ListCount", each List.Count([ColumnNames])),
+		    #"define subscriptionType based on earlier check" = Table.AddColumn(#"optional: check columncount", "subscriptionType", each if [ModernCheck] = false then "legacy" else if [ModernCheck] = true then "modern" else "legacy"),
+		    #"cleanup to start phase 2" = Table.SelectColumns(#"define subscriptionType based on earlier check",{"Data", "subscriptionType"}),
+		    #"rename columns based on type" = Table.AddColumn(#"cleanup to start phase 2", "Test", each if [subscriptionType] = "legacy" then Table.RenameColumns([Data],{}) else if [subscriptionType] = "modern" then Table.RenameColumns([Data], List.Zip({Rename_modern[OldName], Rename_modern[NewName]}), MissingField.Ignore)
+		 else null),
+		    #"lowercase resource id" = Table.AddColumn(#"rename columns based on type", "Custom", each Table.TransformColumns([Test],{{"ResourceId", Text.Lower, type text}})),
+		    #"add resourcename to modern type tables and fix tags in legacy" = Table.AddColumn(#"lowercase resource id", "Custom2", each if [subscriptionType] = "modern" then Table.AddColumn([Custom], "ResourceName", each Text.AfterDelimiter([ResourceId], "/", {0, RelativePosition.FromEnd}), type text) else Table.TransformColumns ([Custom],{{"Tags", each "{" & _ & "}", type text}})),
+		    #"cleanup to start phase 3" = Table.SelectColumns(#"add resourcename to modern type tables and fix tags in legacy",{"Custom2"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"cleanup to start phase 3",{{"Custom2", "Data"}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Renamed Columns", "Data", LegacyNames,LegacyNames),
+		    // This steps checks that based on the "LatestMonthlyAvailable" status, loads the latest available daily file from the previous month (this is being loaded in the "LatestDaily_PreviousMonth_actual" query.
+		    // If the latest monthly is available, it will load nothing extra, and we proceed to the next step where we are loading the monthly files.
+		    #"add_lastdailyFromPreviousMonth check" = if LatestMonthlyAvailable_amortized = true
+		            then
+		                let
+		                    output = #"Expanded Data"
+		                
+		                in 
+		                    output
+		
+		            else
+		                let
+		                    output = Table.Combine({#"Expanded Data", LatestDaily_PreviousMonth_amortized})
+		                    
+		                in
+		                    output,
+		    #"Appended Query" = Table.Combine({#"add_lastdailyFromPreviousMonth check", AmortizedCost_Monthly})
+		
+		in
+		    #"Appended Query"
+		```
+	lineageTag: 43ed2fb6-1850-4bd2-8c8c-ce6b45cc3c0d
+	queryGroup: 'Cost Details'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression Datalake = "dmdlcidprod000002" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 06804892-7739-4ccf-9840-22572e0e4a51
+	queryGroup: Params
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression Subscriptions =
+		let
+		    Source = ActualCost_base,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"SubscriptionId", "SubscriptionName"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"SubscriptionId"}),
+		    #"Added Prefix" = Table.TransformColumns(#"Removed Duplicates", {{"SubscriptionId", each "/subscriptions/" & _, type text}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Added Prefix",{{"SubscriptionId", "ResourceId"}, {"SubscriptionName", "ResourceName"}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each [ResourceId] <> null and [ResourceId] <> "")
+		in
+		    #"Filtered Rows"
+	lineageTag: ae340de7-68ed-43b7-8653-5997ec859da4
+	queryGroup: Inventory
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression AmortizedCost_Monthly =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/cost_details_amortized/")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "CostPeriod", each Text.BetweenDelimiters([Name], "/cost_details_amortized/", "/"), type text),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Text Between Delimiters",{{"CostPeriod", type datetime}}),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type1", "Monthly?", each if Text.EndsWith([Name], "_monthly.parquet") then "monthly" else "daily"),
+		    #"Inserted Month Name" = Table.AddColumn(#"Added Conditional Column1", "Month Name", each Date.MonthName([CostPeriod]), type text),
+		    #"Filtered Rows1" = Table.SelectRows(#"Inserted Month Name", each ([#"Monthly?"] = "monthly")),
+		    #"Sorted Rows" = Table.Sort(#"Filtered Rows1",{{"CostPeriod", Order.Descending}}),
+		    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([CostPeriod]), type date),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Date",{{"Date", type text}}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type2",{{"Date", type date}}),
+		    #"Added Custom" = Table.AddColumn(#"Changed Type", "History", each Duration.Days(Date.From(DateTime.LocalNow()) - [Date])),
+		    #"Divided Column" = Table.TransformColumns(#"Added Custom", {{"History", each _ / 30, type number}}),
+		    #"Rounded Off" = Table.TransformColumns(#"Divided Column",{{"History", each Number.Round(_, 0), type number}}),
+		    #"Filtered Rows2" = Table.SelectRows(#"Rounded Off", each [History] <= HistorySize),
+		    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Filtered Rows2", "subId", each Text.BetweenDelimiters([Name], "_", "_", {2, RelativePosition.FromEnd}, 0), type text),
+		    #"Sorted Rows1" = Table.Sort(#"Inserted Text Between Delimiters1",{{"Date modified", Order.Descending}}),
+		    #"Removed Duplicates1" = Table.Distinct(#"Sorted Rows1", {"Date", "subId"}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Removed Duplicates1",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "Data", each #"Parquet Loader"([Content])),
+		    #"check table rowcount" = Table.AddColumn(#"Invoked Custom Function", "RowCount", each Table.RowCount([Data] as table) as number),
+		    #"remove empty tables" = Table.SelectRows(#"check table rowcount", each [RowCount] <> 0),
+		    #"extract columnnames for check" = Table.AddColumn(#"remove empty tables", "ColumnNames", each Table.ColumnNames([Data] as table) as list),
+		    #"check modern/legacy based on columnname" = Table.AddColumn(#"extract columnnames for check", "ModernCheck", each List.Contains([ColumnNames],"billingCurrency")),
+		    #"optional: check columncount" = Table.AddColumn(#"check modern/legacy based on columnname", "ListCount", each List.Count([ColumnNames])),
+		    #"define subscriptionType based on earlier check" = Table.AddColumn(#"optional: check columncount", "subscriptionType", each if [ModernCheck] = false then "legacy" else if [ModernCheck] = true then "modern" else "legacy"),
+		    #"cleanup to start phase 2" = Table.SelectColumns(#"define subscriptionType based on earlier check",{"Data", "subscriptionType"}),
+		    #"rename columns based on type" = Table.AddColumn(#"cleanup to start phase 2", "Test", each if [subscriptionType] = "legacy" then Table.RenameColumns([Data],{}) else if [subscriptionType] = "modern" then Table.RenameColumns([Data], List.Zip({Rename_modern[OldName], Rename_modern[NewName]}), MissingField.Ignore)
+		 else null),
+		    #"lowercase resource id" = Table.AddColumn(#"rename columns based on type", "Custom", each Table.TransformColumns([Test],{{"ResourceId", Text.Lower, type text}})),
+		    #"add resourcename to modern type tables and fix tags in legacy" = Table.AddColumn(#"lowercase resource id", "Custom2", each if [subscriptionType] = "modern" then Table.AddColumn([Custom], "ResourceName", each Text.AfterDelimiter([ResourceId], "/", {0, RelativePosition.FromEnd}), type text) else Table.TransformColumns ([Custom],{{"Tags", each "{" & _ & "}", type text}})),
+		    #"cleanup to start phase 3" = Table.SelectColumns(#"add resourcename to modern type tables and fix tags in legacy",{"Custom2"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"cleanup to start phase 3",{{"Custom2", "Data"}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Renamed Columns", "Data", LegacyNames,LegacyNames),
+		    #"Filtered Rows3" = Table.SelectRows(#"Expanded Data", each true),
+		    #"Changed Type3" = Table.TransformColumnTypes(#"Filtered Rows3",{{"Date", type date}}),
+		    #"Add Metadata with Intermediate Step" = #"Changed Type3" meta [ReferenceStepIntermediate = #"Removed Duplicates1"]
+		
+		in
+		  #"Add Metadata with Intermediate Step"
+	lineageTag: 65c8eff7-2d63-47a3-8e4c-bae035525661
+	queryGroup: 'Cost Details'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression ActualCost_Monthly =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/cost_details_actual/")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "CostPeriod", each Text.BetweenDelimiters([Name], "/cost_details_actual/", "/"), type text),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Text Between Delimiters",{{"CostPeriod", type datetime}}),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type1", "Monthly?", each if Text.EndsWith([Name], "_monthly.parquet") then "monthly" else "daily"),
+		    #"Inserted Month Name" = Table.AddColumn(#"Added Conditional Column1", "Month Name", each Date.MonthName([CostPeriod]), type text),
+		    #"Filtered Rows1" = Table.SelectRows(#"Inserted Month Name", each ([#"Monthly?"] = "monthly")),
+		    #"Sorted Rows" = Table.Sort(#"Filtered Rows1",{{"CostPeriod", Order.Descending}}),
+		    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([CostPeriod]), type date),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Date",{{"Date", type text}}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type2",{{"Date", type date}}),
+		    #"Added Custom" = Table.AddColumn(#"Changed Type", "History", each Duration.Days(Date.From(DateTime.LocalNow()) - [Date])),
+		    #"Divided Column" = Table.TransformColumns(#"Added Custom", {{"History", each _ / 30, type number}}),
+		    #"Rounded Off" = Table.TransformColumns(#"Divided Column",{{"History", each Number.Round(_, 0), type number}}),
+		    #"Filtered Rows2" = Table.SelectRows(#"Rounded Off", each [History] <= HistorySize),
+		    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Filtered Rows2", "subId", each Text.BetweenDelimiters([Name], "_", "_", {2, RelativePosition.FromEnd}, 0), type text),
+		    #"Sorted Rows1" = Table.Sort(#"Inserted Text Between Delimiters1",{{"Date modified", Order.Descending}}),
+		    #"Removed Duplicates1" = Table.Distinct(#"Sorted Rows1", {"Date", "subId"}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Removed Duplicates1",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "Data", each #"Parquet Loader"([Content])),
+		    #"check table rowcount" = Table.AddColumn(#"Invoked Custom Function", "RowCount", each Table.RowCount([Data] as table) as number),
+		    #"remove empty tables" = Table.SelectRows(#"check table rowcount", each [RowCount] <> 0),
+		    #"extract columnnames for check" = Table.AddColumn(#"remove empty tables", "ColumnNames", each Table.ColumnNames([Data] as table) as list),
+		    #"check modern/legacy based on columnname" = Table.AddColumn(#"extract columnnames for check", "ModernCheck", each List.Contains([ColumnNames],"billingCurrency")),
+		    #"optional: check columncount" = Table.AddColumn(#"check modern/legacy based on columnname", "ListCount", each List.Count([ColumnNames])),
+		    #"define subscriptionType based on earlier check" = Table.AddColumn(#"optional: check columncount", "subscriptionType", each if [ModernCheck] = false then "legacy" else if [ModernCheck] = true then "modern" else "legacy"),
+		    #"cleanup to start phase 2" = Table.SelectColumns(#"define subscriptionType based on earlier check",{"Data", "subscriptionType"}),
+		    #"rename columns based on type" = Table.AddColumn(#"cleanup to start phase 2", "Test", each if [subscriptionType] = "legacy" then Table.RenameColumns([Data],{}) else if [subscriptionType] = "modern" then Table.RenameColumns([Data], List.Zip({Rename_modern[OldName], Rename_modern[NewName]}), MissingField.Ignore)
+		 else null),
+		    #"lowercase resource id" = Table.AddColumn(#"rename columns based on type", "Custom", each Table.TransformColumns([Test],{{"ResourceId", Text.Lower, type text}})),
+		    #"add resourcename to modern type tables and fix tags in legacy" = Table.AddColumn(#"lowercase resource id", "Custom2", each if [subscriptionType] = "modern" then Table.AddColumn([Custom], "ResourceName", each Text.AfterDelimiter([ResourceId], "/", {0, RelativePosition.FromEnd}), type text) else Table.TransformColumns ([Custom],{{"Tags", each "{" & _ & "}", type text}})),
+		    #"cleanup to start phase 3" = Table.SelectColumns(#"add resourcename to modern type tables and fix tags in legacy",{"Custom2"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"cleanup to start phase 3",{{"Custom2", "Data"}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Renamed Columns", "Data", LegacyNames,LegacyNames),
+		    #"Filtered Rows3" = Table.SelectRows(#"Expanded Data", each true),
+		    #"Changed Type3" = Table.TransformColumnTypes(#"Filtered Rows3",{{"Date", type date}}),
+		    #"Add Metadata with Intermediate Step" = #"Changed Type3" meta [ReferenceStepIntermediate = #"Removed Duplicates1"]
+		
+		in
+		  #"Add Metadata with Intermediate Step"
+	lineageTag: 48b42fa6-e42b-4b1d-88d0-76a1c53d3eb8
+	queryGroup: 'Cost Details'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Reservation-Savings-schema =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [meter_id = _t, #"Savings - 3Y" = _t, #"Savings - 1Y" = _t])
+		in
+		    Source
+	lineageTag: d247411f-37df-4169-a704-55f8360d6f6a
+	queryGroup: Reservations
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression base_orphaned_resources =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/orphaned_resources/")),
+		    #"Sorted Rows" = Table.Sort(#"Filtered Rows",{{"Date modified", Order.Descending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: cfa00466-f719-4355-b185-520753a4ba84
+	queryGroup: OrphanedResources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Version = "2.8.0" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 7156d7f3-3725-4a62-be92-a1604db90b59
+	queryGroup: Params
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression HistorySize = 12 meta [IsParameterQuery=true, Type="Number", IsParameterQueryRequired=true]
+	lineageTag: 77135da5-c3aa-4725-a46d-480805b2d10b
+	queryGroup: Params
+
+	annotation PBI_ResultType = Exception
+
+expression LastestMonthly_name =
+		let
+		    Source = ActualCost_Monthly,
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+		    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", let latest = List.Max(#"Removed Duplicates"[Date]) in each [Date] = latest),
+		    #"31/10/2022" = #"Filtered Rows"{0}[Date],
+		    #"Extracted Month Name" = Date.MonthName(#"31/10/2022")
+		in
+		    #"Extracted Month Name"
+	lineageTag: 30ed7497-dd1d-487c-b52d-fa4673cd35b8
+	queryGroup: 'Helper stuff'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression Rename_modern =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("bZTNbuIwFIXfhXU30zeAlFaRyjRD2hViYZKb1JJjU8dGYp6+vo7/wyr3nPNd/2FzOm1I31NFBSes5oPYPG22uXF+Om0uwGGgqu5NHOsk+UsmiJlVNqWMUT5uu05ovrTvSmvNucF2azNhKy0l8O4eQe9Uos/IBiQV/Z73L0Ql4+b2im8VkepRRwzSHikGyiDdYbTWXL7D1ES2+yZyhM/7FZkqCpsJPusJ+hbkjXYWKJyFmtWWMdER/CGPOsxYPQ58TwVcgXScEz6r+W518tVDHzv65eTCOcEwQKfoDRq5LHufG8gMEn60G/k11JhQfhOGarFDcHvKdWmtObfnem1adt7+1xIqCea67xkd6YVZ/KGPHROY86jMjkYhcY2HTAfCLu/gquC6xRxCHZIjjGZdPnMqpK2+lFOmFnINub/5Y401JldTmV/mYF4EwzCVtlOKXnf+waVq6bb6Q/ZuU01ulEw+TLQspy+Mzt8RynRGuIvfZBqJH024ogrP4Z8v0Zcwm7tPwtU4Zrog3PzHwnGU0LKDNyn0NXLRs5R3/FRepCO8uweWEMFCbl7e6iuZKMPttJlOCPwH/hOBRRb5c54/29zckbmT9BoOpTDsGInlttuWFnKKjLPJPvFjNcgJNX5Qa07Vx3AAMpt3Y4KvTHvC39CvUJ/Pvw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t, Column2 = _t]),
+		    #"Renamed Columns" = Table.RenameColumns(Source,{{"Column1", "OldName"}, {"Column2", "NewName"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 76f2631f-0787-4ee9-8760-fb2c87b939f1
+	queryGroup: 'Helper stuff'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression LegacyNames =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("bVPLboMwEPyXnHtp/4DSJEJqAg3ppVEOxl7ISsZOF5sq/foaMAaS3uzZx6xn1qfTKlGtRg45cINa7VkNq/PTaRVxrq0y9/f0RwEloodyWzSc8NrV/QOF0gM02hKHLWl7XSDvmrMutQffmBnyM9LC8ol6BwYodtFK021CHNcj6Ofoz8sGB6hGpk+FJi13wBpLQ8aHZcqgGRqty7ITo4WMnDA9FOvGJOoVpURVxZYIFL+FSAzKEfiramwNIgdqx+LxtX62I6ua/pA6nnHgSAjslGAyUaUetBxadPfne+Bl0XiutMthM0NmSMjqnj89zaudkgjDzKFQdQSqh6gtJDYXoOPtCkskJMcXRhWEhA3Btw2SddxOxp0WIIfHtwwlK1A6B760Gmq82H7v/GRLMNDdGRO7znM8A0ItcsPIhCVbhNZKPARIlyhhyevBwLv8Oz43aaJft1cxgbN0LbHCQnqd3AB7Wxd+VzJ22858kGyyyFu9YTXKac8iKf2HOdjZFAUoKHGUyN8m33oTzn8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+		    Column1 = Source[Column1]
+		in
+		    Column1
+	lineageTag: 4004c666-85b4-4027-958a-18683af2fae8
+	queryGroup: 'Helper stuff'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = List
+
+expression LatestDaily_PreviousMonth_actual =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/cost_details_actual/")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "CostPeriod", each Text.BetweenDelimiters([Name], "/cost_details_actual/", "/"), type text),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Text Between Delimiters",{{"CostPeriod", type datetime}}),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type1", "Monthly?", each if Text.EndsWith([Name], "_monthly.parquet") then "monthly" else "daily"),
+		    #"Inserted Month Name" = Table.AddColumn(#"Added Conditional Column1", "Month Name", each Date.MonthName([CostPeriod]), type text),
+		    #"Sorted Rows" = Table.Sort(#"Inserted Month Name",{{"CostPeriod", Order.Descending}}),
+		    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([CostPeriod]), type date),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Date",{{"Date", type text}}),
+		    #"Added Conditional Column" = Table.AddColumn(#"Changed Type2", "backload?", each if Text.Contains([Date], "/3/") then "backload" else null),
+		    #"Inserted Merged Column" = Table.AddColumn(#"Added Conditional Column", "backload?.1", each Text.Combine({[Month Name], [#"backload?"]}, ""), type text),
+		    #"Inserted Text Between Delimiters3" = Table.AddColumn(#"Inserted Merged Column", "YearMonth", each Text.BetweenDelimiters([Name], "/", "/", 3, 0), type text),
+		    #"Filtered Rows1" = Table.SelectRows(#"Inserted Text Between Delimiters3", each ([#"Monthly?"] = "daily")),
+		    #"Filtered Rows4" = Table.SelectRows(#"Filtered Rows1", each [YearMonth] = PreviousMonth),
+		    #"Filtered Rows3" = Table.SelectRows(#"Filtered Rows4", let latest = List.Max(#"Filtered Rows4"[CostPeriod]) in each [CostPeriod] = latest),
+		    #"Inserted Date1" = Table.AddColumn(#"Filtered Rows3", "Date.1", each DateTime.Date([Date modified]), type date),
+		    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Inserted Date1", "runID", each Text.BetweenDelimiters([Name], "_", "_", {2, RelativePosition.FromEnd}, 0), type text),
+		    #"Sorted Rows1" = Table.Sort(#"Inserted Text Between Delimiters1",{{"Date.1", Order.Descending}}),
+		    #"Filtered Rows5" = Table.SelectRows(#"Sorted Rows1", let latest = List.Max(#"Sorted Rows1"[Date.1]) in each [Date.1] = latest),
+		    #"Inserted Time" = Table.AddColumn(#"Filtered Rows5", "Time", each DateTime.Time([Date modified]), type time),
+		    #"Sorted Rows2" = Table.Sort(#"Inserted Time",{{"Time", Order.Descending}}),
+		    #"Inserted Hour" = Table.AddColumn(#"Sorted Rows2", "Hour", each Time.Hour([Time]), Int64.Type),
+		    #"Inserted Text Between Delimiters2" = Table.AddColumn(#"Inserted Hour", "Text Between Delimiters", each Text.BetweenDelimiters([Name], "_", "_", {1, RelativePosition.FromEnd}, 0), type text),
+		    #"Removed Duplicates" = Table.Distinct(#"Inserted Text Between Delimiters2", {"Text Between Delimiters"}),
+		    #"cleanup to start phase 1" = Table.SelectColumns(#"Removed Duplicates",{"Content"}),
+		    #"load parquet files as table" = Table.AddColumn(#"cleanup to start phase 1", "Data", each #"Parquet Loader"([Content])),
+		    #"check table rowcount" = Table.AddColumn(#"load parquet files as table", "RowCount", each Table.RowCount([Data] as table) as number),
+		    #"remove empty tables" = Table.SelectRows(#"check table rowcount", each [RowCount] <> 0),
+		    #"extract columnnames for check" = Table.AddColumn(#"remove empty tables", "ColumnNames", each Table.ColumnNames([Data] as table) as list),
+		    #"check modern/legacy based on columnname" = Table.AddColumn(#"extract columnnames for check", "ModernCheck", each List.Contains([ColumnNames],"billingCurrency")),
+		    #"optional: check columncount" = Table.AddColumn(#"check modern/legacy based on columnname", "ListCount", each List.Count([ColumnNames])),
+		    #"define subscriptionType based on earlier check" = Table.AddColumn(#"optional: check columncount", "subscriptionType", each if [ModernCheck] = false then "legacy" else if [ModernCheck] = true then "modern" else "legacy"),
+		    #"cleanup to start phase 2" = Table.SelectColumns(#"define subscriptionType based on earlier check",{"Data", "subscriptionType"}),
+		    #"rename columns based on type" = Table.AddColumn(#"cleanup to start phase 2", "Test", each if [subscriptionType] = "legacy" then Table.RenameColumns([Data],{}) else if [subscriptionType] = "modern" then Table.RenameColumns([Data], List.Zip({Rename_modern[OldName], Rename_modern[NewName]}), MissingField.Ignore)
+		 else null),
+		    #"lowercase resource id" = Table.AddColumn(#"rename columns based on type", "Custom", each Table.TransformColumns([Test],{{"ResourceId", Text.Lower, type text}})),
+		    #"add resourcename to modern type tables and fix tags in legacy" = Table.AddColumn(#"lowercase resource id", "Custom2", each if [subscriptionType] = "modern" then Table.AddColumn([Custom], "ResourceName", each Text.AfterDelimiter([ResourceId], "/", {0, RelativePosition.FromEnd}), type text) else Table.TransformColumns ([Custom],{{"Tags", each "{" & _ & "}", type text}})),
+		    #"cleanup to start phase 3" = Table.SelectColumns(#"add resourcename to modern type tables and fix tags in legacy",{"Custom2"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"cleanup to start phase 3",{{"Custom2", "Data"}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Renamed Columns", "Data", LegacyNames,LegacyNames)
+		in
+		    #"Expanded Data"
+	lineageTag: 1f9db2b5-250b-4a0c-af1d-2bfb8d577643
+	queryGroup: 'Cost Details'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression LatestMonthlyText_actual =
+		let
+		    Source = Date.ToText(LastestMonthly_actual,[Format="yyyy-MM"])
+		in
+		    Source
+	lineageTag: 43868b34-5386-45a5-999e-a201224821a2
+	queryGroup: 'Helper stuff'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression PreviousMonth =
+		let
+		    Source = Date.ToText(Date.AddMonths(Date.From(DateTimeZone.UtcNow()), -1), "yyyy-MM")
+		in
+		    Source
+	lineageTag: 499edf55-314c-472b-9b0c-7d52fd36bc25
+	queryGroup: 'Helper stuff'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression LatestDaily_PreviousMonth_amortized =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/cost_details_amortized/")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "CostPeriod", each Text.BetweenDelimiters([Name], "/cost_details_amortized/", "/"), type text),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Text Between Delimiters",{{"CostPeriod", type datetime}}),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Changed Type1", "Monthly?", each if Text.EndsWith([Name], "_monthly.parquet") then "monthly" else "daily"),
+		    #"Inserted Month Name" = Table.AddColumn(#"Added Conditional Column1", "Month Name", each Date.MonthName([CostPeriod]), type text),
+		    #"Sorted Rows" = Table.Sort(#"Inserted Month Name",{{"CostPeriod", Order.Descending}}),
+		    #"Inserted Date" = Table.AddColumn(#"Sorted Rows", "Date", each DateTime.Date([CostPeriod]), type date),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Date",{{"Date", type text}}),
+		    #"Added Conditional Column" = Table.AddColumn(#"Changed Type2", "backload?", each if Text.Contains([Date], "/3/") then "backload" else null),
+		    #"Inserted Merged Column" = Table.AddColumn(#"Added Conditional Column", "backload?.1", each Text.Combine({[Month Name], [#"backload?"]}, ""), type text),
+		    #"Inserted Text Between Delimiters3" = Table.AddColumn(#"Inserted Merged Column", "YearMonth", each Text.BetweenDelimiters([Name], "/", "/", 3, 0), type text),
+		    #"Filtered Rows1" = Table.SelectRows(#"Inserted Text Between Delimiters3", each ([#"Monthly?"] = "daily")),
+		    #"Filtered Rows4" = Table.SelectRows(#"Filtered Rows1", each [YearMonth] = PreviousMonth),
+		    #"Filtered Rows3" = Table.SelectRows(#"Filtered Rows4", let latest = List.Max(#"Filtered Rows4"[CostPeriod]) in each [CostPeriod] = latest),
+		    #"Inserted Date1" = Table.AddColumn(#"Filtered Rows3", "Date.1", each DateTime.Date([Date modified]), type date),
+		    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Inserted Date1", "runID", each Text.BetweenDelimiters([Name], "_", "_", {2, RelativePosition.FromEnd}, 0), type text),
+		    #"Sorted Rows1" = Table.Sort(#"Inserted Text Between Delimiters1",{{"Date.1", Order.Descending}}),
+		    #"Filtered Rows5" = Table.SelectRows(#"Sorted Rows1", let latest = List.Max(#"Sorted Rows1"[Date.1]) in each [Date.1] = latest),
+		    #"Inserted Time" = Table.AddColumn(#"Filtered Rows5", "Time", each DateTime.Time([Date modified]), type time),
+		    #"Sorted Rows2" = Table.Sort(#"Inserted Time",{{"Time", Order.Descending}}),
+		    #"Inserted Hour" = Table.AddColumn(#"Sorted Rows2", "Hour", each Time.Hour([Time]), Int64.Type),
+		    #"Inserted Text Between Delimiters2" = Table.AddColumn(#"Inserted Hour", "Text Between Delimiters", each Text.BetweenDelimiters([Name], "_", "_", {1, RelativePosition.FromEnd}, 0), type text),
+		    #"Removed Duplicates" = Table.Distinct(#"Inserted Text Between Delimiters2", {"Text Between Delimiters"}),
+		    #"cleanup to start phase 1" = Table.SelectColumns(#"Removed Duplicates",{"Content"}),
+		    #"load parquet files as table" = Table.AddColumn(#"cleanup to start phase 1", "Data", each #"Parquet Loader"([Content])),
+		    #"check table rowcount" = Table.AddColumn(#"load parquet files as table", "RowCount", each Table.RowCount([Data] as table) as number),
+		    #"remove empty tables" = Table.SelectRows(#"check table rowcount", each [RowCount] <> 0),
+		    #"extract columnnames for check" = Table.AddColumn(#"remove empty tables", "ColumnNames", each Table.ColumnNames([Data] as table) as list),
+		    #"check modern/legacy based on columnname" = Table.AddColumn(#"extract columnnames for check", "ModernCheck", each List.Contains([ColumnNames],"billingCurrency")),
+		    #"optional: check columncount" = Table.AddColumn(#"check modern/legacy based on columnname", "ListCount", each List.Count([ColumnNames])),
+		    #"define subscriptionType based on earlier check" = Table.AddColumn(#"optional: check columncount", "subscriptionType", each if [ModernCheck] = false then "legacy" else if [ModernCheck] = true then "modern" else "legacy"),
+		    #"cleanup to start phase 2" = Table.SelectColumns(#"define subscriptionType based on earlier check",{"Data", "subscriptionType"}),
+		    #"rename columns based on type" = Table.AddColumn(#"cleanup to start phase 2", "Test", each if [subscriptionType] = "legacy" then Table.RenameColumns([Data],{}) else if [subscriptionType] = "modern" then Table.RenameColumns([Data], List.Zip({Rename_modern[OldName], Rename_modern[NewName]}), MissingField.Ignore)
+		 else null),
+		    #"lowercase resource id" = Table.AddColumn(#"rename columns based on type", "Custom", each Table.TransformColumns([Test],{{"ResourceId", Text.Lower, type text}})),
+		    #"add resourcename to modern type tables and fix tags in legacy" = Table.AddColumn(#"lowercase resource id", "Custom2", each if [subscriptionType] = "modern" then Table.AddColumn([Custom], "ResourceName", each Text.AfterDelimiter([ResourceId], "/", {0, RelativePosition.FromEnd}), type text) else Table.TransformColumns ([Custom],{{"Tags", each "{" & _ & "}", type text}})),
+		    #"cleanup to start phase 3" = Table.SelectColumns(#"add resourcename to modern type tables and fix tags in legacy",{"Custom2"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"cleanup to start phase 3",{{"Custom2", "Data"}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Renamed Columns", "Data", LegacyNames,LegacyNames)
+		in
+		    #"Expanded Data"
+	lineageTag: b4d97a42-1509-4ee6-9b7e-230893e77ec8
+	queryGroup: 'Cost Details'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression LatestMonthlyText_amortized =
+		let
+		    Source = Date.ToText(LastestMonthly_amortized,[Format="yyyy-MM"])
+		in
+		    Source
+	lineageTag: 34fff3f3-1e2b-473f-a220-959cf7e90569
+	queryGroup: 'Helper stuff'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression base_current_inventory =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/inventory")),
+		    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", let latest = List.Max(#"Filtered Rows"[Date modified]) in each [Date modified] = latest),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows1",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "JSON Loader", each #"JSON Loader"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"JSON Loader"}),
+		    #"Expanded JSON Loader" = Table.ExpandListColumn(#"Removed Other Columns1", "JSON Loader"),
+		    #"Expanded JSON Loader1" = Table.ExpandRecordColumn(#"Expanded JSON Loader", "JSON Loader", {"id", "name", "type", "location", "resourceGroup", "subscriptionId", "tags", "properties"}, {"id", "name", "type", "location", "resourceGroup", "subscriptionId", "tags", "properties"})
+		in
+		    #"Expanded JSON Loader1"
+	lineageTag: bed90997-0db4-436a-9c5c-a04fc323efc6
+	queryGroup: OrphanedResources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression reservations_base =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/reservation_summaries/")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "rundate", each Text.BetweenDelimiters([Name], "/reservation_summaries/", "/"), type text),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Inserted Text Between Delimiters",{{"rundate", type date}}),
+		    #"Filtered Rows1" = Table.SelectRows(#"Changed Type", let latest = List.Max(#"Changed Type"[rundate]) in each [rundate] = latest),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows1",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "JSON Loader", each #"JSON Loader"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"JSON Loader"}),
+		    #"Expanded JSON Loader" = Table.ExpandRecordColumn(#"Removed Other Columns1", "JSON Loader", {"value"}, {"value"}),
+		    #"Expanded value" = Table.ExpandListColumn(#"Expanded JSON Loader", "value"),
+		    #"Expanded value1" = Table.ExpandRecordColumn(#"Expanded value", "value", {"tags", "id", "name", "type", "properties"}, {"tags", "id", "name", "type", "properties"})
+		in
+		    #"Expanded value1"
+	lineageTag: 48d9b41c-6d70-40c0-8107-c109bc560160
+	queryGroup: OrphanedResources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression reservation_orders_base =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/reservation_orders/")),
+		    #"Inserted Date" = Table.AddColumn(#"Filtered Rows", "Date", each DateTime.Date([Date modified]), type date),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Inserted Date", "runid", each Text.BetweenDelimiters([Name], "_", ".json", {0, RelativePosition.FromEnd}, 0), type text),
+		    #"Filtered Rows1" = Table.SelectRows(#"Inserted Text Between Delimiters", let latest = List.Max(#"Inserted Text Between Delimiters"[Date]) in each [Date] = latest),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows1",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "JSON Loader", each #"JSON Loader"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"JSON Loader"}),
+		    #"Expanded JSON Loader" = Table.ExpandRecordColumn(#"Removed Other Columns1", "JSON Loader", {"id", "name", "type", "etag", "properties"}, {"id", "name", "type", "etag", "properties"}),
+		    #"Expanded properties" = Table.ExpandRecordColumn(#"Expanded JSON Loader", "properties", {"originalQuantity", "requestDateTime", "billingPlan", "reservations", "term", "enrollmentId", "displayName", "createdDateTime", "benefitStartTime", "provisioningState", "billingAccountId", "expiryDate", "expiryDateTime"}, {"originalQuantity", "requestDateTime", "billingPlan", "reservations", "term", "enrollmentId", "displayName", "createdDateTime", "benefitStartTime", "provisioningState", "billingAccountId", "expiryDate", "expiryDateTime"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded properties",{{"id", type text}, {"name", type text}, {"type", type text}, {"etag", Int64.Type}, {"originalQuantity", Int64.Type}, {"requestDateTime", type datetime}, {"billingPlan", type text}, {"reservations", type any}, {"term", type duration}, {"enrollmentId", Int64.Type}, {"displayName", type text}, {"createdDateTime", type datetime}, {"benefitStartTime", type datetime}, {"provisioningState", type text}, {"billingAccountId", type text}, {"expiryDate", type date}, {"expiryDateTime", type datetime}})
+		in
+		    #"Changed Type"
+	lineageTag: 6eb92be3-c498-4fd5-b2b8-32669c7a7e01
+	queryGroup: OrphanedResources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression subscriptionsBase =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/subscriptions/")),
+		    #"Filtered Rows2" = Table.SelectRows(#"Filtered Rows", let latest = List.Max(#"Filtered Rows"[Date modified]) in each [Date modified] = latest),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows2",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "JSON Loader", each #"JSON Loader"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"JSON Loader"}),
+		    #"Expanded JSON Loader" = Table.ExpandListColumn(#"Removed Other Columns1", "JSON Loader"),
+		    #"Expanded JSON Loader1" = Table.ExpandRecordColumn(#"Expanded JSON Loader", "JSON Loader", {"id", "name", "type", "tenantId", "subscriptionId", "managedBy", "properties"}, {"id", "name", "type", "tenantId", "subscriptionId", "managedBy", "properties"}),
+		    #"Expanded properties" = Table.ExpandRecordColumn(#"Expanded JSON Loader1", "properties", {"state"}, {"state"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded properties",{{"id", type text}, {"name", type text}, {"type", type text}, {"tenantId", type text}, {"subscriptionId", type text}, {"managedBy", type text}, {"state", type text}}),
+		    #"Filtered Rows1" = Table.SelectRows(#"Changed Type", each ([state] = "Enabled"))
+		in
+		    #"Filtered Rows1"
+	lineageTag: 12c9010e-0a36-4ad4-89d5-d5d7f9d42b36
+	queryGroup: OrphanedResources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression base_budgets =
+		let
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/budgets")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "rundate", each Text.BetweenDelimiters([Name], "budgets/", "/"), type date),
+		    #"Filtered Rows2" = Table.SelectRows(#"Inserted Text Between Delimiters", let latest = List.Max(#"Inserted Text Between Delimiters"[rundate]) in each [rundate] = latest),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows2",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "JSON Loader", each #"JSON Loader"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"JSON Loader"}),
+		    #"Expanded JSON Loader2" = Table.ExpandRecordColumn(#"Removed Other Columns1", "JSON Loader", {"value"}, {"value"}),
+		    #"Added Custom" = Table.AddColumn(#"Expanded JSON Loader2", "Empty", each List.IsEmpty([value])),
+		    #"Filtered Rows1" = Table.SelectRows(#"Added Custom", each ([Empty] = false)),
+		    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows1",{"Empty"}),
+		    #"Expanded value1" = Table.ExpandListColumn(#"Removed Columns", "value"),
+		    #"Expanded value2" = Table.ExpandRecordColumn(#"Expanded value1", "value", {"id", "name", "type", "eTag", "properties"}, {"id", "name", "type", "eTag", "properties"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Expanded value2", {"id"}),
+		    #"Expanded properties" = Table.ExpandRecordColumn(#"Removed Duplicates", "properties", {"timePeriod", "timeGrain", "amount", "currentSpend", "category"}, {"timePeriod", "timeGrain", "amount", "currentSpend", "category"}),
+		    #"Expanded timePeriod" = Table.ExpandRecordColumn(#"Expanded properties", "timePeriod", {"startDate", "endDate"}, {"startDate", "endDate"}),
+		    #"Expanded currentSpend" = Table.ExpandRecordColumn(#"Expanded timePeriod", "currentSpend", {"amount", "unit"}, {"currentSpend.amount", "currentSpend.unit"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded currentSpend",{{"id", type text}, {"name", type text}, {"type", type text}, {"eTag", type text}, {"startDate", type datetime}, {"endDate", type datetime}, {"timeGrain", type text}, {"amount", Int64.Type}, {"currentSpend.amount", type number}, {"currentSpend.unit", type text}, {"category", type text}}),
+		    #"Added Custom1" = Table.AddColumn(#"Changed Type", "percentageUsed", each [currentSpend.amount] / [amount]),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom1",{{"percentageUsed", Percentage.Type}})
+		in
+		    #"Changed Type1"
+	lineageTag: 440761a7-ae0f-4c57-bf42-b872e88e71e3
+	queryGroup: OrphanedResources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression base_computeskus = ```
+		let
+		    // Load and preprocess the data
+		    Source = base_data,
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/computeskus")),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows", "rundate", each Text.BetweenDelimiters([Name], "computeskus/", "/"), type date),
+		    #"Filtered Rows2" = Table.SelectRows(#"Inserted Text Between Delimiters", let latest = List.Max(#"Inserted Text Between Delimiters"[rundate]) in each [rundate] = latest),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows2",{"Content"}),
+		    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "JSON Loader", each #"JSON Loader"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"JSON Loader"}),
+		    #"Expanded JSON Loader" = Table.ExpandRecordColumn(#"Removed Other Columns1", "JSON Loader", {"value"}, {"value"}),
+		
+		    // Navigate to the list of values
+		    ValueList = #"Expanded JSON Loader"[value],
+		
+		    // Convert the list to a table
+		    ValueTable = Table.FromList(ValueList, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Expanded Column1" = Table.ExpandListColumn(ValueTable, "Column1"),
+		
+		    // Expand the columns of the table
+		    ExpandedTable = Table.ExpandRecordColumn(#"Expanded Column1", "Column1", {"resourceType", "locations", "capabilities", "locationInfo", "name", "tier", "size", "family"}),
+		
+		    // Filter the table to keep only virtual machines
+		    FilteredTable = Table.SelectRows(ExpandedTable, each ([resourceType] = "virtualMachines")),
+		
+		    // Expand the capabilities column to get the required fields
+		    ExpandedCapabilities = Table.ExpandListColumn(FilteredTable, "capabilities"),
+		    #"Renamed Columns" = Table.RenameColumns(ExpandedCapabilities,{{"name", "name_"}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"locations", "locationInfo"}),
+		    CapabilitiesTable = Table.ExpandRecordColumn(#"Removed Columns", "capabilities", {"name", "value"}),
+		
+		    // Group by main columns and aggregate capabilities
+		    GroupedTable = Table.Group(CapabilitiesTable, {"resourceType", "name_", "tier", "size", "family"}, {
+		        {"AggregatedCapabilities", each 
+		            let
+		                tbl = _,
+		                vCPUsPerCore = List.First(Table.SelectRows(tbl, each [name] = "vCPUsPerCore")[value]),
+		                vCPUsAvailable = List.First(Table.SelectRows(tbl, each [name] = "vCPUsAvailable")[value]),
+		                MemoryGB = List.First(Table.SelectRows(tbl, each [name] = "MemoryGB")[value]),
+		                vCPUs = List.First(Table.SelectRows(tbl, each [name] = "vCPUs")[value]),
+		                ACUs =  List.First(Table.SelectRows(tbl, each [name] = "ACUs")[value])
+		            in
+		                [vCPUsPerCore = vCPUsPerCore, vCPUsAvailable = vCPUsAvailable, MemoryGB = MemoryGB, vCPUs = vCPUs, ACUs=ACUs]
+		        }
+		    }),
+		
+		    // Expand the aggregated capabilities
+		    ExpandedGroupedTable = Table.ExpandRecordColumn(GroupedTable, "AggregatedCapabilities", {"vCPUsPerCore", "vCPUsAvailable", "MemoryGB", "vCPUs","ACUs"}),
+		
+		    // Change the types of the columns if needed
+		    ChangedType = Table.TransformColumnTypes(ExpandedGroupedTable, {
+		        {"vCPUsPerCore", Int64.Type}, 
+		        {"vCPUsAvailable", Int64.Type}, 
+		        {"MemoryGB", type number}, 
+		        {"vCPUs", Int64.Type}
+		    }),
+		
+		    // Select only the required columns
+		    FinalTable = Table.SelectColumns(ChangedType, {"name_", "tier", "size", "family", "vCPUsPerCore", "vCPUsAvailable", "MemoryGB", "vCPUs","ACUs"}),
+		
+		    // Rename the columns to the desired names
+		    RenamedColumns = Table.RenameColumns(FinalTable, {{"name_", "name"}}),
+		    #"Changed Type" = Table.TransformColumnTypes(RenamedColumns,{{"name", type text}, {"tier", type text}, {"size", type text}, {"family", type text}, {"ACUs", Int64.Type}})
+		in
+		    #"Changed Type"
+		```
+	lineageTag: 06b28669-9fc0-4bb1-ad62-3fd999b29fd8
+	queryGroup: OrphanedResources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+/// Bulk Removes tags for autogenerated tags from things like veam or databricks that might impact dataload performance due to large amount of tags.
+expression TagExclusions = "ClusterId,ClusterName,JobId,DatabricksInstancePoolCreatorId,DatabricksInstancePoolId,runname,databricksenvironment,databricks-instance-name" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=false]
+	lineageTag: 4bb5df92-2bd6-452a-b652-1f6ce0c3fe25
+	queryGroup: Params
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression tagExcluder = ```
+		/*
+		This function removes specified keys from a JSON string.
+		
+		Parameters:
+		- JsonInput: The JSON text from which the keys will be removed.
+		- KeysToRemove: A list of keys to be removed from the JSON.
+		
+		Author: TomVdM
+		*/
+		let
+		    Source = (JsonText as text, KeysToRemove as any) as text =>
+		let
+		    // Check if KeysToRemove is null or not a list
+		    IsEmptyKeysToRemove = KeysToRemove = null or not (Type.Is(Value.Type(KeysToRemove), List.Type)) or List.Count(KeysToRemove) = 0,
+		    
+		    // If KeysToRemove is null or not a list, return the original JSON text without modification
+		    Result = if IsEmptyKeysToRemove then
+		        JsonText
+		    else
+		        // Iterate through each key in the KeysToRemove list
+		        List.Accumulate(KeysToRemove, JsonText, (state, currentKey) =>
+		            let
+		                // Find the starting position of the current key
+		                keyPattern = """" & currentKey & """" & ":",
+		                startPos = Text.PositionOf(state, keyPattern),
+		                isKeyPresent = startPos >= 0,
+		                // If the key is found, remove it; otherwise, keep the state as it is
+		                modifiedState = if isKeyPresent then
+		                    let
+		                        // Start after the key pattern
+		                        afterKey = Text.Middle(state, startPos + Text.Length(keyPattern)),
+		                        // Find the first comma or closing brace after the value of the key
+		                        firstComma = Text.PositionOf(afterKey, ","),
+		                        firstBrace = Text.PositionOf(afterKey, "}"),
+		                        // Determine the end position based on the comma or closing brace
+		                        endPos = if firstComma <> -1 and firstComma < firstBrace then firstComma else firstBrace,
+		                        // Remove the key-value pair (handle both middle and end positions)
+		                        result = if endPos = firstBrace then
+		                            Text.RemoveRange(state, startPos, Text.Length(keyPattern) + firstBrace)
+		                        else
+		                            Text.RemoveRange(state, startPos, Text.Length(keyPattern) + firstComma + 1)
+		                    in
+		                        result
+		                else
+		                    state
+		            in
+		                modifiedState
+		        ),
+		    
+		    // First trim any unnecessary commas, then trim spaces and extra braces
+		    CleanJson = Text.Trim(Text.Trim(Result, ","), " "),
+		    // Check for empty curly braces or minimal content, and replace with fallback if true
+		    FinalResult = if Text.Length(Text.Trim(CleanJson)) <= 2 then
+		        "{""Untagged Resources"": ""Untagged Resources""}"
+		    else
+		        CleanJson
+		in
+		    FinalResult
+		in
+		    Source
+		```
+	lineageTag: 48b17df2-374f-4394-a060-5902e4f10d9b
+	queryGroup: Params
+
+	annotation PBI_ResultType = Function
+
+expression TagExclusions_list =
+		let
+		    Source = TagExclusions,
+		    #"Handled Null" = if Source = null then "" else Source,
+		    #"Lowercased Text" = Text.Lower(#"Handled Null"),
+		    #"Split Text" = Text.Split(#"Lowercased Text", ","),
+		    #"Check Empty List" = if List.Count(#"Split Text") = 1 and #"Split Text"{0} = "" then null else #"Split Text"
+		in
+		    #"Check Empty List"
+	lineageTag: 2eb6ba4a-1686-468f-92c7-f087ff9a0d98
+	queryGroup: Params
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = List
+

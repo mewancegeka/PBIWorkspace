@@ -1,0 +1,62 @@
+table TagSummary
+	lineageTag: e3041932-1350-4e64-92aa-db2f9146f933
+
+	column TagName
+		lineageTag: 9912dde0-481e-4f5f-be87-646633b702e3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: InventoryTags[TagName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalAmortized
+		lineageTag: ad704eb9-1660-4dd5-bd0f-24d132c61adc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [TotalAmortized]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalActual
+		lineageTag: 951db66a-d808-4669-a171-2001de8689e3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [TotalActual]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AmortizedRank =
+			
+			VAR RankTag = RANKX ( ALL(TagSummary), TagSummary[TotalAmortized],,DESC)
+			return
+			IF(RankTag <= 9, RankTag & ") " & TagSummary[TagName], "Others")
+		lineageTag: 4c190b77-0a01-4426-852e-72bcbb755053
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActualRank =
+			
+			VAR RankTag = RANKX ( ALL(TagSummary), TagSummary[TotalActual],,DESC)
+			return
+			IF(RankTag <= 10, TagSummary[TagName], "Others")
+		lineageTag: 8355d001-5302-4b28-a9fd-50f1413ac1fb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TagSummary-ca5d5a37-3d77-4d00-b635-0330b404d8cc = calculated
+		mode: import
+		source =
+				SUMMARIZECOLUMNS(
+				    InventoryTags[TagName],
+				    "TotalAmortized", [TotalAmortized],
+				    "TotalActual", [TotalActual]
+				)
+
+	annotation PBI_Id = d0e6072c54594b659070645c80c6e9a5
+

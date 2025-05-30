@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.7.0/schema.json",
+  "name": "4f443f1d044563987854",
+  "position": {
+    "x": 1321.1711711711712,
+    "y": 131.17117117117118,
+    "z": 14000,
+    "height": 166.48648648648648,
+    "width": 407.38738738738743,
+    "tabOrder": 12000
+  },
+  "visualGroup": {
+    "displayName": "Tooltip2",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

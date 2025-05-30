@@ -1,0 +1,67 @@
+table current_inventory
+	lineageTag: d743dfec-1d2b-450e-a33e-a98edaf96005
+
+	column id
+		dataType: string
+		lineageTag: d9bc621c-f6fe-491c-af7c-6e45305c0683
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 5457adcc-866c-4702-93db-1a5e1c344678
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: d48925e4-05d6-4fb0-a33b-63079f910952
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column location
+		dataType: string
+		lineageTag: d2ede87f-0f8c-43c0-8ab4-1828709508a9
+		summarizeBy: none
+		sourceColumn: location
+
+		annotation SummarizationSetBy = Automatic
+
+	column resourceGroup
+		dataType: string
+		lineageTag: b26f3c00-a882-492a-a1dd-d8a55c3048c3
+		summarizeBy: none
+		sourceColumn: resourceGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column subscriptionId
+		dataType: string
+		lineageTag: e240e186-0a6d-4825-ace0-61b4fd5b0a4e
+		summarizeBy: none
+		sourceColumn: subscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition current_inventory = m
+		mode: import
+		queryGroup: OrphanedResources
+		source =
+				let
+				    Source = base_current_inventory,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"id", "name", "type", "location", "resourceGroup", "subscriptionId"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"id", type text}, {"name", type text}, {"type", type text}, {"location", type text}, {"resourceGroup", type text}, {"subscriptionId", type text}}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Changed Type",{{"id", Text.Lower, type text}, {"name", Text.Lower, type text}, {"type", Text.Lower, type text}, {"location", Text.Lower, type text}, {"resourceGroup", Text.Lower, type text}, {"subscriptionId", Text.Lower, type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Lowercased Text", each [id] <> null and [id] <> ""),
+				    #"Removed Duplicates" = Table.Distinct(#"Filtered Rows", {"id"})
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_ResultType = Table
+

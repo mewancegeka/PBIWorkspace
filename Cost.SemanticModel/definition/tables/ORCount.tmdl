@@ -1,0 +1,33 @@
+table ORCount
+	lineageTag: ff0b58bc-1663-4758-bb07-d5cf249bb491
+
+	column 'type and count'
+		lineageTag: 1c9b3370-33cf-4c97-ab93-ea0e706ab939
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [type and count]
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		lineageTag: 1254e89a-2706-4ac3-b3a1-0f787762de17
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: OrphanedResources_All[type]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ORCount-733c67ef-be23-47e4-bfe3-6d51100ea309 = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZECOLUMNS(
+				    OrphanedResources_All[type],
+				    KEEPFILTERS( FILTER( ALL( OrphanedResources_All[type] ), OrphanedResources_All[type] <> "" )),
+				    "type and count", [type & count]
+				)
+				
+				```
+
+	annotation PBI_Id = ea17a06a76f8469fa3609eb842a0474e
+

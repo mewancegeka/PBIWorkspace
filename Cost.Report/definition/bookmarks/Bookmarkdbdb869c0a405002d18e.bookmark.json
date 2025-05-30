@@ -1,0 +1,91 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.2.0/schema.json",
+  "displayName": "ShowCostIncrTooltip",
+  "name": "Bookmarkdbdb869c0a405002d18e",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "65f9250fe018270e0099",
+      "585b7eecd9e5429059ee",
+      "7460c608809461711945",
+      "6a949553d5cbd60a037e",
+      "39f4cf5f00e00475ace2"
+    ],
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "ReportSectiond6bd020eecab0a61c2b3",
+    "sections": {
+      "ReportSectiond6bd020eecab0a61c2b3": {
+        "visualContainers": {
+          "881db2811de55b957b4b": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "585b7eecd9e5429059ee": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "7460c608809461711945": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "6a949553d5cbd60a037e": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "39f4cf5f00e00475ace2": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "108d100416771e290e9e": {
+            "isHidden": true
+          },
+          "0d7b5d07120c30c015cc": {
+            "isHidden": true
+          },
+          "65f9250fe018270e0099": {
+            "isHidden": false
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "true"
+                  }
+                }
+              },
+              "visible": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

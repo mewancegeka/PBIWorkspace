@@ -1,0 +1,67 @@
+table Inventory
+	lineageTag: 5dcad7ee-697b-4d47-8181-b93f2d3cf5b7
+
+	column ResourceId
+		dataType: string
+		lineageTag: 69ebead2-a3b5-4c88-aff1-9730bb9d8b1f
+		summarizeBy: none
+		sourceColumn: ResourceId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceName
+		dataType: string
+		lineageTag: e246f1ea-72f3-493b-8eff-bc109ba36b43
+		summarizeBy: none
+		sourceColumn: ResourceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResourceGroup
+		dataType: string
+		lineageTag: 9cbe3be1-2c50-48ec-8f77-2b63f3dd2f2d
+		summarizeBy: none
+		sourceColumn: ResourceGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionId
+		dataType: string
+		lineageTag: 2e48ee6b-a7d5-46b2-bffe-504e8631c433
+		summarizeBy: none
+		sourceColumn: SubscriptionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionName
+		dataType: string
+		lineageTag: 6063f077-822b-4161-be0b-9215442c35e3
+		summarizeBy: none
+		sourceColumn: SubscriptionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column azurePortal_url = "https://portal.azure.com/#@" &max(tenantid[tenantId])& "/resource" & Inventory[ResourceId]
+		lineageTag: 087a1189-3c79-4d44-8ba7-77c3c023607a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Inventory-7397fe87-dba6-4ee8-9780-a03bf70ae6d4 = m
+		mode: import
+		queryGroup: Inventory
+		source =
+				let
+				    Source = ActualCost_base,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"SubscriptionId", "SubscriptionName", "ResourceGroup", "ResourceId", "ResourceName"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Other Columns",null,"N/A",Replacer.ReplaceValue,{"ResourceGroup"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Replaced Value"),
+				    #"Appended Query" = Table.Combine({#"Removed Duplicates", Subscriptions}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Appended Query",{{"ResourceId", Text.Trim, type text}}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Trimmed Text", {"ResourceId"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates1", each [ResourceId] <> null and [ResourceId] <> "")
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Exception
+

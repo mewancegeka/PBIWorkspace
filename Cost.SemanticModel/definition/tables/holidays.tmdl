@@ -1,0 +1,65 @@
+table holidays
+	lineageTag: 366239f5-0841-4fb4-85f6-c998b3ace9f3
+
+	column themeName
+		dataType: string
+		lineageTag: ea1d2fa6-ac49-4eb9-bea2-5a8b590f587f
+		summarizeBy: none
+		sourceColumn: themeName
+
+		annotation SummarizationSetBy = Automatic
+
+	column themeStart
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e6800a2d-5a75-49a2-8aa4-c37cfd52407f
+		summarizeBy: none
+		sourceColumn: themeStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column themeEnd
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 65140f8a-c478-481a-85ad-02ad44fad8c8
+		summarizeBy: none
+		sourceColumn: themeEnd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column themeLogo
+		dataType: string
+		lineageTag: 06be4ea5-9e08-46ac-99a5-dd2a0fba80ec
+		summarizeBy: none
+		sourceColumn: themeLogo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: string
+		lineageTag: 23d4808e-a8b2-4f91-8230-8119af47100c
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	partition holidays-69bf9113-9d58-4a06-98bd-4315ee7e5c0c = m
+		mode: import
+		queryGroup: Base
+		source =
+				let
+				    Source = Json.Document(Web.Contents("https://raw.githubusercontent.com/dexmach/pbi-holiday-icons/main/holidays.json")),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"themeName", "themeStart", "themeEnd", "themeLogo"}, {"themeName", "themeStart", "themeEnd", "themeLogo"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Column1",{{"themeName", type text}, {"themeStart", type date}, {"themeEnd", type date}, {"themeLogo", type text}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type", "Active", each if Date.From(DateTime.LocalNow()) >= [themeStart] and [themeEnd] >= Date.From(DateTime.LocalNow()) then true else false),
+				    #"Filtered Rows" = Table.SelectRows(#"Added Conditional Column", each ([Active] = true))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+

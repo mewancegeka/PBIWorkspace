@@ -1,0 +1,206 @@
+table ReservationRecommendations
+	lineageTag: 4a284b29-8652-43b6-b037-f286d70112f0
+
+	column reserved_instance_type
+		dataType: string
+		lineageTag: 55a76de6-9b7e-443e-a78f-f780f77b1fb8
+		summarizeBy: none
+		sourceColumn: reserved_instance_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column location
+		dataType: string
+		lineageTag: cf57fe6c-fd2d-4df5-9df6-77c6af1984fe
+		summarizeBy: none
+		sourceColumn: location
+
+		annotation SummarizationSetBy = Automatic
+
+	column sku
+		dataType: string
+		lineageTag: e16ae21e-337f-4115-8582-9483e61bae1e
+		summarizeBy: none
+		sourceColumn: sku
+
+		annotation SummarizationSetBy = Automatic
+
+	column id
+		dataType: string
+		lineageTag: 71c9d2cd-3a80-4665-b053-f85557d61581
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 884ebc4b-63ab-4374-b92c-1e7eb59a5323
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: f71c8d97-7955-4ad2-8bfd-58bd97c6d9ce
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column kind
+		dataType: string
+		lineageTag: cc59540d-156f-48eb-ab6e-8dfa6a48478b
+		summarizeBy: none
+		sourceColumn: kind
+
+		annotation SummarizationSetBy = Automatic
+
+	column look_back_period
+		dataType: string
+		lineageTag: a8a76c49-67d0-461e-a043-ed337f704218
+		summarizeBy: none
+		sourceColumn: look_back_period
+
+		annotation SummarizationSetBy = Automatic
+
+	column instance_flexibility_ratio
+		dataType: int64
+		formatString: 0
+		lineageTag: d4ddae60-b27b-4350-9808-08d0bd397a3c
+		summarizeBy: sum
+		sourceColumn: instance_flexibility_ratio
+
+		annotation SummarizationSetBy = Automatic
+
+	column instance_flexibility_group
+		dataType: string
+		lineageTag: a0b284db-0518-4749-9c73-0aafdcb10723
+		summarizeBy: none
+		sourceColumn: instance_flexibility_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column normalized_size
+		dataType: string
+		lineageTag: c5a77c39-0f7a-45e6-b43c-ed98ae89eb46
+		summarizeBy: none
+		sourceColumn: normalized_size
+
+		annotation SummarizationSetBy = Automatic
+
+	column recommended_quantity_normalized
+		dataType: int64
+		formatString: 0
+		lineageTag: 64264458-f87d-40a8-979f-4c1356ed8353
+		summarizeBy: sum
+		sourceColumn: recommended_quantity_normalized
+
+		annotation SummarizationSetBy = Automatic
+
+	column meter_id
+		dataType: string
+		lineageTag: 750367d1-9391-4466-a710-7e5690f1d0f3
+		summarizeBy: none
+		sourceColumn: meter_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column term
+		dataType: string
+		lineageTag: 4423705a-9ccf-4226-9216-fe9e5a47f78a
+		summarizeBy: none
+		sourceColumn: term
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_with_no_reserved_instances
+		dataType: double
+		lineageTag: b763a0dd-ad78-48bf-8520-281fd0c98195
+		summarizeBy: sum
+		sourceColumn: cost_with_no_reserved_instances
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recommended_quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: a0182bfa-41b7-49a5-90b5-4235d33dbece
+		summarizeBy: sum
+		sourceColumn: recommended_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_cost_with_reserved_instances
+		dataType: double
+		lineageTag: 3837b7c0-811b-4bd4-bc23-89fe0564f22b
+		summarizeBy: sum
+		sourceColumn: total_cost_with_reserved_instances
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_savings
+		dataType: double
+		lineageTag: 1084254a-68e2-4aab-b921-4dea3ce05d44
+		summarizeBy: sum
+		sourceColumn: net_savings
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column first_usage_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 46954d5f-6ead-4c66-91a7-1556a8999519
+		summarizeBy: none
+		sourceColumn: first_usage_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column scope
+		dataType: string
+		lineageTag: e7d20920-8b64-42d4-83f8-5a6f0a34402a
+		summarizeBy: none
+		sourceColumn: scope
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ReservationRecommendations-c09e57fa-58a7-4575-9cea-da8cc1f118ec = m
+		mode: import
+		queryGroup: Reservations
+		source =
+				let
+				    Source = base_data,
+				    #"Filtered Rows" = Table.SelectRows(Source, each Text.StartsWith([Name], Environment&"/cost_v2/azure/reservation_recommendations/")),
+				    #"Sorted Rows" = Table.Sort(#"Filtered Rows",{{"Date modified", Order.Descending}}),
+				    #"Inserted Text Between Delimiters1" = Table.AddColumn(#"Sorted Rows", "id", each Text.BetweenDelimiters([Name], "_", "_", {1, RelativePosition.FromEnd}, 0), type text),
+				    #"Inserted Date" = Table.AddColumn(#"Inserted Text Between Delimiters1", "Date", each DateTime.Date([Date modified]), type date),
+				    #"Filtered Rows4" = Table.SelectRows(#"Inserted Date", let latest = List.Max(#"Inserted Date"[Date]) in each [Date] = latest),
+				    #"Removed Duplicates" = Table.Distinct(#"Filtered Rows4", {"Date", "id"}),
+				    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Removed Duplicates", "PeriodDate", each Text.BetweenDelimiters([Name], "/reservation_recommendations/", "/"), type text),
+				    #"Extracted Text Before Delimiter" = Table.TransformColumns(#"Inserted Text Between Delimiters", {{"PeriodDate", each Text.BeforeDelimiter(_, "T"), type text}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Extracted Text Before Delimiter",{{"PeriodDate", type date}}),
+				    #"Filtered Rows3" = Table.SelectRows(#"Changed Type1", let latest = List.Max(#"Changed Type1"[PeriodDate]) in each [PeriodDate] = latest),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows3",{"Content"}),
+				    #"Invoked Custom Function" = Table.AddColumn(#"Removed Other Columns", "Data", each #"JSON Loader"([Content])),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Invoked Custom Function",{"Data"}),
+				    #"Expanded Data" = Table.ExpandListColumn(#"Removed Other Columns1", "Data"),
+				    #"Expanded Data1" = Table.ExpandRecordColumn(#"Expanded Data", "Data", {"reserved_instance_type", "result"}, {"reserved_instance_type", "result"}),
+				    #"Added Custom" = Table.AddColumn(#"Expanded Data1", "Custom", each List.IsEmpty([result])),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Custom", each ([Custom] = false)),
+				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows2",{"Custom"}),
+				    #"Expanded result" = Table.ExpandListColumn(#"Removed Columns", "result"),
+				    #"Expanded result1" = Table.ExpandRecordColumn(#"Expanded result", "result", {"location", "sku", "id", "name", "type", "kind", "look_back_period", "instance_flexibility_ratio", "instance_flexibility_group", "normalized_size", "recommended_quantity_normalized", "meter_id", "term", "cost_with_no_reserved_instances", "recommended_quantity", "total_cost_with_reserved_instances", "net_savings", "first_usage_date", "scope", "sku_properties"}, {"location", "sku", "id", "name", "type", "kind", "look_back_period", "instance_flexibility_ratio", "instance_flexibility_group", "normalized_size", "recommended_quantity_normalized", "meter_id", "term", "cost_with_no_reserved_instances", "recommended_quantity", "total_cost_with_reserved_instances", "net_savings", "first_usage_date", "scope", "sku_properties"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded result1",{"sku_properties"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns1",{{"reserved_instance_type", type text}, {"location", type text}, {"sku", type text}, {"id", type text}, {"name", type text}, {"type", type text}, {"kind", type text}, {"look_back_period", type text}, {"instance_flexibility_ratio", Int64.Type}, {"instance_flexibility_group", type text}, {"normalized_size", type text}, {"recommended_quantity_normalized", Int64.Type}, {"meter_id", type text}, {"term", type text}, {"cost_with_no_reserved_instances", type number}, {"recommended_quantity", Int64.Type}, {"total_cost_with_reserved_instances", type number}, {"net_savings", type number}, {"first_usage_date", type datetime}, {"scope", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+
